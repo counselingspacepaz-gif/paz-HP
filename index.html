@@ -5,189 +5,108 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>カウンセリングスペースPaz｜こころと向き合う、優しい時間</title>
   <meta name="description" content="臨床心理士・公認心理師による対面・オンラインカウンセリング。Microsoft Bookingsから24時間予約可能。初回80分9,900円／通常50分7,700円。" />
-  /favicon.ico
-  <!-- OGP（画像は /ogp.jpg を別途配置） -->
+
+  <!-- OGP（任意）：/assets/img/home1.png を暫定指定。専用の /ogp.jpg があれば差し替え推奨 -->
   <meta property="og:title" content="カウンセリングスペースPaz" />
   <meta property="og:description" content="こころに寄り添う、安心と温かさのカウンセリング。オンライン・対面対応。" />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://icy-rock-024ded110.1.azurestaticapps.net/" />
-  <meta property="og:image" content="/ogp.jpg" />
-  <style>
-    /* ===== スクリーンリーダー用スキップリンク ===== */
-    .sr-only { position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+  <meta property="og:image" content="/assets/img/home1.png" />
 
-    /* ===== ベース・トークン ===== */
+  <style>
+    /* ベース */
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
     body {
-      margin: 0; color: #1f2937; background: #fff;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", system-ui, sans-serif;
-      font-size: 16px; line-height: 1.65;
+      margin:0; background:#fff; color:#1f2937;
+      font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", system-ui, sans-serif;
       -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
     }
     :root{
-      --sage-50:#eef5f1; --sage-100:#dcebe3; --sage-300:#9fc6b1; --sage-500:#6fa88f; --sage-600:#5e927b; --sage-700:#4e7f69;
-      --gray-50:#f9fafb; --gray-100:#f3f4f6; --gray-200:#e5e7eb; --gray-300:#d1d5db; --gray-700:#374151;
-      --maxw: 1120px;
-      --s1:8px; --s2:12px; --s3:16px; --s4:24px; --s5:32px; --s6:48px; --s7:64px;
-      --radius:8px; --shadow:0 2px 8px rgba(0,0,0,.06);
+      --sage-50:#eef5f1; --sage-100:#dcebe3; --sage-600:#5e927b; --sage-700:#4e7f69;
+      --gray-100:#f3f4f6; --gray-200:#e5e7eb; --gray-700:#374151;
+      --maxw: 1120px; --s3:16px; --s4:24px; --s5:32px; --s6:48px; --s7:64px;
     }
-    .container { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--s4); }
-    /* ← stickyヘッダー対策：アンカー飛び時の見切れを防ぐ */
-    section { padding: var(--s6) 0; scroll-margin-top: 120px; }
+    .container{ max-width:var(--maxw); margin:0 auto; padding:0 var(--s4); }
+    a{ color: var(--sage-700); text-decoration:none; }
 
-    h1,h2,h3 { line-height:1.3; color: var(--gray-700); margin: 0 0 var(--s3); }
-    h1 { font-size: clamp(28px, 3.2vw, 36px); }
-    h2 { font-size: clamp(22px, 2.4vw, 28px); }
-    h3 { font-size: clamp(18px, 2vw, 22px); }
-    p { margin: 0 0 var(--s4); }
-    a { color: var(--sage-700); }
-
-    /* ===== ヘッダー・ナビ ===== */
-    header { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom:1px solid var(--gray-200); }
-    .brand { height: 64px; display:flex; align-items:center; justify-content:space-between; }
-    .site-title { font-weight: 700; letter-spacing:.02em; }
-    nav ul {
-      display:flex; align-items:center; gap: var(--s3);
-      list-style:none; padding: 8px 0; margin: 0; height: 48px; overflow-x:auto;
+    /* ヘッダー（HOMEのみ） */
+    header{ position: sticky; top:0; z-index:100; background:#fff; border-bottom:1px solid var(--gray-200); }
+    .brand{ height:64px; display:flex; align-items:center; justify-content:space-between; }
+    .site-title{ font-weight:700; letter-spacing:.02em; }
+    .btn{
+      display:inline-flex; align-items:center; gap:8px; padding:12px 16px;
+      border-radius:8px; font-weight:600; color:#fff; background:var(--sage-600); border:1px solid var(--sage-600);
     }
-    nav a {
-      display:flex; align-items:center; gap:8px;
-      text-decoration:none; color:#374151; padding:10px 12px; border-radius:6px;
+    .btn:hover{ background:var(--sage-700); border-color:var(--sage-700); }
+
+    /* ヒーロー：背景スライド＋オーバーレイ＋中央テキスト */
+    .hero{ position:relative; text-align:center; min-height:68vh; display:flex; align-items:center; overflow:hidden; }
+    .slides{ position:absolute; inset:0; z-index:-2; }
+    .slide{
+      position:absolute; inset:0; background-position:center; background-size:cover; opacity:0;
+      transition: opacity .8s ease; /* フェード */
     }
-    nav a:hover, nav a[aria-current="page"] { background: var(--sage-50); }
+    .slide.is-active{ opacity:1; }
+    .overlay{ position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.18) 40%, rgba(0,0,0,0) 100%); }
+    .hero h1, .hero p { color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.25); }
+    .hero h1{ font-size: clamp(28px, 3.0vw, 40px); margin:0 0 var(--s3); }
+    .hero p{ font-size: 1.05rem; margin:0 0 var(--s5); }
+    section{ padding: var(--s7) 0; }
 
-    /* ===== ボタン ===== */
-    .btn {
-      display:inline-flex; align-items:center; gap:8px;
-      padding:12px 16px; border-radius:8px; font-weight:600;
-      background: var(--sage-600); color:#fff; border:1px solid var(--sage-600);
-      text-decoration:none;
-    }
-    .btn:hover { background: var(--sage-700); border-color: var(--sage-700); }
+    /* フッター */
+    footer{ background:#f9fafb; border-top:1px solid var(--gray-200); color:#4b5563; font-size:14px; padding: var(--s6) 0; }
 
-    /* ===== ヒーロー ===== */
-    .hero { text-align:center; padding: var(--s7) 0 var(--s6); }
-    .hero p { font-size: 1.05rem; }
-
-    /* ===== カード ===== */
-    .card {
-      border:1px solid var(--gray-200); border-radius: var(--radius);
-      box-shadow: var(--shadow); background:#fff; padding: var(--s5);
-    }
-
-    /* ===== 予約埋め込み ===== */
-    .booking-frame { width: 100%; min-height: 1100px; border: 0; }
-
-    /* ===== フッター ===== */
-    footer { background: var(--gray-50); border-top:1px solid var(--gray-200); padding: var(--s6) 0; color:#4b5563; font-size:14px; }
-
-    /* ===== レスポンシブ補助 ===== */
-    @media (max-width: 960px){
-      section { padding: var(--s5) 0; }
-      .btn { padding:12px 14px; }
-    }
+    /* レスポンシブ */
     @media (max-width: 600px){
-      body { font-size: 15px; }
-      /* ← スマホでナビを縦積み（読みやすさ優先） */
-      nav ul { flex-direction: column; align-items: stretch; }
-      nav a { padding: 12px; }
-      .btn.block { width:100%; justify-content:center; }
+      body{ font-size:15px; }
+      .btn{ width:100%; justify-content:center; }
+      .hero{ min-height: 70vh; }
     }
   </style>
 </head>
 <body>
-  #main本文へスキップ</a>
-
   <header>
     <div class="container brand">
       <div class="site-title">カウンセリングスペースPaz</div>
-      #reserveご予約</a>
-    </div>
-    <nav aria-label="主ナビゲーション">
-      <div class="container">
-        <ul>
-          <li>#homeHOME</a></li>
-          <li>#aboutpazについて</a></li>
-          <li>#counselorカウンセラー紹介</a></li>
-          <li>#reserveご予約</a></li>
-          <li>#blogブログ</a></li>
-          <!-- ▼ ここは実リンクに差し替えてください ▼ -->
-          <li>tel:【電話番号を入れてください】電話</a></li>
-          <li>mailto:info@counselingspacepaz.comメール</a></li>
-          <li>https://line.me/R/ti/p/【LINEのID】LINE</a></li>
-          <li>https://x.com/【Xのアカウント】X</a></li>
-          <li><a href="https://facebook.com/【Facebookページ】" target="_blank" rel="noopener" aria-label="Facebookを開Instagram】" target="_blank" rel="noopener" aria-label </ul>
-      </div>
-    </nav>
+      <!-- HOMEのみなので、ヘッダー右は「ご予約」ボタンだけ残す -->
+      <a class="btn" href="https://outlook.office.com/book/paz1@counselingspacepaz.com/s/10j6y59L9Eut7KhQ7a6a
   </header>
 
-  <main id="main">
-    <!-- HOME / ヒーロー -->
-    <section id="home" class="hero container">
+  <!-- HOME：中央テキスト＋予約CTA。背景は3枚スライド -->
+  <section class="hero" aria-label="メインメッセージ">
+    <div class="slides" aria-hidden="true">
+      <!-- ↓ 画像パスを実ファイル名に合わせて差し替え -->
+      <div class="slide is-active" style="background-image:url('/assets/img/home1.png');"></div>
+      <div class="slide"         style="background-image:url('/assets/img/home2.png');"></div>
+      <div class="slide"         style="background-image:url('/assets/img/home3.png');"></div>
+    </div>
+    <div class="overlay" aria-hidden="true"></div>
+
+    <div class="container">
       <h1>こころと向き合う、優しい時間</h1>
       <p>Pazは、あなたの心に寄り添いながらレジリエンスを育てるカウンセリングスペースです。対面・オンラインに対応。</p>
-      <p>#reserveご予約はこちら</a></p>
-    </section>
-
-    <!-- pazについて -->
-    <section id="about" class="container">
-      <div class="card">
-        <h2>pazについて</h2>
-        <p>Paz（パス）は、安心と温かさを大切にした場づくりを目指しています。初回80分9,900円、通常50分7,700円。火・水を中心に、木・金も対応します。</p>
-      </div>
-    </section>
-
-    <!-- カウンセラー紹介 -->
-    <section id="counselor" class="container">
-      <div class="card">
-        <h2>カウンセラー紹介</h2>
-        <p>臨床心理士（12229）・公認心理師（19946）。精神科勤務、スクールカウンセラー、特別支援相談員、すぎやまメンタルクリニック勤務を経てPaz設立。<br>
-        所属：日本臨床心理士会、日本公認心理師協会、静岡県公認心理師協会、日本EMDR学会、日本トラウマティックストレス学会。<br>
-        専門：トラウマ、EMDR、SST、発達障害、思春期、精神疾患、集団精神療法。</p>
-      </div>
-    </section>
-
-    <!-- 予約（Microsoft Bookings） -->
-    <section id="reserve" class="container">
-      <h2>ご予約</h2>
-      <p>
-        <ttps://outlook.office.com/book/paz1@counselingspacepaz.com/s/10j6y59L9Eut7KhQ7a6aPw2新しいタブで開く（初回カウンセリング）</a>
-      </p>
-      <iframe
-        class="booking-frame"
-        title="Microsoft Bookings 予約"
-        loading="lazy"
-        src="https://outlook.office.com/book/paz1@counselingspacepaz.com/s/10nselingspacepaz.com/s/pmy5ADFPr0KNbO_IqJBQ1Q2通常</a>／
-        https://outlook.office.com/book/paz1@counselingspacepaz.com/s/94j4YfYmfU6EmDe8dcnDlg2初回オンライン</a>／
-        https://outlook.office.com/book/paz1@counselingspacepaz.com/s/GtR0kmdpEEyps1BC11TxSQ2トラウマ</a>
-      </p>
-    </section>
-
-    <!-- ブログ（ダミー導線） -->
-    <section id="blog" class="container">
-      <div class="card">
-        <h2>ブログ</h2>
-        <p>最新の記事は準備中です。公開まで今しばらくお待ちください。</p>
-      </div>
-    </section>
-  </main>
+      <p><a class="btn" href="https://outlook.office.com/book/paz1@counselingsL9Eut7KhQ7a6aPw2ご予約はこちら</a></p>
+    </div>
+  </section>
 
   <footer>
     <div class="container">
       <p>© 2025 カウンセリングスペースPaz</p>
-      <p><!-- 住所・連絡先・営業時間などを必要に応じて記載 --></p>
     </div>
   </footer>
 
-  <!-- 構造化データ（任意：電話番号やSNSURLが確定したら更新） -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "カウンセリングスペースPaz",
-    "url": "https://icy-rock-024ded110.1.azurestaticapps.net/"
-  }
+  <!-- 最小のスライダー（バニラJS／外部依存なし） -->
+  <script>
+    // 画像の枚数や切替秒はここで調整
+    const intervalMs = 4500; // 4.5秒ごとにスライド
+    const slides = Array.from(document.querySelectorAll('.slide'));
+    let i = 0;
+    setInterval(() => {
+      slides[i].classList.remove('is-active');
+      i = (i + 1) % slides.length;
+      slides[i].classList.add('is-active');
+    }, intervalMs);
   </script>
 </body>
 </html>
