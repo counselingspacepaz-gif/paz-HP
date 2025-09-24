@@ -1,161 +1,193 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="ja">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta http-equiv="Content-Style-Type" content="text/css">
-  <title></title>
-  <meta name="Generator" content="Cocoa HTML Writer">
-  <meta name="CocoaVersion" content="2685.1">
-  <style type="text/css">
-    p.p1 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000; min-height: 14.0px}
-    p.p2 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
-    li.li2 {margin: 0.0px 0.0px 12.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
-    li.li3 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times; -webkit-text-stroke: #000000}
-    li.li4 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Times}
-    span.s1 {font-kerning: none}
-    span.s2 {-webkit-text-stroke: 0px #000000}
-    span.s3 {font: 24.0px Times; font-kerning: none}
-    span.s4 {font: 18.0px Times; font-kerning: none}
-    ul.ul1 {list-style-type: disc}
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>カウンセリングスペースPaz｜こころと向き合う、優しい時間</title>
+  <meta name="description" content="臨床心理士・公認心理師による対面・オンラインカウンセリング。Microsoft Bookingsから24時間予約可能。初回80分9,900円／通常50分7,700円。" />
+  /favicon.ico
+  <!-- OGP（画像は /ogp.jpg を別途配置） -->
+  <meta property="og:title" content="カウンセリングスペースPaz" />
+  <meta property="og:description" content="こころに寄り添う、安心と温かさのカウンセリング。オンライン・対面対応。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://icy-rock-024ded110.1.azurestaticapps.net/" />
+  <meta property="og:image" content="/ogp.jpg" />
+  <style>
+    /* ===== スクリーンリーダー用スキップリンク ===== */
+    .sr-only { position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); border:0; }
+
+    /* ===== ベース・トークン ===== */
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0; color: #1f2937; background: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", system-ui, sans-serif;
+      font-size: 16px; line-height: 1.65;
+      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    }
+    :root{
+      --sage-50:#eef5f1; --sage-100:#dcebe3; --sage-300:#9fc6b1; --sage-500:#6fa88f; --sage-600:#5e927b; --sage-700:#4e7f69;
+      --gray-50:#f9fafb; --gray-100:#f3f4f6; --gray-200:#e5e7eb; --gray-300:#d1d5db; --gray-700:#374151;
+      --maxw: 1120px;
+      --s1:8px; --s2:12px; --s3:16px; --s4:24px; --s5:32px; --s6:48px; --s7:64px;
+      --radius:8px; --shadow:0 2px 8px rgba(0,0,0,.06);
+    }
+    .container { max-width: var(--maxw); margin: 0 auto; padding: 0 var(--s4); }
+    /* ← stickyヘッダー対策：アンカー飛び時の見切れを防ぐ */
+    section { padding: var(--s6) 0; scroll-margin-top: 120px; }
+
+    h1,h2,h3 { line-height:1.3; color: var(--gray-700); margin: 0 0 var(--s3); }
+    h1 { font-size: clamp(28px, 3.2vw, 36px); }
+    h2 { font-size: clamp(22px, 2.4vw, 28px); }
+    h3 { font-size: clamp(18px, 2vw, 22px); }
+    p { margin: 0 0 var(--s4); }
+    a { color: var(--sage-700); }
+
+    /* ===== ヘッダー・ナビ ===== */
+    header { position: sticky; top: 0; z-index: 100; background: #fff; border-bottom:1px solid var(--gray-200); }
+    .brand { height: 64px; display:flex; align-items:center; justify-content:space-between; }
+    .site-title { font-weight: 700; letter-spacing:.02em; }
+    nav ul {
+      display:flex; align-items:center; gap: var(--s3);
+      list-style:none; padding: 8px 0; margin: 0; height: 48px; overflow-x:auto;
+    }
+    nav a {
+      display:flex; align-items:center; gap:8px;
+      text-decoration:none; color:#374151; padding:10px 12px; border-radius:6px;
+    }
+    nav a:hover, nav a[aria-current="page"] { background: var(--sage-50); }
+
+    /* ===== ボタン ===== */
+    .btn {
+      display:inline-flex; align-items:center; gap:8px;
+      padding:12px 16px; border-radius:8px; font-weight:600;
+      background: var(--sage-600); color:#fff; border:1px solid var(--sage-600);
+      text-decoration:none;
+    }
+    .btn:hover { background: var(--sage-700); border-color: var(--sage-700); }
+
+    /* ===== ヒーロー ===== */
+    .hero { text-align:center; padding: var(--s7) 0 var(--s6); }
+    .hero p { font-size: 1.05rem; }
+
+    /* ===== カード ===== */
+    .card {
+      border:1px solid var(--gray-200); border-radius: var(--radius);
+      box-shadow: var(--shadow); background:#fff; padding: var(--s5);
+    }
+
+    /* ===== 予約埋め込み ===== */
+    .booking-frame { width: 100%; min-height: 1100px; border: 0; }
+
+    /* ===== フッター ===== */
+    footer { background: var(--gray-50); border-top:1px solid var(--gray-200); padding: var(--s6) 0; color:#4b5563; font-size:14px; }
+
+    /* ===== レスポンシブ補助 ===== */
+    @media (max-width: 960px){
+      section { padding: var(--s5) 0; }
+      .btn { padding:12px 14px; }
+    }
+    @media (max-width: 600px){
+      body { font-size: 15px; }
+      /* ← スマホでナビを縦積み（読みやすさ優先） */
+      nav ul { flex-direction: column; align-items: stretch; }
+      nav a { padding: 12px; }
+      .btn.block { width:100%; justify-content:center; }
+    }
   </style>
 </head>
 <body>
-<p class="p1"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"></span><br></p>
-<p class="p2"><span class="s1">  </span></p>
-<p class="p2"><span class="s1">  </span></p>
-<p class="p2"><span class="s1">  </span></p>
-<p class="p2"><span class="s1">  </span></p>
-<p class="p2"><span class="s1">  /favicon.ico</span></p>
-<p class="p2"><span class="s1">  </span></p>
-<p class="p1"><span class="s1"></span><br></p>
-<p class="p1"><span class="s1"></span><br></p>
-<p class="p2"><span class="s1">  #main本文へスキップ</span></p>
-<p class="p1"><span class="s1"></span><br></p>
-<p class="p2"><span class="s1">  </span></p>
-<p class="p1"><span class="s1"></span><br></p>
-<p class="p2"><span class="s1">    </span></p>
-<p class="p2"><span class="s1">      カウンセリングスペースPaz</span></p>
-<p class="p2"><span class="s1">      #reserveご予約</span></p>
-<p class="p2"><span class="s1">    </span></p>
-<p class="p2"><span class="s1">    </span></p>
-<p class="p2"><span class="s1">      </span></p>
-<p class="p2"><span class="s1">        </span></p>
-<ul class="ul1">
-  <li class="li2"><span class="s2"></span><span class="s1"><br>
-          </span></li>
-  <li class="li3"><span class="s2"></span><span class="s1">#homeHOME</span></li>
-  <li class="li2"><span class="s2"></span><span class="s1"><br>
-          </span></li>
-  <li class="li3"><span class="s2"></span><span class="s1">#aboutpazについて</span></li>
-  <li class="li2"><span class="s2"></span><span class="s1"><br>
-          </span></li>
-  <li class="li3"><span class="s2"></span><span class="s1">#counselorカウンセラー紹介</span></li>
-  <li class="li2"><span class="s2"></span><span class="s1"><br>
-          </span></li>
-  <li class="li3"><span class="s2"></span><span class="s1">#reserveご予約</span></li>
-  <li class="li2"><span class="s2"></span><span class="s1"><br>
-          </span></li>
-  <li class="li3"><span class="s2"></span><span class="s1">#blogブログ</span></li>
-  <li class="li2"><span class="s2"></span><span class="s1"><br>
-          </span></li>
-  <li class="li2"><span class="s2"></span><span class="s1"><br>
-          </span></li>
-  <li class="li4"></li>
-  <li class="li2"><span class="s2"></span><span class="s1"><br>
-          </span></li>
-  <li class="li2"><span class="s2"></span><span class="s1"><br>
-          </span></li>
-  <li class="li3"><span class="s2"></span><span class="s1">https://x.com/xxxxX</span></li>
-  <li class="li2"><span class="s2"></span><span class="s1"><br>
-          </span></li>
-  <li class="li2"><span class="s2"></span><span class="s1"><br>
-    <br>
-    <br>
-      <br>
-</span><span class="s3"><b>こころと向き合う、優しい時間<br>
-</b></span><span class="s1"><br>
-      <br>
-Pazは、あなたの心に寄り添いながらレジリエンスを育てるカウンセリングスペースです。対面・オンラインに対応。<br>
-<br>
-      <br>
-#reserveご予約はこちら<br>
-<br>
-    <br>
-<br>
-    <br>
-    <br>
-      <br>
-        <br>
-</span><span class="s4"><b>pazについて<br>
-</b></span><span class="s1"><br>
-        <br>
-Paz（パス）は、安心と温かさを大切にした場づくりを目指しています。初回80分9,900円、通常50分7,700円。火・水を中心に、木・金も対応します。<br>
-<br>
-      <br>
-    <br>
-<br>
-    <br>
-    <br>
-      <br>
-        <br>
-</span><span class="s4"><b>カウンセラー紹介<br>
-</b></span><span class="s1"><br>
-        <br>
-臨床心理士（12229）・公認心理師（19946）。精神科勤務、スクールカウンセラー、特別支援相談員、すぎやまメンタルクリニック勤務を経てPaz設立。<br>
-専門：トラウマ、EMDR、SST、発達障害、思春期、精神疾患、集団精神療法。<br>
-<br>
-      <br>
-    <br>
-<br>
-    <br>
-    <br>
-      <br>
-</span><span class="s4"><b>ご予約<br>
-</b></span><span class="s1"><br>
-      <br>
-<br>
-<br>
-       <br>
-        class="booking-frame"<br>
-        title="Microsoft Bookings 予約"<br>
-        loading="lazy"<br>
-        src="https://outlook.office.com/book/paz1@counselingspacepaz.com/s/10j6y59L9Eut7KhQ7a6aPwepazy5ADFPr0KNbO_IqJBQ1Q2通常／<br>
-        https://outlook.office.com/book/paz1@counselingspacepaz.com/s/94j4YfYmfU6EmDe8dcnDlg2初回オンライン／<br>
-        https://outlook.office.com/book/paz1@counselingspacepaz.com/s/GtR0kmdpEEyps1BC11TxSQ2トラウマ<br>
-      <br>
-<br>
-    <br>
-<br>
-    <br>
-    <br>
-      <br>
-        <br>
-</span><span class="s4"><b>ブログ<br>
-</b></span><span class="s1"><br>
-        <br>
-最新の記事は準備中です。公開まで今しばらくお待ちください。<br>
-<br>
-      <br>
-    <br>
-  <br>
-<br>
-  <br>
-<br>
-    <br>
-      <br>
-© 2025 カウンセリングスペースPaz<br>
-<br>
-      <br>
-（住所・連絡先・営業時間をここに）<br>
-<br>
-    <br>
-  <br>
-<br>
-<br>
-<br>
-</span></li>
-</ul>
+  #main本文へスキップ</a>
+
+  <header>
+    <div class="container brand">
+      <div class="site-title">カウンセリングスペースPaz</div>
+      #reserveご予約</a>
+    </div>
+    <nav aria-label="主ナビゲーション">
+      <div class="container">
+        <ul>
+          <li>#homeHOME</a></li>
+          <li>#aboutpazについて</a></li>
+          <li>#counselorカウンセラー紹介</a></li>
+          <li>#reserveご予約</a></li>
+          <li>#blogブログ</a></li>
+          <!-- ▼ ここは実リンクに差し替えてください ▼ -->
+          <li>tel:【電話番号を入れてください】電話</a></li>
+          <li>mailto:info@counselingspacepaz.comメール</a></li>
+          <li>https://line.me/R/ti/p/【LINEのID】LINE</a></li>
+          <li>https://x.com/【Xのアカウント】X</a></li>
+          <li><a href="https://facebook.com/【Facebookページ】" target="_blank" rel="noopener" aria-label="Facebookを開Instagram】" target="_blank" rel="noopener" aria-label </ul>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- HOME / ヒーロー -->
+    <section id="home" class="hero container">
+      <h1>こころと向き合う、優しい時間</h1>
+      <p>Pazは、あなたの心に寄り添いながらレジリエンスを育てるカウンセリングスペースです。対面・オンラインに対応。</p>
+      <p>#reserveご予約はこちら</a></p>
+    </section>
+
+    <!-- pazについて -->
+    <section id="about" class="container">
+      <div class="card">
+        <h2>pazについて</h2>
+        <p>Paz（パス）は、安心と温かさを大切にした場づくりを目指しています。初回80分9,900円、通常50分7,700円。火・水を中心に、木・金も対応します。</p>
+      </div>
+    </section>
+
+    <!-- カウンセラー紹介 -->
+    <section id="counselor" class="container">
+      <div class="card">
+        <h2>カウンセラー紹介</h2>
+        <p>臨床心理士（12229）・公認心理師（19946）。精神科勤務、スクールカウンセラー、特別支援相談員、すぎやまメンタルクリニック勤務を経てPaz設立。<br>
+        所属：日本臨床心理士会、日本公認心理師協会、静岡県公認心理師協会、日本EMDR学会、日本トラウマティックストレス学会。<br>
+        専門：トラウマ、EMDR、SST、発達障害、思春期、精神疾患、集団精神療法。</p>
+      </div>
+    </section>
+
+    <!-- 予約（Microsoft Bookings） -->
+    <section id="reserve" class="container">
+      <h2>ご予約</h2>
+      <p>
+        <ttps://outlook.office.com/book/paz1@counselingspacepaz.com/s/10j6y59L9Eut7KhQ7a6aPw2新しいタブで開く（初回カウンセリング）</a>
+      </p>
+      <iframe
+        class="booking-frame"
+        title="Microsoft Bookings 予約"
+        loading="lazy"
+        src="https://outlook.office.com/book/paz1@counselingspacepaz.com/s/10nselingspacepaz.com/s/pmy5ADFPr0KNbO_IqJBQ1Q2通常</a>／
+        https://outlook.office.com/book/paz1@counselingspacepaz.com/s/94j4YfYmfU6EmDe8dcnDlg2初回オンライン</a>／
+        https://outlook.office.com/book/paz1@counselingspacepaz.com/s/GtR0kmdpEEyps1BC11TxSQ2トラウマ</a>
+      </p>
+    </section>
+
+    <!-- ブログ（ダミー導線） -->
+    <section id="blog" class="container">
+      <div class="card">
+        <h2>ブログ</h2>
+        <p>最新の記事は準備中です。公開まで今しばらくお待ちください。</p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>© 2025 カウンセリングスペースPaz</p>
+      <p><!-- 住所・連絡先・営業時間などを必要に応じて記載 --></p>
+    </div>
+  </footer>
+
+  <!-- 構造化データ（任意：電話番号やSNSURLが確定したら更新） -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "カウンセリングスペースPaz",
+    "url": "https://icy-rock-024ded110.1.azurestaticapps.net/"
+  }
+  </script>
 </body>
 </html>
