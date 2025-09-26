@@ -1,0 +1,149 @@
+/* 全体の基本設定 */
+body {
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  background-color: #f8fdf9;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+/* ヘッダー背景 */
+.header-bg {
+  background-image: url('assets/images/header-bg.jpg');
+  background-size: cover;
+  background-position: center;
+  padding: 60px 20px;
+  text-align: center;
+  color: #fff;
+}
+
+.header-bg h1 {
+  font-size: 2.5em;
+  background-color: rgba(46, 125, 111, 0.7); /* セージグリーンの透過 */
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 8px;
+}
+
+/* ナビゲーションメニュー */
+nav {
+  background-color: #e0f2e9;
+  padding: 10px 0;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-menu li a {
+  text-decoration: none;
+  color: #2e7d6f;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 4px;
+}
+
+.nav-menu li a:hover {
+  background-color: #c8e6c9;
+}
+
+/* SNSアイコン */
+.sns-icons {
+  text-align: center;
+  margin: 20px 0;
+}
+
+.sns-icons img {
+  width: 32px;
+  margin: 0 10px;
+  vertical-align: middle;
+}
+
+/* ウェルカムバナー */
+.welcome-banner {
+  background-color: #e8f5e9;
+  padding: 30px 20px;
+  text-align: center;
+}
+
+.welcome-banner h2 {
+  color: #2e7d6f;
+  font-size: 1.8em;
+}
+
+.welcome-banner p {
+  font-size: 1.1em;
+}
+
+/* サービス紹介 */
+.services {
+  padding: 40px 20px;
+  background-color: #ffffff;
+}
+
+.services h2 {
+  text-align: center;
+  color: #2e7d6f;
+  margin-bottom: 30px;
+}
+
+.service-item {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.service-item img {
+  width: 100px;
+  border-radius: 8px;
+}
+
+.service-item p {
+  flex: 1;
+  font-size: 1em;
+}
+
+/* ニュースセクション */
+.news {
+  background-color: #f1f8e9;
+  padding: 40px 20px;
+}
+
+.news h2 {
+  text-align: center;
+  color: #2e7d6f;
+  margin-bottom: 20px;
+}
+
+.news article {
+  margin-bottom: 20px;
+}
+
+.news h3 {
+  color: #388e3c;
+  margin-bottom: 5px;
+}
+
+.news p {
+  margin-bottom: 5px;
+}
+
+.news a {
+  color: #2e7d6f;
+  text-decoration: underline;
+}
+
+/* フッター */
+footer {
+  background-color: #e0f2e9;
+  text-align: center;
+  padding: 10px;
+  font-size: 0.9em;
+  color: #555;
+}
