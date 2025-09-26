@@ -1,0 +1,160 @@
+
+/* Base styles - Mobile First */
+body {
+  font-family: 'Helvetica Neue', sans-serif;
+  margin: 0;
+  padding: 0;
+  line-height: 1.6;
+  background-color: #fdfdfd;
+  color: #333;
+}
+
+/* Header */
+header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  background-color: #e6f0ea;
+}
+
+header img.logo {
+  max-width: 160px;
+  height: auto;
+  margin-bottom: 0.5rem;
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: center;
+}
+
+nav a {
+  text-decoration: none;
+  color: #2c5e4f;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+/* Banner */
+.banner {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.banner img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.banner-text {
+  padding: 1rem;
+  background-color: #ffffff;
+  text-align: center;
+}
+
+.banner-text h1 {
+  font-size: 1.4rem;
+  color: #2c5e4f;
+  margin-bottom: 0.5rem;
+}
+
+.banner-text p {
+  font-size: 1rem;
+  color: #555;
+}
+
+/* Tiles Section */
+.tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1rem;
+}
+
+.tile {
+  background-color: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.tile img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.tile h2 {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+  color: #2c5e4f;
+}
+
+/* Footer */
+footer {
+  background-color: #e6f0ea;
+  padding: 1rem;
+  text-align: center;
+}
+
+footer .sns-icons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+footer .sns-icons img {
+  width: 24px;
+  height: 24px;
+}
+
+footer p {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Desktop styles */
+@media (min-width: 768px) {
+  header {
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem 2rem;
+  }
+
+  nav {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .banner-text h1 {
+    font-size: 2rem;
+  }
+
+  .banner-text p {
+    font-size: 1.1rem;
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .tiles {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+  }
+
+  .tile {
+    width: 48%;
+  }
+
+  footer .sns-icons img {
+    width: 28px;
+    height: 28px;
+  }
+}
