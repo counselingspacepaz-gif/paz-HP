@@ -1,112 +1,218 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>カウンセリングスペースPaz｜こころと向き合う、優しい時間</title>
-  <meta name="description" content="臨床心理士・公認心理師による対面・オンラインカウンセリング。Microsoft Bookingsから24時間予約可能。初回80分9,900円／通常50分7,700円。" />
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>カウンセリングスペース paz | 静けさと回復の交わる場所</title>
+  <meta name="description" content="カウンセリングスペースpazは、対面・オンラインに対応。トラウマ、思春期、発達支援などに専門的に寄り添います。">
 
-  <!-- OGP（任意）：/assets/img/home1.png を暫定指定。専用の /ogp.jpg があれば差し替え推奨 -->
-  <meta property="og:title" content="カウンセリングスペースPaz" />
-  <meta property="og:description" content="こころに寄り添う、安心と温かさのカウンセリング。オンライン・対面対応。" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://icy-rock-024ded110.1.azurestaticapps.net/" />
-  <meta property="og:image" content="/assets/img/home1.png" />
+  <!-- OGP（必要に応じて絶対URLへ置換推奨） -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="カウンセリングスペース paz">
+  <meta property="og:description" content="静かな安心と、深い回復へ。対面・オンライン対応。">
+  <meta property="og:image" content="assets/image/hero/sprout-in-hand.jpg">
 
-  <style>
-    /* ベース */
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin:0; background:#fff; color:#1f2937;
-      font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", system-ui, sans-serif;
-      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
-    }
-    :root{
-      --sage-50:#eef5f1; --sage-100:#dcebe3; --sage-600:#5e927b; --sage-700:#4e7f69;
-      --gray-100:#f3f4f6; --gray-200:#e5e7eb; --gray-700:#374151;
-      --maxw: 1120px; --s3:16px; --s4:24px; --s5:32px; --s6:48px; --s7:64px;
-    }
-    .container{ max-width:var(--maxw); margin:0 auto; padding:0 var(--s4); }
-    a{ color: var(--sage-700); text-decoration:none; }
+  <!-- 厳格CSP：Bookingsの埋め込み許可 -->
+  <meta http-equiv="Content-Security-Policy"
+        content="default-src 'self'; base-uri 'self'; img-src 'self' data:; style-src 'self'; frame-src https://outlook.office.com; child-src https://outlook.office.com;">
 
-    /* ヘッダー（HOMEのみ） */
-    header{ position: sticky; top:0; z-index:100; background:#fff; border-bottom:1px solid var(--gray-200); }
-    .brand{ height:64px; display:flex; align-items:center; justify-content:space-between; }
-    .site-title{ font-weight:700; letter-spacing:.02em; }
-    .btn{
-      display:inline-flex; align-items:center; gap:8px; padding:12px 16px;
-      border-radius:8px; font-weight:600; color:#fff; background:var(--sage-600); border:1px solid var(--sage-600);
-    }
-    .btn:hover{ background:var(--sage-700); border-color:var(--sage-700); }
-
-    /* ヒーロー：背景スライド＋オーバーレイ＋中央テキスト */
-    .hero{ position:relative; text-align:center; min-height:68vh; display:flex; align-items:center; overflow:hidden; }
-    .slides{ position:absolute; inset:0; z-index:-2; }
-    .slide{
-      position:absolute; inset:0; background-position:center; background-size:cover; opacity:0;
-      transition: opacity .8s ease; /* フェード */
-    }
-    .slide.is-active{ opacity:1; }
-    .overlay{ position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.18) 40%, rgba(0,0,0,0) 100%); }
-    .hero h1, .hero p { color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.25); }
-    .hero h1{ font-size: clamp(28px, 3.0vw, 40px); margin:0 0 var(--s3); }
-    .hero p{ font-size: 1.05rem; margin:0 0 var(--s5); }
-    section{ padding: var(--s7) 0; }
-
-    /* フッター */
-    footer{ background:#f9fafb; border-top:1px solid var(--gray-200); color:#4b5563; font-size:14px; padding: var(--s6) 0; }
-
-    /* レスポンシブ */
-    @media (max-width: 600px){
-      body{ font-size:15px; }
-      .btn{ width:100%; justify-content:center; }
-      .hero{ min-height: 70vh; }
-    }
-  </style>
+  <meta name="format-detection" content="telephone=no">
+  data:,
+  assets/css/style.css
 </head>
 <body>
-  <header>
-    <div class="container brand">
-      <div class="site-title">カウンセリングスペースPaz</div>
-      <!-- HOMEのみなので、ヘッダー右は「ご予約」ボタンだけ残す -->
-      <a class="btn" href="https://outlook.office.com/book/paz1@counselingspacepaz.com/s/10j6y59L9Eut7KhQ7a6a
+  <a class="skip-link"<!-- ========== Header（Glass） ========== -->
+  <header class="site-header" role="banner">
+    <div class="header-inner">
+      /
+        <span class="brand__mark">p</span><span class="brand__name">paz</span>
+      </a>
+
+      <!-- Mobile Toggle（JSなし） -->
+      <input type="checkbox" id="nav-toggle" class="nav-toggle" aria-label="メニューを開閉">
+      <label for="nav-toggle" class="nav-toggle-btn" aria-hidden="true">
+        <span></span><span></span><span></span>
+      </label>
+
+      <nav class="primary-nav" aria-label="メインメニュー">
+        <ul>
+          <li>/HOME</a></li>
+          <li>/about.htmlpazについて</a></li>
+          <li><a href="/access.html/li>
+          <li>/booking.html予約</a></li>
+          <li>/blog/ブログ</a></li>
+          <li>/partners.html連携医療機関</a></li>
+        </ul>
+      </nav>
+
+      <div class="sns" aria-label="連絡・SNS">
+        <!-- 電話：インラインSVG（画像不要） -->
+        tel:000-000-0000
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.36 11.36 0 003.56.57 1 1 0 011 1v3.61a1 1 0 01-1 1A17 17 0 013 5a1 1 0 011-1h3.61a1 1 0 011 1 11.36 11.36 0 00.57 3.56 1 1 0 01-.24 1.01l-2.32 2.22z"/>
+          </svg>
+        </a>
+        mailto:info@counselingspacepaz.com
+          assets/image/icons/icon-mail.png
+        </a>
+        https://line.me/R/ti/p/@yourlineid
+          assets/image/icons/icon-line.png
+        </a>
+        https://x.com/yourid
+          assets/image/icons/icon-x.png
+        </a>
+        https://www.facebook.com/yourid
+          assets/image/icons/icon-facebook.png
+        </a>
+        https://www.instagram.com/yourid
+          assets/image/icons/icon-instagram.png
+        </a>
+      </div>
+    </div>
   </header>
 
-  <!-- HOME：中央テキスト＋予約CTA。背景は3枚スライド -->
-  <section class="hero" aria-label="メインメッセージ">
-    <div class="slides" aria-hidden="true">
-      <!-- ↓ 画像パスを実ファイル名に合わせて差し替え -->
-      <div class="slide is-active" style="background-image:url('/assets/img/home1.png');"></div>
-      <div class="slide"         style="background-image:url('/assets/img/home2.png');"></div>
-      <div class="slide"         style="background-image:url('/assets/img/home3.png');"></div>
-    </div>
-    <div class="overlay" aria-hidden="true"></div>
+  <main id="main" tabindex="-1">
+    <!-- ========== Hero ========== -->
+    <section id="home" class="hero">
+      <div class="hero__bg" role="img" aria-label="芽を手に乗せた写真"></div>
+      <div class="container hero__inner">
+        <h1>静けさと回復の交わる場所、<br class="br-sp">カウンセリングスペース <span class="accent">paz</span></h1>
+        <p class="lead">心の温度を少し下げて、呼吸を整える。あなたのペースで、深いところから整えていく。</p>
+        <p class="cta-row">
+          /booking.htmlご予約へ</a>
+          /about.htmlpazについて</a>
+        </p>
+      </div>
+    </section>
 
-    <div class="container">
-      <h1>こころと向き合う、優しい時間</h1>
-      <p>Pazは、あなたの心に寄り添いながらレジリエンスを育てるカウンセリングスペースです。対面・オンラインに対応。</p>
-      <p><a class="btn" href="https://outlook.office.com/book/paz1@counselingsL9Eut7KhQ7a6aPw2ご予約はこちら</a></p>
-    </div>
-  </section>
+    <!-- ========== 4つの導線 ========== -->
+    <section class="section section--soft">
+      <div class="container">
+        <div class="section-head">
+          <h2>はじめての方へ</h2>
+          <p class="section-sub">目的に合わせて、迷わず辿り着ける導線を用意しました。</p>
+        </div>
 
-  <footer>
-    <div class="container">
-      <p>© 2025 カウンセリングスペースPaz</p>
+        <div class="card-grid">
+          /about.html
+            <figure class="frame frame--thumb">
+              assets/image/banners/green-vase.jpg
+            </figure>
+            <h3>pazについて</h3>
+            <p>支援方針・専門領域・大切にしていること。</p>
+          </a>
+
+          /access.html
+            <figure class="frame frame--thumb">
+              <img src="assets/image/sections/kano-river-view.jpg" alt="アクセス" loading="lazyh3>アクセス</h3>
+            <p>所在地・最寄り・駐車場・オンラインのご案内。</p>
+          </a>
+
+          /booking.html
+            <figure class="frame frame--thumb">
+              assets/image/hero/counseling-room.jpg
+            </figure>
+            <h3>予約</h3>
+            <p>初回・通常・オンライン・トラウマケアを24時間受付。</p>
+          </a>
+
+          /partners.html
+            <figure class="frame frame--thumb">
+              assets/image/banners/sea-and-flowers.jpg
+            </figure>
+            <h3>連携医療機関</h3>
+            <p>必要に応じて連携できる医療機関をご紹介します。</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========== 予約 ========== -->
+    <section id="booking" class="section">
+      <div class="container">
+        <div class="section-head">
+          <h2>ご予約</h2>
+          <p class="section-sub">オンラインで24時間受付中</p>
+        </div>
+
+        <div class="card-grid">
+          https://outlook.office.com/book/paz1@counselingspacepaz.com/s/10j6y59L9Eut7KhQ7a6aPw2
+            <h3>初回カウンセリング（対面）</h3>
+            <p>80分 / 9,900円</p>
+          </a>
+          https://outlook.office.com/book/paz1@counselingspacepaz.com/s/pmy5ADFPr0KNbO_IqJBQ1Q2
+            <h3>通常カウンセリング（対面）</h3>
+            <p>50分 / 7,700円</p>
+          </a>
+          https://outlook.office.com/book/paz1@counselingspacepaz.com/s/94j4YfYmfU6EmDe8dcnDlg2
+            <h3>初回オンライン</h3>
+            <p>80分 / 9,900円</p>
+          </a>
+          https://outlook.office.com/book/paz1@counselingspacepaz.com/s/GtR0kmdpEEyps1BC11TxSQ2
+            <h3>トラウマカウンセリング</h3>
+            <p>専門的アプローチ / 事前相談可</p>
+          </a>
+        </div>
+
+        <div class="embed">
+          <iframe
+            title="paz ご予約"
+            src="https://outlook.office.com/book/paz1@counselingspacepaz.com/s/10j6y59L9Eut7KhQ7a6aPw2"
+            loading="lazy"
+           >
+      </div>
+    </section>
+
+    <!-- ========== ブログ ========== -->
+    <section id="blog" class="section section--soft">
+      <div class="container">
+        <div class="section-head">
+          <h2>ブログ</h2>
+          <p class="section-sub">現在はWIXで運用中。移転準備が整い次第、こちらで公開します。</p>
+        </div>
+        <p>/blog/ブログ一覧へ</a></p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ========== Footer ========== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <div class="footer-brand">
+        <div class="brand brand--footer">
+          <span class="brand__mark">p</span><span class="brand__name">paz</span>
+        </div>
+        <ul class="list">
+          <li>mailto:info@counselingspacepaz.cominfo@counselingspacepaz.com</a></li>
+          <li>tel:000-000-0000000-000-0000</a></li>
+        </ul>
+      </div>
+      <nav class="footer-nav" aria-label="フッターメニュー">
+        <ul class="list">
+          <li>/HOME</a></li>
+          <li>/about.htmlpazについて</a></li>
+          <li>/access.htmlアクセス</a></li>
+          <li>/booking.html予約</a></li>
+          <li>/blog/ブログ</a></li>
+          <li>/partners.html連携医療機関</a></li>
+        </ul>
+      </nav>
+      <div class="sns sns--footer" aria-label="連絡・SNS">
+        tel:000-000-0000
+          <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+            <path fill="currentColor" d="M6.62 10.79a15.05 15.05 0 006.59 6.59l2.2-2.2a1 1 0 011.01-.24 11.36 11.36 0 003.56.57 1 1 0 011 1v3.61a1 1 0 01-1 1A17 17 0 013 5a1 1 0 011-1h3.61a1 1 0 011 1 11.36 11.36 0 00.57 3.56 1 1 0 01-.24 1.01l-2.32 2.22z"/>
+          </svg>
+        </a>
+        mailto:info@counselingspacepaz.comassets/image/icons/icon-mail.png</a>
+        <a href="https://linep/@yourlineidassets/image/icons/icon-line.png</a>
+        https://x.com/youridassets/image/icons/icon-x.png</a>
+        https://www.facebook.com/youridassets/image/icons/icon-facebook.png</a>
+        <a href="https://www.instagram.comsets/image/icons/icon-instagram.png</a>
+      </div>
+    </div>
+    <div class="footer-copy">
+      <small>&copy; 2025 Counseling Space paz</small>
     </div>
   </footer>
-
-  <!-- 最小のスライダー（バニラJS／外部依存なし） -->
-  <script>
-    // 画像の枚数や切替秒はここで調整
-    const intervalMs = 4500; // 4.5秒ごとにスライド
-    const slides = Array.from(document.querySelectorAll('.slide'));
-    let i = 0;
-    setInterval(() => {
-      slides[i].classList.remove('is-active');
-      i = (i + 1) % slides.length;
-      slides[i].classList.add('is-active');
-    }, intervalMs);
-  </script>
 </body>
 </html>
