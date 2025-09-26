@@ -1,112 +1,71 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>カウンセリングスペースPaz｜こころと向き合う、優しい時間</title>
-  <meta name="description" content="臨床心理士・公認心理師による対面・オンラインカウンセリング。Microsoft Bookingsから24時間予約可能。初回80分9,900円／通常50分7,700円。" />
-
-  <!-- OGP（任意）：/assets/img/home1.png を暫定指定。専用の /ogp.jpg があれば差し替え推奨 -->
-  <meta property="og:title" content="カウンセリングスペースPaz" />
-  <meta property="og:description" content="こころに寄り添う、安心と温かさのカウンセリング。オンライン・対面対応。" />
-  <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://icy-rock-024ded110.1.azurestaticapps.net/" />
-  <meta property="og:image" content="/assets/img/home1.png" />
-
-  <style>
-    /* ベース */
-    * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
-    body {
-      margin:0; background:#fff; color:#1f2937;
-      font: 16px/1.65 -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans JP", system-ui, sans-serif;
-      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
-    }
-    :root{
-      --sage-50:#eef5f1; --sage-100:#dcebe3; --sage-600:#5e927b; --sage-700:#4e7f69;
-      --gray-100:#f3f4f6; --gray-200:#e5e7eb; --gray-700:#374151;
-      --maxw: 1120px; --s3:16px; --s4:24px; --s5:32px; --s6:48px; --s7:64px;
-    }
-    .container{ max-width:var(--maxw); margin:0 auto; padding:0 var(--s4); }
-    a{ color: var(--sage-700); text-decoration:none; }
-
-    /* ヘッダー（HOMEのみ） */
-    header{ position: sticky; top:0; z-index:100; background:#fff; border-bottom:1px solid var(--gray-200); }
-    .brand{ height:64px; display:flex; align-items:center; justify-content:space-between; }
-    .site-title{ font-weight:700; letter-spacing:.02em; }
-    .btn{
-      display:inline-flex; align-items:center; gap:8px; padding:12px 16px;
-      border-radius:8px; font-weight:600; color:#fff; background:var(--sage-600); border:1px solid var(--sage-600);
-    }
-    .btn:hover{ background:var(--sage-700); border-color:var(--sage-700); }
-
-    /* ヒーロー：背景スライド＋オーバーレイ＋中央テキスト */
-    .hero{ position:relative; text-align:center; min-height:68vh; display:flex; align-items:center; overflow:hidden; }
-    .slides{ position:absolute; inset:0; z-index:-2; }
-    .slide{
-      position:absolute; inset:0; background-position:center; background-size:cover; opacity:0;
-      transition: opacity .8s ease; /* フェード */
-    }
-    .slide.is-active{ opacity:1; }
-    .overlay{ position:absolute; inset:0; z-index:-1; background:linear-gradient(180deg, rgba(0,0,0,.28), rgba(0,0,0,.18) 40%, rgba(0,0,0,0) 100%); }
-    .hero h1, .hero p { color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.25); }
-    .hero h1{ font-size: clamp(28px, 3.0vw, 40px); margin:0 0 var(--s3); }
-    .hero p{ font-size: 1.05rem; margin:0 0 var(--s5); }
-    section{ padding: var(--s7) 0; }
-
-    /* フッター */
-    footer{ background:#f9fafb; border-top:1px solid var(--gray-200); color:#4b5563; font-size:14px; padding: var(--s6) 0; }
-
-    /* レスポンシブ */
-    @media (max-width: 600px){
-      body{ font-size:15px; }
-      .btn{ width:100%; justify-content:center; }
-      .hero{ min-height: 70vh; }
-    }
-  </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Counseling Space paz</title>
+  style.css
 </head>
 <body>
-  <header>
-    <div class="container brand">
-      <div class="site-title">カウンセリングスペースPaz</div>
-      <!-- HOMEのみなので、ヘッダー右は「ご予約」ボタンだけ残す -->
-      <a class="btn" href="https://outlook.office.com/book/paz1@counselingspacepaz.com/s/10j6y59L9Eut7KhQ7a6a
-  </header>
 
-  <!-- HOME：中央テキスト＋予約CTA。背景は3枚スライド -->
-  <section class="hero" aria-label="メインメッセージ">
-    <div class="slides" aria-hidden="true">
-      <!-- ↓ 画像パスを実ファイル名に合わせて差し替え -->
-      <div class="slide is-active" style="background-image:url('/assets/img/home1.png');"></div>
-      <div class="slide"         style="background-image:url('/assets/img/home2.png');"></div>
-      <div class="slide"         style="background-image:url('/assets/img/home3.png');"></div>
+  <!-- 背景 -->
+  <div class="header-bg">
+    <h1>Counseling Space paz</h1>
+  </div>
+
+  <!-- ナビゲーション -->
+  <nav>
+    <ul class="nav-menu">
+      <li>index.htmlHOME</a></li>
+      <li>about.htmlpazについて</a></li>
+      <li>access.htmlアクセス</a></li>
+      <li>blog.htmlブログ</a></li>
+      <li>reservation.htmlご予約</a></li>
+      <li>contact.htmlお問い合わせ</a></li>
+    </ul>
+  </nav>
+
+  <!-- SNSアイコン -->
+  <div class="sns-icons">
+    <a href="mailto:example@examplesrc="assets/images/mail-icon.png" alt="メールcon.png</a>
+    <ttps://instagram.com/xxxxxxassets/images/instagram-icon.png</a>
+    https://facebook.com/xxxxxx<img src="assets/images/facebook-icon.pnga href="https://twitter.com/xxxxc="assets/images/x-icon </div>
+
+  <!-- ウェルカムバナー -->
+  <section class="welcome-banner">
+    <h2>子どもと女性のためのカウンセリングスペースへようこそ</h2>
+    <p>安心して話せる場所を提供します。</p>
+  </section>
+
+  <!-- サービス紹介 -->
+  <section class="services">
+    <h2>サービス紹介</h2>
+    <div class="service-item">
+      <img src="assets/images/yumiko-illust.png" alt="カウンセによる専門的なカウンセリングを提供しています。</p>
     </div>
-    <div class="overlay" aria-hidden="true"></div>
-
-    <div class="container">
-      <h1>こころと向き合う、優しい時間</h1>
-      <p>Pazは、あなたの心に寄り添いながらレジリエンスを育てるカウンセリングスペースです。対面・オンラインに対応。</p>
-      <p><a class="btn" href="https://outlook.office.com/book/paz1@counselingsL9Eut7KhQ7a6aPw2ご予約はこちら</a></p>
+    <div class="service-item">
+      <img src="assets/images/line-icon.png" alt="LINE、気軽にご相談ください。</p>
     </div>
   </section>
 
+  <!-- ブログ要約（ニュースフィード） -->
+  <section class="news">
+    <h2>最新のお知らせ</h2>
+    <article>
+      <h3>非認知的能力とレジリエンス研修を開催しました</h3>
+      <p>教員向け研修会を無事に終え、参考にしたスライドが好評でした。</p>
+      blog.html#post1続きを読む</a>
+    </article>
+    <article>
+      <h3>カウンセリング予約ページを更新しました</h3>
+      <p>Microsoft Bookingsを使った予約ページを新しく埋め込みました。</p>
+      blog.html#post2続きを読む</a>
+    </article>
+  </section>
+
   <footer>
-    <div class="container">
-      <p>© 2025 カウンセリングスペースPaz</p>
-    </div>
+    <p>&copy; 2025 Counseling Space paz</p>
   </footer>
 
-  <!-- 最小のスライダー（バニラJS／外部依存なし） -->
-  <script>
-    // 画像の枚数や切替秒はここで調整
-    const intervalMs = 4500; // 4.5秒ごとにスライド
-    const slides = Array.from(document.querySelectorAll('.slide'));
-    let i = 0;
-    setInterval(() => {
-      slides[i].classList.remove('is-active');
-      i = (i + 1) % slides.length;
-      slides[i].classList.add('is-active');
-    }, intervalMs);
-  </script>
 </body>
 </html>
