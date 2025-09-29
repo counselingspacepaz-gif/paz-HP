@@ -16,10 +16,17 @@ jobs:
     name: Build and Deploy Job
     steps:
       - uses: actions/checkout@v3
-       _TOKEN_ICY_ROCK_024DED110 }}
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Build and Deploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ICY_ROCK_024DED110 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "."
+          app_location: "/"
           api_location: "/"
           output_location: "/"
 
