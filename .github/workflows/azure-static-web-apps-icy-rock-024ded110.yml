@@ -1,42 +1,24 @@
-name: Azure Static Web Apps CI/CD
+name: Azure Static Web Apps CI/CD (Safe Mode)
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
-    types: [opened, synchronize, reopened, closed]
-    branches:
-      - main
+  # まずは手動実行のみ。秘密情報（トークン）を入れるまで自動では走らせない。
+  workflow_dispatch:
 
 jobs:
   build_and_deploy_job:
-    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
-    name: Build and Deploy Job
+    name: Build and Deploy (Manual)
     steps:
-      - uses: actions/checkout@v3
-        with:
-          submodules: true
-          fetch-depth: 0
+      - uses: actions/checkout@v4
 
-      - name: Build and Deploy
+      - name: Upload to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ICY_ROCK_024DED110 }}
+          # ★ 次のステップで設定するGitHub Secrets名。まだ未設定でもこの時点では動かないのでOK
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
-          action: "upload"
-          app_location: "/"
-          api_location: "/"
-          output_location: "/"
+          action: upload
 
-  close_pull_request_job:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    name: Close Pull Request Job
-    steps:
-      - name: Close Pull Request
-        uses: Azure/static-web-apps-deploy@v1
-        with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ICY_ROCK_024DED110 }}
-          action: "close"
+          # ルートの index.html を配信対象にする
+          app_location: "/"
+          api_location: ""
