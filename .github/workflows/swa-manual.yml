@@ -1,11 +1,14 @@
-name: SWA Manual Deploy (Safe)
+name: Azure Static Web Apps CI/CD
 
 on:
-  workflow_dispatch:
+  push:
+    branches: [ main ]   # mainブランチにPushで自動デプロイ
+  workflow_dispatch:      # 手動実行も残す
 
 jobs:
-  deploy:
+  build_and_deploy_job:
     runs-on: ubuntu-latest
+    name: Build and Deploy
     steps:
       - uses: actions/checkout@v4
 
@@ -16,10 +19,11 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: upload
 
-          # リポジトリのルートに index.html がある前提
+          # ルートに index.html があるのでここは "/"
           app_location: "/"
           api_location: ""
           output_location: ""
 
-          # ここが肝。Oryxによるビルドを抑止する
+          # Oryxを完全スキップ
           skip_app_build: true
+          app_build_command: ""
