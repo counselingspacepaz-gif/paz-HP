@@ -1,4 +1,14 @@
-## ✅ HTML構造・アクセシビリティチェックリスト
+
+---
+name: HTML構造・アクセシビリティチェック
+about: ページ単位でHTML/SEO/アクセシビリティを確認
+title: "[HTMLチェック] ページ名を記入"
+labels: [checklist, HTML]
+assignees: []
+---
+
+### 対象ページ
+- パス/URL：
 
 ### 🔹 基本構造
 - [ ] `<!DOCTYPE html>` が宣言されている
