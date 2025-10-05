@@ -164,3 +164,34 @@ copyright, .copyright{ margin: 0; color: #9ca3af; font-size: 12px; }
   .tile img{ height: 140px; }
   .hero-content{ margin-top: -100px; }
 }
+/* ---- 特徴タイル ---- */
+.tiles{
+  display: grid; gap: 16px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+/* ---- フッター ---- */
+.site-footer{
+  border-top: 1px solid var(--color-border); background: #fafafa;
+}
+.footer-inner{
+  display: grid; gap: 16px; align-items: center; padding-block: 20px;
+}
+.site-footer .sns-list{ gap: 16px; }
+.compliance{ margin: 0; color: var(--color-muted); font-size: 14px; }
+.site-footer a{ color: var(--color-accent); }
+.site-footer a:hover{ text-decoration: underline; }
+.copyright{ margin: 0; color: #9ca3af; font-size: 12px; }
+
+/* ---- ヒーロー改善 ---- */
+.hero{
+  position: relative; overflow: hidden; border-bottom: 1px solid var(--color-border);
+}
+.hero-content{
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  padding: 0 20px;
+}

@@ -1,45 +1,37 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- 基本設定 -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>女性と子どものための相談機関 | Counseling Space paz</title>
   <meta name="description" content="静岡県沼津市の臨床心理士による心理相談室。女性と15歳以下のお子さんを対象に、安心できるカウンセリングを提供します。">
-
+　
+  <!-- 外部CSSの読み込み -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+  
   <!-- Canonical -->
-  https://counselingspacepaz.com/
+  <link rel="canonical" href="https://counselingspacepaz.com/">
 
-  <!-- Robots（※プレビュー中のみ。公開前に必ず削除） -->
-  <meta name="robots" content="noindex, nofollow">
-
-  <!-- Favicon（/images に統一） -->
-  /images/logo/paz-logo-32x32.png
-  <!-- Apple Touch Icon（用意できたら有効化）
-  /images/logo/paz-logo-180x180.png
-  -->
+  <!-- Favicon -->
+  <link rel="icon" href="/images/logo/paz-logo-32x32.png" type="image/png">
 
   <!-- OGP -->
-  <meta property="og:locale" content="ja_JP">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Counseling Space paz">
   <meta property="og:title" content="女性と子どものための相談機関 | Counseling Space paz">
   <meta property="og:description" content="静岡県沼津市の臨床心理士による心理相談室。女性と15歳以下のお子さんを対象に、安心できるカウンセリングを提供します。">
-  <!-- OGP画像は絶対URL（公開時に1200×630へ差し替え） -->
-  <meta property="og:image" content="https://counselingspacepaz.com/images/ogp/ogp-default.jpg">
   <meta property="og:url" content="https://counselingspacepaz.com/">
-
-  <!-- Twitter Card -->
+  <meta property="og:image" content="https://counselingspacepaz.com/images/ogp/ogp-default.jpg">
   <meta name="twitter:card" content="summary_large_image">
 
-  <!-- Fonts（Noto Sans JP） -->
-  https://fonts.googleapis.com
-  https://fonts.gstatic.com
-  https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="assets/css/styles.css">
 
-  <!-- Styles -->
-  assets/css/styles.css
-
-  <!-- Structured Data (LocalBusiness minimal) -->
+  <!-- Structured Data (JSON-LD) -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -51,7 +43,8 @@
     "address": {
       "@type": "PostalAddress",
       "addressRegion": "静岡県",
-      "addressLocality": "沼津市"
+      "addressLocality": "沼津市",
+      "addressCountry": "JP"
     },
     "sameAs": [
       "https://x.com/space_paz",
@@ -61,72 +54,54 @@
   }
   </script>
 </head>
+
 <body>
   <!-- Skip link -->
-  <a class="へ移動</a>
+  <a href="#main">メインコンテンツへ移動</a>
 
   <!-- Header -->
   <header class="site-header" role="banner">
     <div class="container header-inner">
-      /
-        /images/logo/paz-logo.png
+
+      <!-- ロゴ -->
+      <a href="/">
+        <img src="/images/logo/paz-logo.png" alt="Counseling Space paz ロゴ">
       </a>
 
+      <!-- グローバルナビ -->
       <nav class="site-nav" aria-label="主なナビゲーション">
         <ul class="menu">
-          <li>/HOME</a></li>
-          <li>/about/pazについて</a></li>
-          <li>https://outlook.office.com/book/paz1@counselingspacepaz.com/ご予約</a></li>
-          <li>/blog/ブログ</a></li>
+          <li><a href="/">HOME</a></li>
+          <li><a href="/about/">pazについて</a></li>
+          <li><a href="https://outlook.office.com/book/paz1@counselingspacepaz.com/">ご予約</a></li>
+          <li><a href="/blog/">ブログ</a></li>
         </ul>
       </nav>
 
-      <!-- SNS icons (Header) -->
+      <!-- SNS icons -->
       <nav class="sns-nav" aria-label="SNS・連絡先">
         <ul class="sns-list">
-          <li>
-            mailto:info@counselingspacepaz.com
-              /images/icons/icon-mail.png
-            </a>
-          </li>
-          <li>
-            https://qr-official.line.me/gs/M_132lsicr_GW.png?oat_content=url&amp;ts=09021803
-              /images/icons/icon-line.png
-            </a>
-          </li>
-          <li>
-            <ttps://www.instagram.com/counselingspacepaz/
-              /images/icons/icon-instagram.png
-            </a>
-          </li>
-          <li>
-            https://www.facebook.com/counselingspacepaz
-              <images/icons/icon-facebook.png
-            </a>
-          </li>
-          <li>
-            https://x.com/space_paz
-              /images/icons/icon-x.png
-            </a>
-          </li>
+          <li><a href="mailto:info@counselingspacepaz.com"><img src="/images/icons/icon-mail.png" alt="メール"></a></li>
+          <li><a href="https://qr-official.line.me/gs/M_132lsicr_GW.png"><img src="/images/icons/icon-line.png" alt="LINE"></a></li>
+          <li><a href="https://www.instagram.com/counselingspacepaz/"><img src="/images/icons/icon-instagram.png" alt="Instagram"></a></li>
+          <li><a href="https://www.facebook.com/counselingspacepaz"><img src="/images/icons/icon-facebook.png" alt="Facebook"></a></li>
+          <li><a href="https://x.com/space_paz"><img src="/images/icons/icon-x.png" alt="X"></a></li>
         </ul>
       </nav>
+
     </div>
   </header>
 
   <!-- Hero -->
   <section class="hero" role="region" aria-label="ヒーロー">
     <div class="hero-media">
-      <picture>
-        /images/hero/sprout-in-hand.jpg
-      </picture>
+      <img src="/images/hero/sprout-in-hand.jpg" alt="芽を手に持つ写真">
     </div>
     <div class="hero-content container">
       <h1>女性と子どものための相談機関です</h1>
       <p class="subcopy">pazとは平和・安らぎという意味です</p>
       <div class="hero-cta">
-        https://outlook.office.com/book/paz1@counselingspacepaz.com/ご予約（共通）</a>
-        https://outlook.office.com/book/paz1@counselingspacepaz.com/s/10j6y59L9Eut7KhQ7a6aPw2初回カウンセリングを予約（80分 9,900円）</a>
+        <a class="btn" href="https://outlook.office.com/book/paz1@counselingspacepaz.com/">ご予約（共通）</a>
       </div>
     </div>
   </section>
@@ -143,7 +118,7 @@
             <p>女性と15歳以下のお子さんを対象に、安心して話せる場所をご用意しています。日常の悩みからトラウマまで、専門的な知識と経験でサポートします。</p>
           </div>
           <div class="philosophy-visual">
-            /images/sections/holding-hand-illustration.png
+            <img src="/images/sections/holding-hand-illustration.png" alt="手を取り合うイラスト">
           </div>
         </div>
       </div>
@@ -154,22 +129,34 @@
       <div class="container">
         <h2 id="features-title">特徴</h2>
         <div class="tiles">
-          /about/
-            /images/thumbs/booking.jpg
+          <a href="/about/">
+            <img src="/images/thumbs/booking.jpg" alt="安心できる空間">
             <h3>安心できる空間</h3>
           </a>
-          /about/
-            <img src="/images/thumbs/soap-bubbles.jpg" alt="専門的な経験と知識に基づく支援</h3>
+          <a href="/about/">
+            <img src="/images/thumbs/soap-bubbles.jpg" alt="専門的な経験と知識に基づく支援">
+            <h3>専門的な経験と知識に基づく支援</h3>
           </a>
-          /about/
-            /images/thumbs/booking.jpg
-            <h3>オンライン対応</h3>
+          <a href="/about/">
+            <img src="/images/thumbs/booking.jpg" alt="オンライン相談">
+            <h3>オンライン相談</h3>
           </a>
-          /about/
-            /images/thumbs/soap-bubbles.jpg
-            <h3>公認心理師法に基づき守秘義務を遵守</h3>
+          <a href="/about/">
+            <img src="/images/thumbs/soap-bubbles.jpg" alt="守秘義務を遵守">
+            <h3>守秘義務を遵守</h3>
           </a>
         </div>
+      </div>
+    </section>
+
+    <!-- Contact Strip -->
+    <section class="contact-strip" aria-label="連絡先">
+      <div class="container">
+        <ul class="contact-list">
+          <li><a href="tel:055-900-1615"><img src="/images/icons/icon-phone.png" alt="電話"><span>055-900-1615</span></a></li>
+          <li><a href="mailto:info@counselingspacepaz.com"><img src="/images/icons/icon-mail.png" alt="メール"><span>info@counselingspacepaz.com</span></a></li>
+          <li><a href="https://qr-official.line.me/gs/M_132lsicr_GW.png"><img src="/images/icons/icon-line.png" alt="LINE"><span>LINEで相談</span></a></li>
+        </ul>
       </div>
     </section>
   </main>
@@ -177,44 +164,23 @@
   <!-- Footer -->
   <footer class="site-footer" role="contentinfo">
     <div class="container footer-inner">
+
       <nav class="sns-footer" aria-label="SNS・連絡先（フッター）">
         <ul class="sns-list">
-          <li>
-            <a href="mailto:info@councepaz.com
-              /images/icons/icon-mail.png
-            </a>
-          </li>
-          <li>
-            https://qr-official.line.me/gs/M_132lsicr_GW.png?oat_content=url&amp;ts=09021803
-              /images/icons/icon-line.png
-            </a>
-          </li>
-          <li>
-            https://www.instagram.com/counselingspacepaz/
-              /images/icons/icon-instagram.png
-            </a>
-          </li>
-          <li>
-            https://www.facebook.com/counselingspacepaz
-              <images/icons/icon-facebook.png
-            </a>
-          </li>
-          <li>
-            https://x.com/space_paz
-              /images/icons/icon-x.png
-            </a>
-          </li>
+          <li><a href="mailto:info@counselingspacepaz.com"><img src="/images/icons/icon-mail.png" alt="メール"></a></li>
+          <li><a href="https://qr-official.line.me/gs/M_132lsicr_GW.png"><img src="/images/icons/icon-line.png" alt="LINE"></a></li>
+          <li><a href="https://www.instagram.com/counselingspacepaz/"><img src="/images/icons/icon-instagram.png" alt="Instagram"></a></li>
+          <li><a href="https://www.facebook.com/counselingspacepaz"><img src="/images/icons/icon-facebook.png" alt="Facebook"></a></li>
+          <li><a href="https://x.com/space_paz"><img src="/images/icons/icon-x.png" alt="X"></a></li>
         </ul>
       </nav>
 
       <p class="compliance">
-        法令遵守：公認心理師法に基づく業務を行っています
-        （<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000116049.html" target="_blank" rel="noopener noreferrer">公認心理師法｜厚生労働省</a>）
+        法令遵守：<a href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000116049.html" target="_blank" rel="noopener">公認心理師法｜厚生労働省</a>
       </p>
 
       <p class="copyright">© 2025 Counseling Space paz</p>
     </div>
   </footer>
-
 </body>
 </html>
