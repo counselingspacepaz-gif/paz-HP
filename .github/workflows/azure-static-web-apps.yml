@@ -1,0 +1,67 @@
+name: Build and Deploy to Azure Static Web Apps
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    types: [opened, synchronize, reopened]
+    branches: ["main"]
+
+# PRコメントなどに必要な権限
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  build_deploy_prod:
+    name: Build & Deploy (Production)
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.static_web_app_url }}
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload to Azure Static Web Apps
+        id: deploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          # Azureポータルで取得済みのデプロイトークン
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          # PRのステータス報告に使用
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+
+          # 純静的サイト（ビルド不要）
+          app_location: "/"
+          output_location: ""
+          skip_app_build: true
+
+  build_deploy_preview:
+    name: Build & Deploy (Preview for PR)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    environment: preview
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload Preview to Azure Static Web Apps
+        id: deploy
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+
+          app_location: "/"
+          output_location: ""
+          skip_app_build: true
