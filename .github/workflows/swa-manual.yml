@@ -1,0 +1,33 @@
+name: Manual Deploy to Azure Static Web Apps
+
+on:
+  workflow_dispatch:
+    inputs:
+      note:
+        description: "メモ（任意）"
+        required: false
+        default: ""
+
+permissions:
+  contents: read
+
+jobs:
+  deploy_manual:
+    name: Deploy (Manual, Production)
+    runs-on: ubuntu-latest
+    environment: production
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Upload to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: "upload"
+          app_location: "/"
+          output_location: ""
+          skip_app_build: true
