@@ -449,4 +449,118 @@ a:hover {
 @media (max-width: 360px) {
   .hero-content { bottom: 10%; }
 }
+/* ==============================
+   ヘッダー（ハンバーガー対応 完全版）
+   ============================== */
+
+/* 基本レイアウト調整 */
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75rem 1.5rem;
+  background-color: var(--color-primary, #a8c3b0);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.site-logo img {
+  height: 56px;
+  width: auto;
+}
+
+/* ナビゲーションメニュー：デフォルト非表示（ハンバーガーで開く） */
+.site-nav {
+  display: none;
+  position: absolute;
+  top: 64px; /* ヘッダー高さ分下に配置 */
+  right: 1rem;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  padding: 1rem 1.5rem;
+  width: 180px;
+  font-family: 'Zen Maru Gothic', sans-serif;
+}
+
+.site-nav.is-open {
+  display: block;
+}
+
+/* メニュー内リスト */
+.site-nav .menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav .menu li {
+  margin-bottom: 0.8rem;
+}
+
+.site-nav .menu li:last-child {
+  margin-bottom: 0;
+}
+
+.site-nav .menu a {
+  text-decoration: none;
+  color: var(--color-primary-dark, #4d695a);
+  font-weight: 700;
+  transition: color 0.2s ease;
+}
+
+.site-nav .menu a:hover,
+.site-nav .menu a:focus {
+  color: var(--color-accent, #b3a1d9);
+}
+
+/* ハンバーガーボタン */
+.menu-toggle {
+  background: none;
+  border: none;
+  color: #ffffff;
+  font-size: 1.8rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.menu-toggle:focus {
+  outline: 2px solid var(--color-accent, #b3a1d9);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* メディアクエリ */
+@media (min-width: 1024px) {
+  .site-nav {
+    position: absolute;
+    top: 64px;
+    right: 1.5rem;
+    width: 200px;
+  }
+}
+
+/* 背景やアニメーションを軽く */
+@media (prefers-reduced-motion: no-preference) {
+  .site-nav {
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+
+  .site-nav.is-open {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
 
