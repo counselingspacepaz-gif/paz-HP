@@ -386,3 +386,11 @@ a:hover {
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; animation: none !important; }
 }
+.map-link a::before {
+  content: "📍";
+  margin-right: 6px;
+  display: inline-block;
+}
+.section h2 {
+  color: var(--color-sage);
+}
