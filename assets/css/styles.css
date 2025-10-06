@@ -563,4 +563,17 @@ a:hover {
     transform: translateY(0);
   }
 }
+/* === フッター内テキストの配色修正 === */
+footer,
+footer p,
+footer address,
+footer a,
+footer span {
+  color: var(--color-accent); /* ← セージグリーン (#7AA28C) */
+}
+
+footer a:hover {
+  color: var(--color-accent-2); /* ← アクセントのラベンダー */
+  opacity: 0.9;
+}
 
