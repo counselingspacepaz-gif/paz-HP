@@ -182,3 +182,41 @@ a:hover {
 .footer-privacy i {
   margin-right: 6px;
 }
+/* =========================================
+   ヘッダー／ナビゲーション安定化修正（2025-10-06）
+   ========================================= */
+
+/* ヘッダー全体の階層と位置を安定化 */
+.site-header {
+  position: relative;
+  z-index: 1000;
+}
+
+/* 内部レイアウトの再構成 */
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+}
+
+/* メニューリストの基本レイアウト */
+.site-nav .menu {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* ハンバーガー開閉時（縦配置） */
+.site-nav.is-open .menu {
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 0;
+}
+
+/* ナビの重なり優先順位を確保 */
+.site-nav {
+  z-index: 1001;
+}
