@@ -130,11 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
     toggleButton.setAttribute('aria-label', isExpanded ? 'メニューを開く' : 'メニューを閉じる');
     navMenu.classList.toggle('is-open');
 
-    const icon = toggleButton.querySelector('.fa-solid');
-    if (icon) {
-      icon.classList.toggle('fa-bars');
-      icon.classList.toggle('fa-xmark');
-    }
+   
   });
 
   window.addEventListener('resize', () => {
