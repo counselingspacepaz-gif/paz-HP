@@ -1,21 +1,22 @@
 /* =========================================
-   Counseling Space paz | styles.css (2025-10-04)
-   Responsive, Accessible, Calm Design
+   Counseling Space paz | styles.css (改良版)
    ========================================= */
 
 /* ---- ベース変数 ---- */
 :root {
   --font-base: "Zen Maru Gothic", "Noto Sans JP", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+
+  /* 修正版変数（指示に基づく） */
+  --color-accent: #6F51A1;   /* ラベンダー */
+  --color-accent-2: #B7A8CC; /* ラベンダー明系 */
+  --color-border: #DDD;
+  --color-text: #4A5A4F;     /* セージトーンの落ち着いた文字色 */
+  --shadow-1: 0 2px 6px rgba(0,0,0,0.1);
+
   --color-bg: #ffffff;
-  --color-text: #2d2d2d;
   --color-muted: #6b7280;
-  --color-accent: #7AA28C;    /* セージグリーン */
-  --color-accent-2: #8B83C9;  /* ラベンダー */
-  --color-border: #e5e7eb;
   --max-w: 1120px;
   --radius: 10px;
-  --shadow-1: 0 6px 18px rgba(0,0,0,0.06);
-  --shadow-2: 0 10px 28px rgba(0,0,0,0.10);
 }
 
 /* ---- Reset & Base ---- */
@@ -40,11 +41,11 @@ body {
 a {
   color: var(--color-accent);
   text-decoration: none;
-  transition: opacity .2s;
+  transition: opacity .2s, color .2s;
 }
 a:hover {
   opacity: .85;
-  text-decoration: underline;
+  color: var(--color-accent-2);
 }
 
 /* ---- コンテナ ---- */
@@ -55,593 +56,129 @@ a:hover {
   padding-inline: 20px;
 }
 
-/* ---- スキップリンク ---- */
+/* =========================================
+   B案件：スキップリンク（clip方式）
+   ========================================= */
 .skip-link {
   position: absolute;
-  left: -999px;
-  top: auto;
-  width: 1px;
+  clip: rect(1px, 1px, 1px, 1px);
+  padding: 0;
+  border: 0;
   height: 1px;
+  width: 1px;
   overflow: hidden;
+  white-space: nowrap;
 }
 .skip-link:focus {
-  position: fixed;
-  left: 16px;
-  top: 16px;
-  width: auto;
+  clip: auto !important;
   height: auto;
-  padding: 8px 12px;
-  background: #000;
+  width: auto;
+  background: var(--color-accent);
   color: #fff;
-  border-radius: 6px;
+  padding: 8px 12px;
+  border-radius: 4px;
+  position: fixed;
+  top: 10px;
+  left: 10px;
   z-index: 10000;
 }
 
 /* =========================================
-   ヘッダー
+   A案件：ハンバーガーメニュー常時表示
    ========================================= */
-.site-header {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-  background: #fff;
-  border-bottom: 1px solid var(--color-border);
-}
-.header-inner {
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
-  gap: 16px;
-  min-height: 70px;
-}
-.site-logo img {
-  height: 46px;
-  width: auto;
-  display: block;
-}
-
-/* ---- ナビゲーション ---- */
-.site-nav .menu {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  gap: 24px;
-  justify-content: flex-end;
-}
-.site-nav a {
-  color: var(--color-text);
-  font-weight: 600;
-  position: relative;
-}
-.site-nav a:hover {
-  color: var(--color-accent);
-}
-
-/* ---- モバイルメニュー ---- */
 .menu-toggle {
-  display: none;
+  display: flex !important;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.5rem;
+  font-size: 1.6rem;
   color: var(--color-accent);
+  align-items: center;
+  justify-content: center;
 }
-.menu-toggle:focus-visible {
-  outline: 2px solid var(--color-accent-2);
+.menu-toggle:hover {
+  opacity: 0.85;
 }
-@media (max-width: 768px) {
-  .site-nav {
-    position: absolute;
-    top: 70px;
-    right: 0;
-    width: 100%;
-    background: #fff;
-    border-top: 1px solid var(--color-border);
-    display: none;
-    box-shadow: var(--shadow-1);
-  }
-  .site-nav.is-open {
-    display: block;
-    animation: slideDown .25s ease;
-  }
-  .site-nav .menu {
-    flex-direction: column;
-    align-items: center;
-    gap: 16px;
-    padding: 20px 0;
-  }
-  .menu-toggle {
-    display: block;
-  }
+
+.site-nav {
+  display: none;
+  position: absolute;
+  top: 70px;
+  right: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid var(--color-border);
+  box-shadow: var(--shadow-1);
+  animation: slideDown .25s ease;
 }
+.site-nav.is-open {
+  display: block;
+}
+.site-nav .menu {
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 0;
+}
+
+/* =========================================
+   アニメーション
+   ========================================= */
 @keyframes slideDown {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
 
 /* =========================================
-   ボタン
+   C案件：住所アイコンリンク
    ========================================= */
-.btn {
-  display: inline-block;
-  padding: 12px 20px;
-  border-radius: 999px;
-  font-weight: 700;
-  text-decoration: none;
-  transition: transform .06s ease, box-shadow .2s ease, background .2s ease;
-  border: 2px solid transparent;
-}
-.btn:active { transform: translateY(1px); }
-.btn.primary {
-  background: var(--color-accent);
-  color: #fff;
-  box-shadow: var(--shadow-1);
-}
-.btn.primary:hover {
-  box-shadow: var(--shadow-2);
-  text-decoration: none;
-}
-
-/* =========================================
-   ヒーロー
-   ========================================= */
-.hero {
-  position: relative;
-  overflow: hidden;
-  border-bottom: 1px solid var(--color-border);
-}
-.hero-image {
-  width: 100%;
-  height: clamp(280px, 48vw, 520px);
-  object-fit: cover;
-  display: block;
-  filter: saturate(.95);
-}
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(0,0,0,0.2), rgba(0,0,0,0.35));
-  z-index: 1;
-}
-.hero-content {
-  position: absolute;
-  z-index: 2;
-  bottom: 18%;
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  color: #fff;
-  padding: 0 20px;
-}
-.hero h1 {
-  margin: 0 0 8px;
-  font-size: clamp(22px, 3.2vw, 36px);
-  line-height: 1.3;
-  text-shadow: 0 2px 12px rgba(0,0,0,0.25);
-}
-.hero .subcopy {
-  color: #f3f4f6;
-  margin-bottom: 20px;
-}
-
-/* =========================================
-   セクション共通
-   ========================================= */
-.section {
-  padding: clamp(36px, 5vw, 72px) 0;
-}
-.section h2 {
-  font-size: clamp(20px, 2.4vw, 28px);
-  margin-bottom: 16px;
-  color: var(--color-accent);
-}
-.section p {
-  color: var(--color-text);
-}
-
-/* =========================================
-   理念セクション
-   ========================================= */
-.philosophy-text {
-  max-width: 800px;
-  margin: 0 auto;
-  line-height: 1.9;
-}
-
-/* =========================================
-   特徴タイル
-   ========================================= */
-.tiles {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-}
-.tile {
-  display: grid;
-  gap: 10px;
-  padding: 14px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  background: #fff;
-  box-shadow: var(--shadow-1);
-  transition: transform .06s ease, box-shadow .2s ease;
-  text-decoration: none;
-  color: inherit;
-}
-.tile:hover {
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-2);
-}
-.tile img {
-  width: 100%;
-  height: 160px;
-  object-fit: cover;
-  border-radius: 8px;
-}
-.tile h3 {
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-/* =========================================
-   フッター
-   ========================================= */
-.site-footer {
-  border-top: 1px solid var(--color-border);
-  background: #fafafa;
-  margin-top: 40px;
-}
-.footer-inner {
-  display: grid;
-  gap: 24px;
-  align-items: start;
-  padding-block: 20px;
-}
-.footer-contact-address h2 {
-  font-size: 18px;
-  color: var(--color-accent);
-  margin-bottom: 8px;
-}
-.contact-list {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-.contact-item {
-  margin-bottom: 6px;
-  display: flex;
+.map-link {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-  color: var(--color-text);
-}
-.contact-item i {
+  gap: 6px;
   color: var(--color-accent);
-  min-width: 20px;
-  text-align: center;
+  text-decoration: none;
 }
-
-.sns-footer .sns-list {
-  list-style: none;
-  display: flex;
-  gap: 16px;
-  margin: 0;
-  padding: 0;
-}
-.sns-list img {
-  width: 28px;
-  height: 28px;
-  transition: transform .2s ease;
-}
-.sns-list img:hover {
-  transform: scale(1.1);
-}
-
-.copyright {
-  font-size: 13px;
-  color: #9ca3af;
-  margin-top: 8px;
-  text-align: center;
-}
-
-/* =========================================
-   レスポンシブ
-   ========================================= */
-@media (max-width: 1024px) {
-  .hero-content { bottom: 14%; }
-}
-@media (max-width: 480px) {
-  .hero-content { bottom: 12%; }
-  .tile img { height: 140px; }
-  .site-header { padding: 0 10px; }
-}
-
-/* PATCH: philosophy背景・レイヤー整備 */
-.philosophy {
-  position: relative;
-}
-.philosophy::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: url("../../images/sections/waterdrop.png") center/contain no-repeat;
-  opacity: 0.08;
-  z-index: 1;
-  pointer-events: none;
-}
-.philosophy > * {
-  position: relative;
-  z-index: 2;
-}
-
-/* PATCH: ヘッダーロゴの高さ更新 */
-.site-logo img {
-  height: 56px;
-}
-
-/* PATCH: コンプライアンス用タイル */
-.tile--compliance {
-  background: #F3F1FF;
-  padding: 24px 20px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-1);
-}
-.tile--compliance h3 {
-  margin: 0;
-  font-weight: 700;
+.map-link:hover {
+  text-decoration: underline;
   color: var(--color-accent-2);
-  font-size: 16px;
-  line-height: 1.6;
 }
 
-/* PATCH: CTAユーティリティ（ラベンダー背景＋アウトラインボタン） */
-.section--lavender {
-  background: #F7F6FF;
-}
-.btn--outline {
-  background: #fff;
-  color: var(--color-accent);
-  border: 2px solid var(--color-accent);
-  transition: box-shadow .2s ease, transform .05s ease;
-}
-.btn--outline:hover {
-  box-shadow: var(--shadow-2);
+/* =========================================
+   CTAボタン
+   ========================================= */
+.cta-button {
+  background-color: var(--color-accent);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 4px;
   text-decoration: none;
-  transform: translateY(-1px);
-}
-.btn--outline:focus-visible {
-  outline: 3px solid var(--color-accent-2);
-  outline-offset: 2px;
-}
-
-/* PATCH: タイル高さの安定化 */
-.tile {
-  align-content: start;
-  min-height: 200px;
-}
-@media (min-width: 768px) {
-  .tile { min-height: 220px; }
-}
-
-/* PATCH: モバイルメニューのタップ領域拡大 */
-@media (max-width: 768px) {
-  .site-nav .menu a {
-    display: block;
-    padding: 10px 16px;
-  }
-}
-
-/* PATCH: 動きの抑制（ユーザー設定尊重） */
-@media (prefers-reduced-motion: reduce) {
-  .site-nav.is-open {
-    animation: none !important;
-  }
-}
-
-/* PATCH: 超小画面でのヒーロー調整 */
-@media (max-width: 360px) {
-  .hero-content { bottom: 10%; }
-}
-/* ==============================
-   ヘッダー（ハンバーガー対応 完全版）
-   ============================== */
-
-/* 基本レイアウト調整 */
-.site-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem 1.5rem;
-  background-color: var(--color-primary, #a8c3b0);
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-}
-
-.site-logo img {
-  height: 56px;
-  width: auto;
-}
-
-/* ナビゲーションメニュー：デフォルト非表示（ハンバーガーで開く） */
-.site-nav {
-  display: none;
-  position: absolute;
-  top: 64px; /* ヘッダー高さ分下に配置 */
-  right: 1rem;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-  padding: 1rem 1.5rem;
-  width: 180px;
-  font-family: 'Zen Maru Gothic', sans-serif;
-}
-
-.site-nav.is-open {
-  display: block;
-}
-
-/* メニュー内リスト */
-.site-nav .menu {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-.site-nav .menu li {
-  margin-bottom: 0.8rem;
-}
-
-.site-nav .menu li:last-child {
-  margin-bottom: 0;
-}
-
-.site-nav .menu a {
-  text-decoration: none;
-  color: var(--color-primary-dark, #4d695a);
   font-weight: 700;
+  transition: background-color 0.3s ease;
+  display: inline-block;
+}
+.cta-button:hover {
+  background-color: var(--color-accent-2);
+  text-decoration: none;
+}
+
+/* =========================================
+   D案件：プライバシーポリシー
+   ========================================= */
+.footer-privacy {
+  text-align: center;
+  margin-top: 12px;
+}
+.footer-privacy a {
+  color: var(--color-accent);
+  font-weight: 600;
+  text-decoration: none;
   transition: color 0.2s ease;
 }
-
-.site-nav .menu a:hover,
-.site-nav .menu a:focus {
-  color: var(--color-accent, #b3a1d9);
+.footer-privacy a:hover {
+  color: var(--color-accent-2);
+  text-decoration: underline;
 }
-
-/* ハンバーガーボタン */
-.menu-toggle {
-  background: none;
-  border: none;
-  color: #ffffff;
-  font-size: 1.8rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.menu-toggle:focus {
-  outline: 2px solid var(--color-accent, #b3a1d9);
-  outline-offset: 3px;
-  border-radius: 6px;
-}
-
-/* メディアクエリ */
-@media (min-width: 1024px) {
-  .site-nav {
-    position: absolute;
-    top: 64px;
-    right: 1.5rem;
-    width: 200px;
-  }
-}
-
-/* 背景やアニメーションを軽く */
-@media (prefers-reduced-motion: no-preference) {
-  .site-nav {
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    opacity: 0;
-    transform: translateY(-5px);
-  }
-
-  .site-nav.is-open {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-.footer-contact-address .contact-item:first-child {
-  color: var(--color-accent); /* セージグリーン */
-}
-<head>
-  <style>
-    /* スキップリンクを常に非表示に */
-    .skip-link {
-      position: absolute;
-      left: -999px;
-      top: auto;
-      width: 1px;
-      height: 1px;
-      overflow: hidden;
-    }
-    /* Tabキーでフォーカスされたときだけ表示 */
-    .skip-link:focus {
-      left: 0;
-      top: 0;
-      width: auto;
-      height: auto;
-    }
-  </style>
-  <!-- ここで通常のCSSを読み込む -->
-  <link rel="stylesheet" href="assets/css/main.css" />
-</head>
-/* 共通設定 */
-.menu,
-.menu li,
-.menu a {
-  box-sizing: border-box; /* paddingが幅に影響しないように */
-}
-
-.menu a {
-  writing-mode: horizontal-tb; /* 横書き固定 */
-  text-decoration: none; /* 不要であれば文字下線を消す */
-  color: inherit; /* 親から文字色を継承 */
-}
-
-/* PC表示（横並び） */
-@media screen and (min-width: 768px) {
-  .menu {
-    display: flex;
-    flex-direction: row;
-    gap: 1.5rem;
-    justify-content: flex-end;
-    align-items: center;
-    width: 100%; /* 幅を画面にフィット */
-    max-width: 100%;
-    padding: 0; /* PCでは余白不要 */
-  }
-}
-
-/* モバイル表示（縦並び） */
-@media screen and (max-width: 767px) {
-  .site-nav {
-    display: none; /* 初期非表示 */
-    width: 100%; /* メニュー幅を画面にフィット */
-  }
-
-  .site-nav.is-open {
-    display: block; /* ハンバーガー開閉時表示 */
-  }
-
-  .menu {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding: 1rem;
-    background-color: #fff;
-    width: 100%; /* 幅固定 */
-    max-width: 100%;
-  }
-
-  .menu li {
-    width: 100%; /* 各項目が横幅いっぱいに */
-  }
-
-  .menu a {
-    writing-mode: horizontal-tb; /* 横書き固定 */
-    display: block; /* 幅いっぱいをクリック可能に */
-  }
+.footer-privacy i {
+  margin-right: 6px;
 }
