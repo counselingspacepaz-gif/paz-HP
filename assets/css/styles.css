@@ -400,3 +400,19 @@ a:hover {
     display: none; /* PC幅で非表示 */
   }
 }
+.footer-privacy {
+  text-align: center;
+  margin: 16px 0;
+  font-weight: 500;
+}
+
+.footer-privacy a {
+  color: var(--color-lavender);
+  text-decoration: none;
+  transition: color 0.2s, text-decoration 0.2s;
+}
+
+.footer-privacy a:hover {
+  color: #E6DAFF; /* ラベンダーライト */
+  text-decoration: underline;
+}
