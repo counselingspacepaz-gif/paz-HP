@@ -566,3 +566,25 @@ a:hover {
 .footer-contact-address .contact-item:first-child {
   color: var(--color-accent); /* セージグリーン */
 }
+<head>
+  <style>
+    /* スキップリンクを常に非表示に */
+    .skip-link {
+      position: absolute;
+      left: -999px;
+      top: auto;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
+    /* Tabキーでフォーカスされたときだけ表示 */
+    .skip-link:focus {
+      left: 0;
+      top: 0;
+      width: auto;
+      height: auto;
+    }
+  </style>
+  <!-- ここで通常のCSSを読み込む -->
+  <link rel="stylesheet" href="assets/css/main.css" />
+</head>
