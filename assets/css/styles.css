@@ -394,3 +394,9 @@ a:hover {
 .section h2 {
   color: var(--color-sage);
 }
+/* PC幅ではハンバーガーメニューを非表示にする */
+@media (min-width: 768px) {
+  .menu-toggle {
+    display: none; /* PC幅で非表示 */
+  }
+}
