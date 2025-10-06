@@ -1,31 +1,35 @@
+/* filename: assets/css/styles.css */
 /* =========================================
-   Counseling Space paz | styles.css (改良版)
+   Counseling Space paz | styles.css (2025-10 改訂版)
+   統一テーマ：セージ＋ラベンダー
+   Fortyテンプレート整合＋アクセシビリティ最適化
    ========================================= */
 
-/* ---- ベース変数 ---- */
+/* ---- 変数定義 ---- */
 :root {
   --font-base: "Zen Maru Gothic", "Noto Sans JP", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
 
-  /* 修正版変数（指示に基づく） */
-  --color-accent: #6F51A1;   /* ラベンダー */
-  --color-accent-2: #B7A8CC; /* ラベンダー明系 */
+  /* ブランドカラー */
+  --color-sage: #4A5A4F;         /* 本文・リンク通常色 */
+  --color-lavender: #6F51A1;     /* アクセント・ホバー・CTA */
+  --color-lavender-light: #B7A8CC;
   --color-border: #DDD;
-  --color-text: #4A5A4F;     /* セージトーンの落ち着いた文字色 */
-  --shadow-1: 0 2px 6px rgba(0,0,0,0.1);
-
   --color-bg: #ffffff;
   --color-muted: #6b7280;
+
+  /* 影・レイアウト */
+  --shadow-1: 0 2px 6px rgba(0,0,0,0.1);
   --max-w: 1120px;
   --radius: 10px;
 }
 
 /* ---- Reset & Base ---- */
 * { box-sizing: border-box; }
-html, body { height: 100%; margin: 0; padding: 0; }
+html, body { margin: 0; padding: 0; height: 100%; }
 html { scroll-behavior: smooth; }
 body {
   font-family: var(--font-base);
-  color: var(--color-text);
+  color: var(--color-sage);
   background: var(--color-bg);
   line-height: 1.75;
   font-size: 16px;
@@ -33,19 +37,18 @@ body {
 
 /* ---- アクセシビリティ ---- */
 :focus-visible {
-  outline: 3px solid var(--color-accent-2);
+  outline: 3px solid var(--color-lavender-light);
   outline-offset: 2px;
 }
 
 /* ---- リンク ---- */
 a {
-  color: var(--color-accent);
+  color: var(--color-sage);
   text-decoration: none;
-  transition: opacity .2s, color .2s;
+  transition: color 0.2s, opacity 0.2s;
 }
 a:hover {
-  opacity: .85;
-  color: var(--color-accent-2);
+  color: var(--color-lavender);
 }
 
 /* ---- コンテナ ---- */
@@ -57,7 +60,7 @@ a:hover {
 }
 
 /* =========================================
-   B案件：スキップリンク（clip方式）
+   スキップリンク
    ========================================= */
 .skip-link {
   position: absolute;
@@ -70,10 +73,10 @@ a:hover {
   white-space: nowrap;
 }
 .skip-link:focus {
-  clip: auto !important;
+  clip: auto;
   height: auto;
   width: auto;
-  background: var(--color-accent);
+  background: var(--color-lavender);
   color: #fff;
   padding: 8px 12px;
   border-radius: 4px;
@@ -84,24 +87,41 @@ a:hover {
 }
 
 /* =========================================
-   A案件：ハンバーガーメニュー常時表示
+   ヘッダー／ナビゲーション
    ========================================= */
-.menu-toggle {
-  display: flex !important;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1.6rem;
-  color: var(--color-accent);
-  align-items: center;
-  justify-content: center;
+.site-header {
+  position: relative;
+  z-index: 1000;
+  background: #fff;
+  border-bottom: 1px solid var(--color-border);
 }
-.menu-toggle:hover {
-  opacity: 0.85;
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 70px;
+}
+.site-logo img {
+  height: 56px;
+  display: block;
 }
 
+/* ハンバーガーボタン常時表示 */
+.menu-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  color: var(--color-lavender);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+.menu-toggle:hover { opacity: 0.8; }
+
+/* ナビゲーション */
 .site-nav {
-  display: none;
   position: absolute;
   top: 70px;
   right: 0;
@@ -109,16 +129,40 @@ a:hover {
   background: #fff;
   border-top: 1px solid var(--color-border);
   box-shadow: var(--shadow-1);
-  animation: slideDown .25s ease;
+  display: none;
+  z-index: 1001;
 }
-.site-nav.is-open {
-  display: block;
-}
+.site-nav.is-open { display: block; animation: slideDown 0.25s ease; }
+
 .site-nav .menu {
+  display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
+  list-style: none;
+  margin: 0;
   padding: 20px 0;
+  gap: 16px;
+}
+.site-nav a {
+  font-weight: 600;
+  color: var(--color-sage);
+}
+.site-nav a:hover { color: var(--color-lavender); }
+
+/* PC幅では常時表示・オーバーレイ解除 */
+@media (min-width: 768px) {
+  .site-nav {
+    display: block;
+    position: static;
+    box-shadow: none;
+    border-top: none;
+  }
+  .site-nav .menu {
+    flex-direction: row;
+    justify-content: flex-end;
+    padding: 0;
+    gap: 24px;
+  }
 }
 
 /* =========================================
@@ -130,93 +174,215 @@ a:hover {
 }
 
 /* =========================================
-   C案件：住所アイコンリンク
+   ヒーローセクション
    ========================================= */
+.hero {
+  position: relative;
+  min-height: 75vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  border-bottom: 1px solid var(--color-border);
+}
+.hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1;
+}
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  color: #fff;
+  text-shadow: 0 2px 12px rgba(0,0,0,0.25);
+}
+.hero h1 {
+  font-size: clamp(22px, 3vw, 36px);
+  margin-bottom: 8px;
+}
+.hero .subcopy {
+  margin-bottom: 24px;
+  color: #f0f0f0;
+}
+
+/* CTAボタン */
+.btn.primary {
+  background-color: var(--color-lavender);
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 4px;
+  font-weight: 700;
+  display: inline-block;
+  transition: background-color 0.3s ease;
+  text-decoration: none;
+}
+.btn.primary:hover {
+  background-color: var(--color-lavender-light);
+}
+
+/* =========================================
+   セクション・理念
+   ========================================= */
+.section {
+  padding: clamp(36px, 5vw, 72px) 0;
+}
+.section h2 {
+  font-size: clamp(20px, 2.4vw, 28px);
+  color: var(--color-lavender);
+  margin-bottom: 16px;
+  text-align: center;
+}
+.philosophy .container {
+  text-align: center;
+  max-width: 1040px;
+  margin-inline: auto;
+}
+.philosophy-text {
+  line-height: 1.8;
+  margin-block: 1.5em;
+}
+
+/* =========================================
+   特徴タイル
+   ========================================= */
+.tiles {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;
+}
+@media (min-width: 768px) {
+  .tiles { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1024px) {
+  .tiles { grid-template-columns: repeat(3, 1fr); }
+}
+.tile {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: #fff;
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.05s ease, box-shadow 0.2s ease;
+}
+.tile:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+.tile img {
+  width: 100%;
+  display: block;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+}
+.tile h3 {
+  padding: 14px;
+  font-size: 16px;
+  line-height: 1.5;
+}
+.tile--compliance {
+  background: #F8F6FF;
+  min-height: 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: var(--color-lavender);
+  font-weight: 700;
+}
+
+/* =========================================
+   フッター
+   ========================================= */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  background: #fafafa;
+  margin-top: 40px;
+}
+.footer-inner {
+  display: grid;
+  gap: 24px;
+  padding-block: 20px;
+  align-items: start;
+}
+.footer-contact-address h2 {
+  font-size: 18px;
+  color: var(--color-lavender);
+  margin-bottom: 8px;
+}
+.contact-list, .sns-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.contact-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+  color: var(--color-sage);
+}
+.contact-item i { color: var(--color-lavender); }
+
 .map-link {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: var(--color-accent);
-  text-decoration: none;
+  color: var(--color-lavender);
 }
-.map-link:hover {
-  text-decoration: underline;
-  color: var(--color-accent-2);
-}
+.map-link:hover { color: var(--color-lavender-light); text-decoration: underline; }
 
-/* =========================================
-   CTAボタン
-   ========================================= */
-.cta-button {
-  background-color: var(--color-accent);
-  color: #fff;
-  padding: 12px 24px;
-  border-radius: 4px;
-  text-decoration: none;
-  font-weight: 700;
-  transition: background-color 0.3s ease;
-  display: inline-block;
+.sns-footer .sns-list {
+  display: flex;
+  gap: 16px;
+  align-items: center;
 }
-.cta-button:hover {
-  background-color: var(--color-accent-2);
-  text-decoration: none;
+.sns-list img {
+  width: 24px;
+  height: 24px;
+  transition: transform 0.2s ease;
 }
+.sns-list img:hover { transform: scale(1.1); }
 
-/* =========================================
-   D案件：プライバシーポリシー
-   ========================================= */
 .footer-privacy {
   text-align: center;
   margin-top: 12px;
 }
 .footer-privacy a {
-  color: var(--color-accent);
+  color: var(--color-lavender);
   font-weight: 600;
   text-decoration: none;
   transition: color 0.2s ease;
 }
 .footer-privacy a:hover {
-  color: var(--color-accent-2);
+  color: var(--color-lavender-light);
   text-decoration: underline;
 }
-.footer-privacy i {
-  margin-right: 6px;
+.footer-privacy i { margin-right: 6px; }
+
+.copyright {
+  font-size: 13px;
+  color: #9ca3af;
+  text-align: center;
+  margin-top: 8px;
 }
+
 /* =========================================
-   ヘッダー／ナビゲーション安定化修正（2025-10-06）
+   メディア調整
    ========================================= */
-
-/* ヘッダー全体の階層と位置を安定化 */
-.site-header {
-  position: relative;
-  z-index: 1000;
+@media (max-width: 480px) {
+  .hero h1 { font-size: 20px; }
+  .tile h3 { font-size: 15px; }
 }
 
-/* 内部レイアウトの再構成 */
-.header-inner {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  height: 70px;
-}
-
-/* メニューリストの基本レイアウト */
-.site-nav .menu {
-  display: flex;
-  list-style: none;
-  margin: 0;
-  padding: 0;
-}
-
-/* ハンバーガー開閉時（縦配置） */
-.site-nav.is-open .menu {
-  flex-direction: column;
-  align-items: center;
-  gap: 16px;
-  padding: 20px 0;
-}
-
-/* ナビの重なり優先順位を確保 */
-.site-nav {
-  z-index: 1001;
+/* =========================================
+   prefers-reduced-motion
+   ========================================= */
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
 }
