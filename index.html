@@ -98,7 +98,7 @@
         <h2>Contact</h2>
         <ul class="contact-list">
           <li class="contact-item map-link">
-            <a href="https://www.google.com/maps/search/?api=1&query=〒410-0801 静岡県沼津市大手町4-3-28 リバーサイド大手町502" target="_blank" rel="noopener noreferrer">📍 〒410-0801 静岡県沼津市大手町4-3-28 リバーサイド大手町502</a>
+            <a href="https://www.google.com/maps/search/?api=1&query=〒410-0801 静岡県沼津市大手町4-3-28 リバーサイド大手町502" target="_blank" rel="noopener noreferrer"> 〒410-0801 静岡県沼津市大手町4-3-28 リバーサイド大手町502</a>
           </li>
           <li class="contact-item"><i aria-hidden="true">📞</i><a href="tel:0559001615">055-900-1615</a></li>
           <li class="contact-item"><i aria-hidden="true">✉️</i><a href="mailto:info@counselingspacepaz.com">info@counselingspacepaz.com</a></li>
@@ -117,34 +117,41 @@
       <p class="copyright">© 2025 Counseling Space paz</p>
     </div>
   </footer>
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleButton = document.getElementById('menu-toggle');
+  const navMenu = document.getElementById('main-menu');
 
-  <script>
-    // モバイルメニュー開閉
-    (() => {
-      const btn = document.getElementById('menu-toggle');
-      const nav = document.getElementById('main-menu');
-      if (!btn || !nav) return;
+  if (!toggleButton || !navMenu) return;
 
-      const toggleMenu = () => {
-        const open = nav.classList.toggle('is-open');
-        btn.setAttribute('aria-expanded', open);
-        btn.setAttribute('aria-label', open ? 'メニューを閉じる' : 'メニューを開く');
-      };
+  toggleButton.addEventListener('click', () => {
+    const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
+    toggleButton.setAttribute('aria-expanded', !isExpanded);
+    toggleButton.setAttribute('aria-label', isExpanded ? 'メニューを開く' : 'メニューを閉じる');
+    navMenu.classList.toggle('is-open');
 
-      btn.addEventListener('click', toggleMenu);
-      document.addEventListener('keydown', e => {
-        if (e.key === 'Escape' && nav.classList.contains('is-open')) toggleMenu();
-      });
+    const icon = toggleButton.querySelector('.fa-solid');
+    if (icon) {
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-xmark');
+    }
+  });
 
-      window.addEventListener('resize', () => {
-        if (window.innerWidth >= 768 && nav.classList.contains('is-open')) {
-          nav.classList.remove('is-open');
-          btn.setAttribute('aria-expanded', 'false');
-          btn.setAttribute('aria-label', 'メニューを開く');
-        }
-      });
-    })();
-  </script>
+  window.addEventListener('resize', () => {
+    if (window.innerWidth >= 768) {
+      navMenu.classList.remove('is-open');
+      toggleButton.setAttribute('aria-expanded', 'false');
+      toggleButton.setAttribute('aria-label', 'メニューを開く');
+      const icon = toggleButton.querySelector('.fa-solid');
+      if (icon) {
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-bars');
+      }
+    }
+  });
+});
+</script>
+ 
 </body>
 </html>
 
