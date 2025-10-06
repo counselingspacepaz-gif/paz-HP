@@ -588,3 +588,60 @@ a:hover {
   <!-- ここで通常のCSSを読み込む -->
   <link rel="stylesheet" href="assets/css/main.css" />
 </head>
+/* 共通設定 */
+.menu,
+.menu li,
+.menu a {
+  box-sizing: border-box; /* paddingが幅に影響しないように */
+}
+
+.menu a {
+  writing-mode: horizontal-tb; /* 横書き固定 */
+  text-decoration: none; /* 不要であれば文字下線を消す */
+  color: inherit; /* 親から文字色を継承 */
+}
+
+/* PC表示（横並び） */
+@media screen and (min-width: 768px) {
+  .menu {
+    display: flex;
+    flex-direction: row;
+    gap: 1.5rem;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%; /* 幅を画面にフィット */
+    max-width: 100%;
+    padding: 0; /* PCでは余白不要 */
+  }
+}
+
+/* モバイル表示（縦並び） */
+@media screen and (max-width: 767px) {
+  .site-nav {
+    display: none; /* 初期非表示 */
+    width: 100%; /* メニュー幅を画面にフィット */
+  }
+
+  .site-nav.is-open {
+    display: block; /* ハンバーガー開閉時表示 */
+  }
+
+  .menu {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #fff;
+    width: 100%; /* 幅固定 */
+    max-width: 100%;
+  }
+
+  .menu li {
+    width: 100%; /* 各項目が横幅いっぱいに */
+  }
+
+  .menu a {
+    writing-mode: horizontal-tb; /* 横書き固定 */
+    display: block; /* 幅いっぱいをクリック可能に */
+  }
+}
