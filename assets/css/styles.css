@@ -92,7 +92,7 @@ a:hover {
 .site-header {
   position: relative;
   z-index: 1000;
-  background: #fff;
+  background: #E6ECE9;
   border-bottom: 1px solid var(--color-border);
 }
 .header-inner {
@@ -301,7 +301,7 @@ a:hover {
    ========================================= */
 .site-footer {
   border-top: 1px solid var(--color-border);
-  background: #fafafa;
+  background: #E6ECE9;
   margin-top: 40px;
 }
 .footer-inner {
