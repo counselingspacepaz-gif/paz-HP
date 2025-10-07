@@ -156,6 +156,8 @@ a:hover {
     position: static;
     box-shadow: none;
     border-top: none;
+　　 background: #E6ECE9;
+     
   }
   .site-nav .menu {
     flex-direction: row;
