@@ -16,7 +16,6 @@
   --color-border: #DDD;
   --color-bg: #ffffff;
   --color-muted: #6b7280;
-  --color-heading: #6A8F76; /* 明るめのセージグリーン */
 
   /* 影・レイアウト */
   --shadow-1: 0 2px 6px rgba(0,0,0,0.1);
@@ -49,7 +48,7 @@ a {
   transition: color 0.2s, opacity 0.2s;
 }
 a:hover {
-  color: var(--color-lavender);/* #B7A8CC 
+  color: var(--color-lavender);
 }
 
 /* ---- コンテナ ---- */
