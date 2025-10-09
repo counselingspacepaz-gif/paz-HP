@@ -1,5 +1,39 @@
-<main class="container">
-  <h1>このページは現在準備中です</h1>
-  <p>近日中に公開予定です。もうしばらくお待ちください。</p>
-  /HOMEへ戻る</a>
+ <!-- CTA -->
+  <section class="section section--note">
+    <div class="container" style="text-align:center; background:#E6E6FA; padding:24px; border-radius:12px;">
+      <a href="/booking/shared/" class="btn primary" style="background:#E6E6FA; color:#2E584D;">今すぐ予約する</a>
+      <ul class="support__list" style="margin-top:16px; justify-content:center;">
+        <li class="support__item">
+          📧 <a href="mailto:info@counselingspacepaz.com" target="_blank" rel="noopener noreferrer">info@counselingspacepaz.com</a>
+        </li>
+        <li class="support__item">
+          ☎️ <a href="tel:055-900-1615" target="_blank" rel="noopener noreferrer">055-900-1615</a>
+        </li>
+        <li class="support__item">
+          💬 <a href="https://qr-official.line.me/gs/M_132lsicr_GW.png?oat_content=url&ts=09021803" target="_blank" rel="noopener noreferrer">LINE公式QR</a>
+        </li>
+      </ul>
+    </div>
+  </section>
 </main>
+
+<footer class="site-footer">
+  <div class="footer-inner container">
+    <p class="copyright">© 2025 Counseling Space paz</p>
+  </div>
+</footer>
+
+<script>
+// FAQアコーディオン制御
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    btn.setAttribute('aria-expanded', !expanded);
+    const answer = document.getElementById(btn.getAttribute('aria-controls'));
+    if (answer) answer.hidden = expanded;
+  });
+});
+</script>
+
+</body>
+</html>
