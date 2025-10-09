@@ -554,3 +554,15 @@ a:focus{
   outline:2px solid var(--sage);
   outline-offset:2px;
 }
+/* 予約ページ専用：料金カードレイアウト */
+.tiles.booking-pricing {
+  display: grid;
+  grid-template-columns: 1fr; /* スマホは1列 */
+  gap: 2rem; /* Forty準拠 */
+}
+
+@media (min-width: 768px) {
+  .tiles.booking-pricing {
+    grid-template-columns: repeat(2, 1fr); /* PCは2列 */
+  }
+}
