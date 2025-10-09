@@ -1,5 +1,118 @@
-<main class="container">
-  <h1>このページは現在準備中です</h1>
-  <p>近日中に公開予定です。もうしばらくお待ちください。</p>
-  /HOMEへ戻る</a>
-</main>
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>カウンセリング予約フォーム | Counseling Space paz</title>
+  <meta name="description" content="Counseling Space pazの予約フォームです。Microsoft Bookingsを利用して、対面・オンラインのカウンセリングをご予約いただけます。">
+  <link rel="canonical" href="https://counselingspacepaz.com/booking/shared/">
+  <!-- プレビュー時のみnoindex -->
+  <!-- <meta name="robots" content="noindex"> -->
+
+  <!-- Favicon -->
+  <link rel="icon" href="/images/logo/favicon.ico" type="image/x-icon">
+
+  <!-- Google Fonts: Zen Maru Gothic wght 400/700 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- OGP -->
+  <meta property="og:title" content="カウンセリング予約フォーム | Counseling Space paz">
+  <meta property="og:description" content="Counseling Space pazの予約フォームです。Microsoft Bookingsを利用して、対面・オンラインのカウンセリングをご予約いただけます。">
+  <meta property="og:url" content="https://counselingspacepaz.com/booking/shared/">
+
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+
+  <!-- スキップリンク -->
+  <a href="#main" class="skip-link">本文へスキップ</a>
+
+  <!-- ヘッダー -->
+  <header id="header">
+    <div class="inner">
+      <a href="/" class="logo"><strong>カウンセリングスペースpaz</strong></a>
+      <nav id="nav">
+        <a href="/">HOME</a>
+        <a href="/about/">pazについて</a>
+        <a href="/booking/shared/">ご予約</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- メイン -->
+  <main id="main" tabindex="-1" role="main">
+
+    <!-- 1. ヒーロー -->
+    <section class="section section--hero" aria-labelledby="booking-title">
+      <div class="inner">
+        <h1 id="booking-title" class="section__title">予約フォーム</h1>
+        <p class="section__lead">以下のフォームからご希望の日時を選択してください</p>
+      </div>
+    </section>
+
+    <!-- 2. 埋め込み（Bookings iframe） -->
+    <section class="section section--embed" role="region" aria-label="予約フォーム">
+      <div class="inner booking-embed">
+        <iframe class="booking-embed__frame"
+                src="https://outlook.office.com/book/paz1@counselingspacepaz.com/"
+                title="予約フォーム（Microsoft Bookings）"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p class="embed__fallback">
+          フォームが表示されない場合は
+          <a href="https://outlook.office.com/book/paz1@counselingspacepaz.com/"
+             target="_blank" rel="noopener noreferrer">こちら</a>をクリック
+        </p>
+      </div>
+    </section>
+
+    <!-- 3. 補足案内（ラベンダー背景） -->
+    <section class="section section--note" aria-label="予約後のご案内">
+      <div class="inner note note--lavender">
+        <ul class="note__list">
+          <li class="note__item">予約後、確認メールが届きます。</li>
+          <li class="note__item"><code>info@counselingspacepaz.com</code> からのメールを受信できるよう設定してください。</li>
+          <li class="note__item">予約料の扱いや支払い方法はメールでご案内します。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4. トラブル対応 -->
+    <section class="section section--support" aria-label="トラブル対応と連絡先">
+      <div class="inner">
+        <p>うまく表示されない場合は、以下の連絡先までご連絡ください。</p>
+        <ul class="support__list">
+          <li class="support__item">
+            <a href="mailto:info@counselingspacepaz.com" target="_blank" rel="noopener noreferrer">メールでお問い合わせ</a>
+          </li>
+          <li class="support__item">
+            <a href="tel:+81559001615" target="_blank" rel="noopener noreferrer">電話でお問い合わせ（055-900-1615）</a>
+          </li>
+          <li class="support__item">
+            <a href="https://qr-official.line.me/gs/M_132lsicr_GW.png?oat_content=url&amp;ts=09021803"
+               target="_blank" rel="noopener noreferrer">LINEでお問い合わせ</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 5. フッター（簡易） -->
+  <footer class="footer footer--compact" role="contentinfo">
+    <div class="inner">
+      <ul class="footer__contacts" aria-label="連絡先">
+        <li><a href="mailto:info@counselingspacepaz.com" target="_blank" rel="noopener noreferrer">メール</a></li>
+        <li><a href="tel:+81559001615" target="_blank" rel="noopener noreferrer">電話（055-900-1615）</a></li>
+        <li><a href="https://qr-official.line.me/gs/M_132lsicr_GW.png?oat_content=url&amp;ts=09021803"
+               target="_blank" rel="noopener noreferrer">LINE</a></li>
+        <li><a href="/booking/">予約案内へ戻る</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</body>
+</html>
