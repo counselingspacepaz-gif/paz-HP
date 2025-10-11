@@ -629,3 +629,36 @@ a:focus{
 @media (min-width: 1024px) {
   .tiles { grid-template-columns: repeat(3, 1fr); }
 }
+/* === HOME「pazの特徴」カード：空白解消＆順序固定パッチ === */
+.tiles {
+  display: grid;                      /* Gridを維持 */
+  gap: 1.5rem;                        /* カード間の隙間 */
+  grid-auto-flow: row;                /* dense禁止：順序固定 */
+  grid-auto-rows: minmax(0, 1fr);     /* 行内カードを等高化 */
+  align-items: stretch;               /* 行内の高さ揃え */
+  grid-template-columns: repeat(1, 1fr); /* ベース1列 */
+}
+
+/* Fortyテンプレ由来のspan/nth-childを無効化 */
+.tiles > * {
+  grid-column: auto !important;       /* 列固定に勝つ */
+  grid-row: auto !important;          /* 行固定に勝つ */
+}
+
+/* 画像 */
+.tile img {
+  display: block;                      /* ベースライン余白を除去 */
+  /* object-fit: cover; aspect-ratio: 16/9; */ /* 診断用：必要時有効化 */
+}
+
+/* レスポンシブ列数切替 */
+@media (min-width: 768px) {
+  .tiles {
+    grid-template-columns: repeat(2, 1fr) !important; /* 2列に強制 */
+  }
+}
+@media (min-width: 1024px) {
+  .tiles {
+    grid-template-columns: repeat(3, 1fr) !important; /* 3列に強制 */
+  }
+}
