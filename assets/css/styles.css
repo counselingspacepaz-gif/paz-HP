@@ -598,3 +598,5 @@ a:focus{
 +  background: #F3FAF7;
 +  border-color: #DDE7E2;
 +}
+/* --- グリッド順序の固定 --- */
+.tiles { grid-auto-flow: row; }
