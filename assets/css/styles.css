@@ -629,3 +629,4 @@ a:focus{
 @media (min-width: 1024px) {
   .tiles { grid-template-columns: repeat(3, 1fr); }
 }
+ .tiles { outline: 3px dashed magenta !important; } 
