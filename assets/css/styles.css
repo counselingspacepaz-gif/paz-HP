@@ -566,3 +566,35 @@ a:focus{
     grid-template-columns: repeat(2, 1fr); /* PCは2列 */
   }
 }
+--- a/assets/css/styles.css
++++ b/assets/css/styles.css
+@@
+ .tile--compliance {
+   background: #F8F6FF;
+   min-height: 200px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   text-align: center;
+   color: var(--color-lavender);
+   font-weight: 700;
+ }
++
++/* === タイル等高化（空白解消） === */
++.tiles {
++  grid-auto-rows: 1fr;       /* 各行で最も高いカードに合わせて行高を配分 */
++  align-items: stretch;      /* 念のため明示 */
++}
++.tile {
++  height: 100%;              /* 行の高さいっぱいに伸ばす */
++  display: flex;
++  flex-direction: column;    /* 画像 → 見出しの縦並び */
++}
++.tile--compliance {
++  min-height: 260px;         /* 画像なしカードを画像ありと近い高さに */
++}
++/* 任意（視覚バランス調整）：プライバシーカードを淡色面に */
++.tile--privacy {
++  background: #F3FAF7;
++  border-color: #DDE7E2;
++}
