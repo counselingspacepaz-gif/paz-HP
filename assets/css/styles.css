@@ -580,107 +580,52 @@ a:focus{
    font-weight: 700;
  }
 +
-+/* === タイル等高化（空白解消） === */
-+.tiles {
-+  grid-auto-rows: 1fr;       /* 各行で最も高いカードに合わせて行高を配分 */
-+  align-items: stretch;      /* 念のため明示 */
-+}
-+.tile {
-+  height: 100%;              /* 行の高さいっぱいに伸ばす */
-+  display: flex;
-+  flex-direction: column;    /* 画像 → 見出しの縦並び */
-+}
-+.tile--compliance {
-+  min-height: 260px;         /* 画像なしカードを画像ありと近い高さに */
-+}
-+/* 任意（視覚バランス調整）：プライバシーカードを淡色面に */
-+.tile--privacy {
-+  background: #F3FAF7;
-+  border-color: #DDE7E2;
-+}
-/* --- グリッド順序の固定 --- */
-.tiles { grid-auto-flow: row; }
-/* === タイル：順序固定＆等高化の最終補強（Forty配置の無効化を含む） === */
-
-/* 1) 自動配置はソース順（dense無効化）＋等高化 */
+/* === HOME「pazの特徴」カード：等高化＆順序固定（Grid版） === */
 .tiles {
-  grid-auto-flow: row;              /* 視覚順を固定：denseを確実にオフ */
-  grid-auto-rows: minmax(0, 1fr);   /* 1frより安定して等高化 */
-  align-items: stretch;             /* 同一行で高さを揃える */
+  display: grid;
+  gap: 20px;
+  grid-template-columns: 1fr;       /* ベース1カラム */
+  grid-auto-flow: row;              /* dense禁止：順序固定 */
+  grid-auto-rows: minmax(0, 1fr);   /* 各行の高さを均等化 */
+  align-items: stretch;             /* 行内の高さ揃え */
 }
 
-/* 2) Fortyの配置トリックを無効化（ブレークポイントのnth-child指定も潰す） */
+/* Forty由来の配置初期化（必要時） */
 .tiles > * {
   grid-column: auto !important;
   grid-row: auto !important;
-  order: 0 !important;              /* 念のためorderも初期化 */
 }
 
-/* 3) 各カードを行高いっぱいに伸ばす（内部は縦並び） */
+/* カード本体 */
 .tile {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-/* 4) 画像なしカードの見た目補正（必要なら維持） */
+/* 画像 */
+.tile img {
+  display: block;      /* 行内画像のベースライン余白を除去 */
+  width: 100%;
+  height: auto;
+  /* object-fit: cover; aspect-ratio: 16/9;  // 必要に応じて有効化 */
+}
+
+/* 画像なしカードの補正 */
 .tile--compliance {
   min-height: 260px;
 }
 
-/* 任意：画像の暴れ抑制（縦横比を揃え、過度に行高を引き上げない） */
-.tile img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  aspect-ratio: 16 / 9; /* 画像の背丈がバラける場合のみ有効化。不要なら外してOK */
-}
-/* === タイル：順序固定＆等高化（空白解消＋Forty配置無効化＋画像余白対策） === */
-
-/* 1) 自動配置はソース順（dense無効化）＋等高化 */
-.tiles {
-  grid-auto-flow: row;              /* 視覚順を固定：denseを確実にオフ */
-  grid-auto-rows: minmax(0, 1fr);   /* 1frより安定して等高化 */
-  align-items: stretch;             /* 同一行で高さを揃える */
-}
-
-/* 2) Fortyのnth-childによる配置トリックを無効化（全ブレークポイントで強制初期化） */
-.tiles > * {
-  grid-column: auto !important;
-  grid-row: auto !important;
-  order: 0 !important;              /* 注：Gridではorderは無効だが、念のため初期化 */
-}
-
-/* 3) カード本体を行高いっぱいに伸ばす（内部は縦配置） */
-.tile {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 4) 画像下の“行内余白”を除去（インライン要素のベースライン隙間対策）＋任意の比率固定 */
-.tile img {
-  display: block;                    /* 余白解消（必須対策） */
-  width: 100%;
-  height: auto;
-  /* 任意：縦横比を固定して行高のバラつきを抑える。不要なら下2行は削除可 */
-  object-fit: cover;                 /* 画像の切り抜きで箱にフィット */
-  aspect-ratio: 16 / 9;              /* カード画像の見た目比率を統一 */
-}
-
-/* 5) 画像なしカードの見た目補正（行内の背丈差を縮小） */
-.tile--compliance {
-  min-height: 260px;
-}
-
-/* 6) 任意の視覚調整：プライバシーカードを淡色面に（デザイン方針に合わせて） */
+/* 視覚調整（任意） */
 .tile--privacy {
   background: #F3FAF7;
-  border-color: #DDE7E2;
+  border-color: #DDE7E2; /* 注：borderが無い場合は視覚変化なし */
 }
 
-/* 7) （任意・モバイル微調整）1カラム時に背丈が高すぎと感じる場合
-@media (max-width: 480px) {
-  .tile--compliance { min-height: 200px; }
+/* 列数切替（レスポンシブ）— 必ずファイルの最末尾に置く */
+@media (min-width: 768px) {
+  .tiles { grid-template-columns: repeat(2, 1fr); }
 }
-*/
+@media (min-width: 1024px) {
+  .tiles { grid-template-columns: repeat(3, 1fr); }
+}
