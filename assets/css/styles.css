@@ -580,117 +580,35 @@ a:focus{
    font-weight: 700;
  }
 +
-/* === HOME「pazの特徴」カード：等高化＆順序固定（Grid版） === */
+/* === HOME「pazの特徴」カード空白解消パッチ（末尾専用） === */
 .tiles {
-  display: grid;
-  gap: 20px;
-  grid-template-columns: 1fr;       /* ベース1カラム */
-  grid-auto-flow: row;              /* dense禁止：順序固定 */
-  grid-auto-rows: minmax(0, 1fr);   /* 各行の高さを均等化 */
-  align-items: stretch;             /* 行内の高さ揃え */
-}
-
-/* Forty由来の配置初期化（必要時） */
-.tiles > * {
-  grid-column: auto !important;
-  grid-row: auto !important;
-}
-
-/* カード本体 */
-.tile {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-/* 画像 */
-.tile img {
-  display: block;      /* 行内画像のベースライン余白を除去 */
-  width: 100%;
-  height: auto;
-  /* object-fit: cover; aspect-ratio: 16/9;  // 必要に応じて有効化 */
-}
-
-/* 画像なしカードの補正 */
-.tile--compliance {
-  min-height: 260px;
-}
-
-/* 視覚調整（任意） */
-.tile--privacy {
-  background: #F3FAF7;
-  border-color: #DDE7E2; /* 注：borderが無い場合は視覚変化なし */
-}
-
-/* 列数切替（レスポンシブ）— 必ずファイルの最末尾に置く */
-@media (min-width: 768px) {
-  .tiles { grid-template-columns: repeat(2, 1fr); }
-}
-@media (min-width: 1024px) {
-  .tiles { grid-template-columns: repeat(3, 1fr); }
-}
-/* === HOME「pazの特徴」カード：空白解消＆順序固定パッチ === */
-.tiles {
-  display: grid;                      /* Gridを維持 */
-  gap: 1.5rem;                        /* カード間の隙間 */
-  grid-auto-flow: row;                /* dense禁止：順序固定 */
-  grid-auto-rows: minmax(0, 1fr);     /* 行内カードを等高化 */
-  align-items: stretch;               /* 行内の高さ揃え */
-  grid-template-columns: repeat(1, 1fr); /* ベース1列 */
-}
-
-/* Fortyテンプレ由来のspan/nth-childを無効化 */
-.tiles > * {
-  grid-column: auto !important;       /* 列固定に勝つ */
-  grid-row: auto !important;          /* 行固定に勝つ */
-}
-
-/* 画像 */
-.tile img {
-  display: block;                      /* ベースライン余白を除去 */
-  /* object-fit: cover; aspect-ratio: 16/9; */ /* 診断用：必要時有効化 */
-}
-
-/* レスポンシブ列数切替 */
-@media (min-width: 768px) {
-  .tiles {
-    grid-template-columns: repeat(2, 1fr) !important; /* 2列に強制 */
-  }
-}
-@media (min-width: 1024px) {
-  .tiles {
-    grid-template-columns: repeat(3, 1fr) !important; /* 3列に強制 */
-  }
-}
-/* === HOME「pazの特徴」カード空白解消パッチ === */
-.tiles {
-  display: grid;                          /* Gridを維持 */
-  gap: 1.5rem;                            /* カード間の隙間 */
-  grid-auto-flow: row;                    /* dense禁止：順序固定 */
-  grid-auto-rows: minmax(0, 1fr) !important; /* 等高化を後勝ちで適用 */
-  align-items: stretch;                   /* 行内の高さを揃える */
-  grid-template-columns: repeat(1, 1fr);  /* ベース1列 */
+  display: grid;                              /* Gridを維持 */
+  gap: 1.5rem;                                /* カード間の隙間を統一 */
+  grid-auto-flow: row;                         /* dense禁止：順序固定 */
+  grid-auto-rows: minmax(0, 1fr) !important;  /* 等高維持＋Safari対策 */
+  align-items: stretch;                        /* 行内の高さ揃え */
+  grid-template-columns: repeat(1, 1fr);      /* 初期1列 */
   /* 診断用：必要に応じて denseを試す
      grid-auto-flow: row dense; */
 }
 
-/* Fortyテンプレ由来のspan/nth-childや列固定に勝つ */
 .tiles > * {
-  grid-column: auto !important;           /* 列固定に勝つ */
-  grid-row: auto !important;              /* 行固定に勝つ */
-  margin: 0;                              /* 不要な外側余白をリセット */
+  grid-column: auto !important;               /* 固定列指定に勝つ */
+  grid-row: auto !important;                  /* 固定行指定に勝つ */
+  margin: 0;                                  /* 外側余白リセット */
 }
 
-/* 画像：行内余白除去 */
 .tile img {
-  display: block;                         /* ベースライン余白を除去 */
+  display: block;                              /* ベースライン余白除去 */
+  width: 100%;                                 /* 横幅フィット */
+  height: auto;                                /* 高さ自動 */
   /* object-fit: cover; aspect-ratio: 16/9; */ /* 診断用：必要時有効化 */
 }
 
-/* レスポンシブ列数切替（ファイル末尾に配置） */
 @media (min-width: 768px) {
-  .tiles { grid-template-columns: repeat(2, 1fr) !important; } /* 2列固定 */
+  .tiles { grid-template-columns: repeat(2, 1fr) !important; } /* 2列強制 */
 }
+
 @media (min-width: 1024px) {
-  .tiles { grid-template-columns: repeat(3, 1fr) !important; } /* 3列固定 */
+  .tiles { grid-template-columns: repeat(3, 1fr) !important; } /* 3列強制 */
 }
