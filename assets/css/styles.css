@@ -662,3 +662,35 @@ a:focus{
     grid-template-columns: repeat(3, 1fr) !important; /* 3列に強制 */
   }
 }
+/* === HOME「pazの特徴」カード空白解消パッチ === */
+.tiles {
+  display: grid;                          /* Gridを維持 */
+  gap: 1.5rem;                            /* カード間の隙間 */
+  grid-auto-flow: row;                    /* dense禁止：順序固定 */
+  grid-auto-rows: minmax(0, 1fr) !important; /* 等高化を後勝ちで適用 */
+  align-items: stretch;                   /* 行内の高さを揃える */
+  grid-template-columns: repeat(1, 1fr);  /* ベース1列 */
+  /* 診断用：必要に応じて denseを試す
+     grid-auto-flow: row dense; */
+}
+
+/* Fortyテンプレ由来のspan/nth-childや列固定に勝つ */
+.tiles > * {
+  grid-column: auto !important;           /* 列固定に勝つ */
+  grid-row: auto !important;              /* 行固定に勝つ */
+  margin: 0;                              /* 不要な外側余白をリセット */
+}
+
+/* 画像：行内余白除去 */
+.tile img {
+  display: block;                         /* ベースライン余白を除去 */
+  /* object-fit: cover; aspect-ratio: 16/9; */ /* 診断用：必要時有効化 */
+}
+
+/* レスポンシブ列数切替（ファイル末尾に配置） */
+@media (min-width: 768px) {
+  .tiles { grid-template-columns: repeat(2, 1fr) !important; } /* 2列固定 */
+}
+@media (min-width: 1024px) {
+  .tiles { grid-template-columns: repeat(3, 1fr) !important; } /* 3列固定 */
+}
