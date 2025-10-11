@@ -612,3 +612,364 @@ a:focus{
 @media (min-width: 1024px) {
   .tiles { grid-template-columns: repeat(3, 1fr) !important; } /* 3列強制 */
 }
+/* =========================================================
+   Counseling Space paz - Site Styles (Final)
+   File: /assets/css/styles.css
+   Last updated: 2025-10-11
+   ========================================================= */
+
+/* ---------- CSS Variables ---------- */
+:root {
+  /* Palette */
+  --color-bg: #ffffff;
+  --color-text: #3A5A40;             /* セージ */
+  --color-text-muted: #5f7862;
+  --color-primary: #6E5AA3;          /* 濃ラベンダー（CTA/強調） */
+  --color-primary-hover: #5c4a8c;
+  --color-accent: #B9A6D3;           /* 中間ラベンダー（背景補助） */
+  --color-soft: #EFEAF7;             /* 薄ラベンダー（セクション背景） */
+  --color-border: #cfd8cf;
+
+  /* Layout */
+  --max-width: 1200px;
+  --space-2: 0.25rem;
+  --space-4: 0.5rem;
+  --space-8: 1rem;
+  --space-12: 1.5rem;
+  --space-16: 2rem;
+  --space-24: 3rem;
+  --radius-6: 6px;
+
+  /* Typography */
+  --font-body: 'Zen Maru Gothic', system-ui, -apple-system, 'Segoe UI', 'Noto Sans JP', sans-serif;
+  --fs-14: 0.875rem;
+  --fs-16: 1rem;
+  --fs-18: 1.125rem;
+  --fs-24: 1.5rem;
+  --fs-32: 2rem;
+  --fs-40: 2.5rem;
+
+  /* Focus */
+  --focus-ring: 3px solid var(--color-primary);
+}
+
+/* ---------- Reset / Base ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  color: var(--color-text);
+  background: var(--color-bg);
+  font-family: var(--font-body);
+  font-size: var(--fs-16);
+  line-height: 1.8;
+}
+
+img { display: block; max-width: 100%; height: auto; }
+
+a {
+  color: var(--color-text);
+  text-decoration: none;
+}
+a:hover { color: var(--color-primary); }
+
+/* Utility containers / sections */
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  padding-inline: var(--space-12);
+  margin-inline: auto;
+}
+.section {
+  padding-block: var(--space-24);
+}
+.section__title {
+  font-size: var(--fs-32);
+  margin: 0 0 var(--space-12);
+}
+.section__lead {
+  font-size: var(--fs-18);
+  color: var(--color-text-muted);
+}
+
+/* ---------- Grid Utilities ---------- */
+.grid { display: grid; gap: var(--space-16); }
+.grid--2col { grid-template-columns: 1fr; } /* mobile default */
+
+/* ---------- Skip Link ---------- */
+.skip-link {
+  position: absolute;
+  top: -1000px;
+  left: -1000px;
+}
+.skip-link:focus {
+  top: var(--space-8);
+  left: var(--space-8);
+  background: var(--color-soft);
+  border: 1px solid var(--color-primary);
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-6);
+  z-index: 1000;
+  box-shadow: 0 0 0 3px rgba(110, 90, 163, 0.25); /* 視認性強化 */
+}
+
+/* ---------- Header ---------- */
+.site-header {
+  position: relative; /* 既知の不具合対策：相対配置 */
+  border-bottom: 1px solid var(--color-border);
+  background: #fff;
+}
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-12);
+  padding-block: var(--space-12);
+}
+.site-logo img { height: 56px; } /* 決定事項 */
+
+/* Nav */
+.site-nav .menu {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: none;   /* モバイル初期は非表示 */
+  flex-direction: column;
+  gap: var(--space-8);
+}
+.site-nav.is-open .menu { display: flex; }
+
+.menu a {
+  display: inline-block;
+  padding: var(--space-8) var(--space-12);
+  border-radius: var(--radius-6);
+}
+.menu a:hover,
+.menu a:focus { background: var(--color-soft); outline: none; }
+
+/* 現在ページ（aria-current="page"）の視覚強調 */
+.site-nav a[aria-current="page"] {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  font-weight: 700;
+}
+
+/* Toggle */
+.menu-toggle {
+  font-size: var(--fs-24);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: var(--space-8);
+  border-radius: var(--radius-6);
+}
+.menu-toggle:focus { outline: var(--focus-ring); }
+
+/* ---------- Hero ---------- */
+.section--hero {
+  position: relative;
+  overflow: hidden;
+}
+.hero__media img {
+  width: 100%;
+  height: 50vh;        /* 要望：ヒーロー高さ */
+  object-fit: cover;
+}
+.hero-content {
+  position: absolute;
+  inset: auto 0 var(--space-24) 0;   /* 下寄せ */
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding-inline: var(--space-12);
+}
+.hero-content h1 {
+  font-size: var(--fs-40);
+  margin: 0 0 var(--space-8);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.12);
+}
+.hero-content .subcopy {
+  font-size: var(--fs-18);
+  background: rgba(255,255,255,0.75);     /* 視認性向上 */
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-6);
+  display: inline-block;
+}
+
+/* ---------- Spotlight（共感メッセージ） ---------- */
+.section--spotlight { background: var(--color-soft); } /* ラベンダー背景 */
+.container--spotlight {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-16);
+  align-items: center;
+}
+.spotlight__content ul { padding-left: 1.2rem; }
+.spotlight__media { justify-self: center; max-width: 420px; }
+
+/* ---------- Philosophy（理念） ---------- */
+.section--philosophy {
+  /* 水滴背景：薄く敷く（装飾／HTMLに<img>は置かない） */
+  background-image: url('/images/sections/waterdrop.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 600px auto;
+}
+.section__inner--narrow {
+  max-width: 800px;
+  margin-inline: auto;
+  text-align: center;
+}
+.philosophy__text { font-size: var(--fs-18); }
+
+/* ---------- CTA ---------- */
+.section--cta { background: var(--color-soft); text-align: center; }
+.btn {
+  display: inline-block;
+  padding: var(--space-8) var(--space-16);
+  border-radius: var(--radius-6);
+  border: 1px solid transparent;
+  transition: background .2s ease, color .2s ease, border-color .2s ease;
+}
+.btn.primary { background: var(--color-primary); color: #fff; }
+.btn.primary:hover,
+.btn.primary:focus { background: var(--color-primary-hover); color: #fff; outline: none; }
+
+/* ---------- Access / Contact ---------- */
+.grid--access {
+  display: grid;
+  grid-template-columns: 1fr; /* mobile */
+  gap: var(--space-16);
+}
+/* Map absolute fill for cross-browser stability */
+.map {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--radius-6);
+  overflow: hidden;
+}
+.map iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+address.vcard { font-style: normal; } /* <address>の斜体解除 */
+.access__info .adr,
+.access__info .maplink,
+.access__info .tel,
+.access__info .email,
+.access__info .line {
+  margin: 0 0 var(--space-8);
+}
+
+/* ---------- Footer ---------- */
+.site-footer {
+  border-top: 1px solid var(--color-border);
+  padding-block: var(--space-16);
+  background: #fff;
+}
+.footer-inner { display: grid; gap: var(--space-16); }
+.footer-contact-address h2 {
+  margin: 0 0 var(--space-8);
+  font-size: var(--fs-24);
+}
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-8);
+}
+.contact-item a { text-decoration: underline; }
+.contact-item a:hover { color: var(--color-primary); }
+
+.sns-footer .sns-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: var(--space-12);
+  align-items: center;
+  flex-wrap: wrap;
+}
+.sns-list img { width: 28px; height: 28px; }
+
+.footer-privacy a {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-4) var(--space-8);
+  border-radius: var(--radius-6);
+  background: var(--color-soft);
+}
+.footer-privacy a:hover { background: #e2dbf3; }
+
+/* ---------- Tiles（HOMEの特徴カード：最新方針） ---------- */
+.tiles {
+  display: grid;
+  gap: 1.5rem;
+  grid-auto-flow: row;
+  grid-auto-rows: minmax(0, 1fr) !important;
+  grid-template-columns: repeat(1, 1fr);
+}
+.tiles > * {
+  grid-column: auto !important;
+  grid-row: auto !important;
+  margin: 0;
+}
+.tile img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.tile--compliance { /* 画像なしのカード用の軽い装飾（任意） */
+  display: grid;
+  place-items: center;
+  min-height: 140px;
+  background: var(--color-soft);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-6);
+}
+
+/* ---------- Accessibility ---------- */
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: 2px;
+}
+
+/* ---------- Responsive ---------- */
+@media (min-width: 768px) {
+  /* Header: nav横並び、トグル非表示 */
+  .site-nav .menu {
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-8);
+  }
+  .menu-toggle { display: none; }
+
+  /* Generic 2col */
+  .grid--2col { grid-template-columns: 1fr 1fr; }
+
+  /* Spotlight: 2カラム */
+  .container--spotlight { grid-template-columns: 1.3fr 0.7fr; }
+
+  /* Access: Map 60% / Info 40% */
+  .grid--access { grid-template-columns: 3fr 2fr; }
+
+  /* Tiles: 768pxで2列 */
+  .tiles { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 1024px) {
+  .section__title { font-size: var(--fs-40); }
+  /* Tiles: 1024pxで3列 */
+  .tiles { grid-template-columns: repeat(3, 1fr); }
+}
