@@ -795,7 +795,6 @@ a:hover { color: var(--color-primary); }
 }
 .hero-content .subcopy {
   font-size: var(--fs-18);
-  background: rgba(255,255,255,0.75);     /* 視認性向上 */
   padding: var(--space-4) var(--space-8);
   border-radius: var(--radius-6);
   display: inline-block;
