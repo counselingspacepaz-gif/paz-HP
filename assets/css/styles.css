@@ -972,3 +972,97 @@ address.vcard { font-style: normal; } /* <address>の斜体解除 */
   /* Tiles: 1024pxで3列 */
   .tiles { grid-template-columns: repeat(3, 1fr); }
 }
+/* ===== ブランドカラー（既存変数があれば流用） ===== */
+:root {
+  --sage-green: #2E584D;
+  --lavender: #E6E6FA;
+  --white: #FFFFFF;
+  --dark-sage-green: #1C3832;
+}
+
+/* ===== ヒーロー 共通レイアウト ===== */
+.hero.section.section--hero {
+  position: relative;
+  min-height: 50vh;             /* 統一高さ（必要なら40〜60vhで調整） */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+  padding: 40px 20px;           /* モバイル余白 */
+  box-sizing: border-box;
+}
+
+/* 背景画像は <img class="hero-image"> を全面に敷く */
+.hero.section.section--hero .hero-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;            /* 画像を中央でトリミング */
+  z-index: 0;
+}
+
+/* セージグリーンの透過オーバーレイ（視認性の核） */
+.hero.section.section--hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(46, 88, 77, 0.45); /* 0.40〜0.55で調整可 */
+  z-index: 1;
+}
+
+/* コンテンツ（タイトル＋サブ） */
+.hero.section.section--hero .hero-content {
+  position: relative;
+  z-index: 2;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 32px;
+}
+
+/* 視認性優先パターン（標準）— タイトル白、サブ濃セージ */
+.hero.section.section--hero .hero-content .section__title {
+  color: var(--white);
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 700;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  letter-spacing: 0.05em;
+  line-height: 1.2;
+  margin-bottom: 0.4em;
+}
+
+.hero.section.section--hero .hero-content .section__lead {
+  color: var(--dark-sage-green);
+  font-family: "Zen Maru Gothic", sans-serif;
+  font-weight: 400;
+  font-size: clamp(1rem, 2.2vw, 1.3rem);
+  line-height: 1.6;
+  margin-top: 0;
+}
+
+/* 逆配色（ブランド重視）— タイトルセージ、サブ白 */
+.hero.section.section--hero.hero--invert .hero-content .section__title {
+  color: var(--sage-green);
+}
+.hero.section.section--hero.hero--invert .hero-content .section__lead {
+  color: var(--white);
+}
+
+/* 任意：ほんのりボックスで視認性を補強したい場合（必要時のみ付与） */
+.hero-content.hero-content--box {
+  background: rgba(255, 255, 255, 0.12); /* 薄い白。強くしたいなら0.2〜0.3 */
+  border-radius: 10px;
+  /* backdrop-filter: blur(3px);  対応ブラウザ限定。重い場合は外す */
+}
+
+/* ===== レスポンシブ 調整 ===== */
+@media (max-width: 768px) {
+  .hero.section.section--hero {
+    min-height: 42vh;
+    padding: 28px 16px;
+  }
+  .hero.section.section--hero .hero-content {
+    padding: 18px 22px;
+  }
+}
