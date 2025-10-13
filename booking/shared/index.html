@@ -30,17 +30,30 @@
   <!-- スキップリンク -->
   <a href="#main" class="skip-link">本文へスキップ</a>
 
-  <!-- ヘッダー -->
-  <header id="header">
-    <div class="inner">
-      <a href="/" class="logo"><strong>カウンセリングスペースpaz</strong></a>
-      <nav id="nav">
-        <a href="/">HOME</a>
-        <a href="/about/">pazについて</a>
-        <a href="/booking/shared/">ご予約</a>
+ <!-- ====== HEADER ====== -->
+   <header class="site-header" role="banner">
+     <div class="container header-inner">
+      <a class="site-logo" href="/">
+        <img src="/images/logo/paz-logo.png" alt="カウンセリングスペースpazのロゴ">
+      </a>
+      <nav id="main-menu" class="site-nav" aria-label="主なナビゲーション">
+        <ul class="menu">
+          <li><a href="/">HOME</a></li>
+          <li><a href="/about/">pazについて</a></li>
+          <li><a href="/counselor/">カウンセラー紹介</a></li>
+          <li><a href="/booking/">ご予約はこちら</a></li>
+          <li><a href="/blog/">ブログ</a></li>
+          <li><a href="http://www.sugimen.com/" target="_blank" rel="noopener noreferrer">連携医療機関</a></li>
+        </ul>
       </nav>
+
+      <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="main-menu" aria-label="メニューを開く">
+        ☰
+      </button>
     </div>
   </header>
+  <!-- ====== /HEADER ====== -->
+
 
   <!-- メイン -->
   <main id="main" tabindex="-1" role="main">
@@ -101,18 +114,43 @@
 
   </main>
 
-  <!-- 5. フッター（簡易） -->
-  <footer class="footer footer--compact" role="contentinfo">
-    <div class="inner">
-      <ul class="footer__contacts" aria-label="連絡先">
-        <li><a href="mailto:info@counselingspacepaz.com" target="_blank" rel="noopener noreferrer">メール</a></li>
-        <li><a href="tel:+81559001615" target="_blank" rel="noopener noreferrer">電話（055-900-1615）</a></li>
-        <li><a href="https://qr-official.line.me/gs/M_132lsicr_GW.png?oat_content=url&amp;ts=09021803"
-               target="_blank" rel="noopener noreferrer">LINE</a></li>
-        <li><a href="/booking/">予約案内へ戻る</a></li>
-      </ul>
+<!-- ====== FOOTER ====== -->
+    <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <section class="footer-contact-address">
+        <h2>Contact</h2>
+        <ul class="contact-list">
+          <li class="contact-item map-link">
+            <a href="https://www.google.com/maps/search/?api=1&query=〒410-0801 静岡県沼津市大手町4-3-28 リバーサイド大手町502" target="_blank" rel="noopener noreferrer"> 〒410-0801 静岡県沼津市大手町4-3-28 リバーサイド大手町502</a>
+          </li>
+          <li class="contact-item"><i aria-hidden="true">📞</i><a href="tel:0559001615">055-900-1615</a></li>
+          <li class="contact-item"><i aria-hidden="true">✉️</i><a href="mailto:info@counselingspacepaz.com">info@counselingspacepaz.com</a></li>
+        </ul>
+      </section>
+
+      <nav class="sns-footer" aria-label="SNSリンク">
+        <ul class="sns-list">
+          <li><a href="https://qr-official.line.me/gs/M_132lsicr_GW.png?oat_content=url&ts=09021803" target="_blank" rel="noopener noreferrer"><img src="/images/icons/icon-line.png" alt="LINE公式アカウント"></a></li>
+          <li><a href="https://www.instagram.com/counselingspacepaz/" target="_blank" rel="noopener noreferrer"><img src="/images/icons/icon-instagram.png" alt="Instagram"></a></li>
+          <li><a href="https://www.facebook.com/counselingspacepaz" target="_blank" rel="noopener noreferrer"><img src="/images/icons/icon-facebook.png" alt="Facebook"></a></li>
+          <li><a href="https://x.com/space_paz" target="_blank" rel="noopener noreferrer"><img src="/images/icons/icon-x.png" alt="X (旧Twitter)"></a></li>
+        </ul>
+      </nav>
+<p class="footer-privacy">
+  
+<a href="https://counselingspacepaz-gif.github.io/paz-HP/content/privacy-policy-paz.pdf" target="_blank" rel="noopener noreferrer">
+  <i class="fas fa-lock"></i> 🔐プライバシーポリシー
+</a>
+
+
+</p>
+
+      <p class="copyright">© 2025 Counseling Space paz</p>
     </div>
   </footer>
 
+      
+  <!-- ====== /FOOTER ====== -->
+  
 </body>
 </html>
