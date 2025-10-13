@@ -1161,10 +1161,62 @@ address.vcard { font-style: normal; } /* <address>の斜体解除 */
    <section class="hero section section--hero hero--booking">…</section>
    <section class="hero section section--hero hero--counselor">…</section>
    ========================= */
-.footer-privacy {
-  background-color: #8B88A0; /* 背景ラベンダー */
+/* =========================
+   Footer Privacy（プレート化＋配色）
+   背景：薄いセージグリーン / 文字：白
+   リンク全体：グレイッシュラベンダーのプレート
+   ========================= */
+
+/* 任意：新色を変数で管理（サイトに :root があるなら併用） */
+:root {
+  --color-sage-soft: #6F8B7C;     /* 薄いセージグリーン（背景用） */
+  --color-lavender-gray: #8F8CA6; /* グレイッシュラベンダー（リンクプレート用） */
+  --color-sage-dark: #3F4B45;     /* フォーカスリング用の濃セージ */
 }
 
+/* フッターの「プライバシー」領域全体の背景と文字色 */
+.footer-privacy {
+  background-color: var(--color-sage-soft);
+  /* 変数がない環境向けのフォールバック */
+  background-color: #6F8B7C;
+  color: #fff;
+}
+
+/* リンクを“プレート化”してボタン風にする */
 .footer-privacy a {
-  color: #fff; /* 白文字に変更 */
+  display: inline-block;                 /* 背景＆余白を効かせるためにブロック化 */
+  background-color: var(--color-lavender-gray);
+  /* フォールバック */
+  background-color: #8F8CA6;
+  color: #fff;
+  padding: 0.28rem 0.7rem;               /* 内側余白でボタン感を演出 */
+  border-radius: 0.4rem;                 /* 角丸 */
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* ホバー時はコントラストを維持しつつわずかに明るく */
+.footer-privacy a:hover {
+  background-color: #A3A0B8;             /* グレイッシュラベンダーを少し明るく */
+  text-decoration: none;                  /* 下線は付けずに背景変化でフィードバック */
+}
+
+/* キーボード操作で見失わないようフォーカスリングを明示 */
+.footer-privacy a:focus-visible {
+  outline: 3px solid var(--color-sage-dark);
+  outline: 3px solid #3F4B45;            /* フォールバック */
+  outline-offset: 2px;
+}
+
+/* 押下時のわずかな沈み込み表現（任意） */
+.footer-privacy a:active {
+  transform: translateY(1px);
+}
+
+/* リンク内にアイコン画像（png/svg）がある場合、白地に馴染ませる（任意） */
+.footer-privacy a img,
+.footer-privacy a svg {
+  vertical-align: middle;
+  /* 必要なら反転。見た目を確認して有効化すること */
+  /* filter: brightness(0) invert(1); */
 }
