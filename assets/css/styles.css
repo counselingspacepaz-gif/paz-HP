@@ -303,11 +303,9 @@ a:hover {
    ========================================= */
 .site-footer {
   border-top: 1px solid var(--color-border);
-  margin-top: 40px;
-  background: #E6ECE9; /* 薄いセージ（既定） */
+  background: #E6ECE9;
   color: #6B8E7D; /* セージグリーン系の文字色 */
-}
-
+  margin-top: 40px;
 }
 .footer-inner {
   display: grid;
@@ -541,7 +539,6 @@ body{
 /* 5. フッター（簡易） */
 .footer{
   padding:24px 0;
-  background:#fff;
 }
 .footer__contacts{
   list-style:none;
