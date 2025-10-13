@@ -303,8 +303,11 @@ a:hover {
    ========================================= */
 .site-footer {
   border-top: 1px solid var(--color-border);
-  background: #E6ECE9;
   margin-top: 40px;
+  background: #E6ECE9; /* 薄いセージ（既定） */
+  color: #6B8E7D; /* セージグリーン系の文字色 */
+}
+
 }
 .footer-inner {
   display: grid;
@@ -874,7 +877,6 @@ address.vcard { font-style: normal; } /* <address>の斜体解除 */
 .site-footer {
   border-top: 1px solid var(--color-border);
   padding-block: var(--space-16);
-  background: #fff;
 }
 .footer-inner { display: grid; gap: var(--space-16); }
 .footer-contact-address h2 {
