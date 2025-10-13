@@ -978,138 +978,187 @@ address.vcard { font-style: normal; } /* <address>の斜体解除 */
   --white: #FFFFFF;
   --dark-sage-green: #1C3832;
 }
+
 /* =========================
-   HERO 共通テンプレ（paz）
-   背景＝全画面、オーバーレイ＝テキスト部分のみ
+   HERO 共通テンプレ（paz）修正版
+   背景は .hero__bg に一本化、テキストBOXにオーバーレイ
+   ルート画像パスは /images/... に統一
    ========================= */
 
-/* 既存ルート変数の拡張（足りなければ追加） */
+/* --- カラールート変数（既存変数名を尊重） --- */
 :root{
-  --sage-green:#2E584D;       /* タイトル色 */
-  --dark-sage-green:#1C3832;
-  --lavender:#E6E6FA;         /* 淡ラベンダー（未使用でもOK） */
-  --lavender-dark:#7B6FC2;    /* CTAボタン */
-  --lavender-muted:#8B88A0;   /* サブタイトル（グレイッシュ） */
+  --sage-green: #2E584D;
+  --dark-sage-green: #1C3832;
+  --lavender: #E6E6FA;
+  --lavender-dark: #7B6FC2;
+  --lavender-muted: #8B88A0;
 }
 
-/* ベース：.hero.section.section--hero を正規形に
-   互換：.hero-minimal（ジェミニ案）も同義で扱う */
-.hero.section.section--hero,
-.hero-minimal{
+/* --- ベースレイアウト（Forty 準拠想定） --- */
+/* NOTE: セクション自体に inline/background-image を置かない（禁止） */
+.hero.section.section--hero {
   position: relative;
   width: 100%;
-  min-height: 50vh;                 /* モバイル */
+  min-height: 50vh;                 /* モバイル基準 */
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
-
-  /* 背景画像（全画面） */
-  background-image: var(--hero-image);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
   overflow: hidden;
+  background: none !important;      /* 明示的に禁止（HTML側のstyleを潰す） */
 }
 
-/* 画面サイズで高さを段階指定 */
-@media (min-width: 768px){
-  .hero.section.section--hero,
-  .hero-minimal{ min-height: 56vh; }
-}
-@media (min-width: 1024px){
-  .hero.section.section--hero,
-  .hero-minimal{ min-height: 64vh; }
-}
-
-/* レイアウトの器（Forty準拠） */
-.hero .wrapper{ width:100%; }
-.hero .inner.hero-content,
-.hero-minimal .hero-content,
-.hero .container.hero-content{   /* 互換：.container が残っていても動くように */
-  position: relative;
+/* wrapper / inner（既存HTMLのバリエーションに対応） */
+.hero .wrapper,
+.hero .inner,
+.hero .hero__content,
+.hero .container.hero__content {
+  position: relative;               /* テキストBOXは前面 */
+  z-index: 1;
   margin: 0 auto;
   padding: clamp(1rem, 1.2vw, 2rem);
   max-width: 800px;
-  z-index: 1;                    /* 背景より前面 */
-  border-radius: 0;              /* 共通方針：角丸なし */
-  box-shadow: none;              /* 影なし（シンプル） */
   text-align: center;
+  background: rgba(255,255,255,0.90); /* 既定：白オーバーレイ（テキストBOXのみ） */
+  border-radius: 0;
+  box-shadow: none;
 }
 
-/* オーバーレイ（テキスト部分のみ） */
-/* 白オーバーレイ＝既定（今回の決定） */
-.hero.overlay.overlay--white .hero-content{ 
-  background: rgba(255,255,255,0.90);
+/* --- 背景要素：.hero__bg に統一 --- */
+.hero .hero__bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image: var(--hero-image); /* ここに --hero-image を割当てる（ページ別で指定） */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* フォールバック色（任意）：薄い暗めトーンでテキストの可読性を補う */
+  background-color: #f5f5f5;
 }
-.hero.overlay.overlay--white .section__title{ color: var(--sage-green); }
-.hero.overlay.overlay--white .section__lead{ color: var(--lavender-muted); }
 
-/* 参考：セージオーバーレイ（必要時だけ .overlay--sage を追加で） */
-.hero.overlay.overlay--sage .hero-content{
-  background: rgba(46,88,77,0.62);
+/* 背景が none の場合は何もしない（埋め込み用フォールバック） */
+.hero--booking-embed .hero__bg {
+  background-image: none;
+  background-color: transparent;
 }
-.hero.overlay.overlay--sage .section__title,
-.hero.overlay.overlay--sage .section__lead{ color:#FFF; }
 
-/* タイポ（共通） */
-.hero .section__title,
-.hero-minimal .hero-title{      /* 互換：ジェミニ .hero-title */
+/* --- レスポンシブで高さを段階指定 --- */
+@media (min-width: 768px) {
+  .hero.section.section--hero { min-height: 56vh; }
+}
+@media (min-width: 1024px) {
+  .hero.section.section--hero { min-height: 64vh; }
+}
+
+/* --- タイポグラフィ（HTMLのクラスに合わせる） --- */
+.hero .hero__title,
+.hero .section__title {
   font-weight: 700;
   font-size: clamp(1.6rem, 1.2rem + 2vw, 2.4rem);
   line-height: 1.3;
   margin: 0 0 .5rem;
+  color: var(--sage-green);
 }
-.hero .section__lead,
-.hero-minimal .hero-subtitle{   /* 互換：ジェミニ .hero-subtitle */
+
+.hero .hero__subtitle,
+.hero .section__lead {
   font-weight: 400;
   font-size: clamp(1rem, .9rem + .8vw, 1.25rem);
   line-height: 1.5;
   margin: 0;
+  color: var(--lavender-muted);
 }
 
-/* CTA（濃ラベンダーで統一） */
-.hero .hero-cta{ margin-top: 1rem; }
-.hero .hero-cta .btn.primary{
+/* --- CTA（.hero__actions / .btn.btn--primary 想定） --- */
+.hero .hero__actions,
+.hero .hero-cta { margin-top: 1rem; }
+
+.hero .hero__actions .btn.btn--primary,
+.hero .hero-cta .btn.primary,
+.hero .hero-cta .btn.btn--primary {
   background: var(--lavender-dark);
-  color:#FFF;
-  border:0;
+  color: #ffffff;
+  border: 0;
+  padding: .6rem 1rem;
+  border-radius: 6px;
+  font-weight: 700;
+  text-decoration: none;
+  display: inline-block;
 }
+
+/* hover/focus: ラベンダー→白背景／文字をセージで反転（視認性優先） */
+.hero .hero__actions .btn.btn--primary:hover,
+.hero .hero__actions .btn.btn--primary:focus,
 .hero .hero-cta .btn.primary:hover,
-.hero .hero-cta .btn.primary:focus{
-  filter: brightness(0.95);
+.hero .hero-cta .btn.primary:focus {
+  background: #ffffff;
+  color: var(--sage-green);
+  border: 2px solid var(--sage-green);
   outline: 2px solid var(--lavender-dark);
   outline-offset: 2px;
+  text-decoration: none;
 }
 
-/* 互換：もし <img class="hero-image"> が残っていたら非表示 */
+/* --- 代替オーバーレイ（必要時） --- */
+/* サイト側で .hero.overlay--sage を付与するとセージ半透明オーバーレイ＋白文字に切替 */
+.hero.overlay--sage .inner,
+.hero.overlay.overlay--sage .inner,
+.hero.overlay--sage .hero__content {
+  background: rgba(46,88,77,0.62); /* --sage-green をベースの半透明 */
+  color: #fff;
+}
+.hero.overlay--sage .hero__title,
+.hero.overlay.overlay--sage .hero__title,
+.hero.overlay--sage .hero__subtitle,
+.hero.overlay.overlay--sage .hero__subtitle {
+  color: #ffffff;
+}
+
+/* --- 既存互換：残存する <img class="hero-image"> を強制非表示 --- */
 .hero .hero-image,
-.hero-minimal .hero-image{ display:none !important; }
+.hero-image {
+  display: none !important;
+}
 
-/* 互換：旧 .container を使っていても破綻させない */
-.hero .container.hero-content{ padding: clamp(1rem, 1.2vw, 2rem); }
-
-/* ユーザー補助：動き軽減（将来フェード等を足しても無効化） */
-@media (prefers-reduced-motion: reduce){
-  .hero.section.section--hero *{ animation: none !important; transition: none !important; }
+/* --- ユーザー補助：動きを軽減 --- */
+@media (prefers-reduced-motion: reduce) {
+  .hero.section.section--hero * { animation: none !important; transition: none !important; }
 }
 
 /* =========================
-   ページ別：背景画像の割当
-   ※ 相対パスは「そのページのHTMLから見た位置」
+   ページ別：背景画像の割当（ルート絶対パスで統一）
+   常に /images/... 形式（Azure SWA での安定性確保）
    ========================= */
 
-/* HOME（/index.html） */
-.hero--home{ --hero-image: url('images/hero/sprout-in-hand.jpg'); }
+.hero--home      { --hero-image: url('/images/hero/sprout-in-hand.jpg'); }
+.hero--about     { --hero-image: url('/images/sections/kano-river-view.jpg'); }
+.hero--booking   { --hero-image: url('/images/thumbs/booking.jpg'); }
+.hero--counselor { --hero-image: url('/images/sections/me.png'); }
 
-/* ABOUT（/about/index.html） */
-.hero--about{ --hero-image: url('../images/sections/kano-river-view.jpg'); }
+/* booking-embed 用フォールバック（画像なしでも高さ維持） */
+.hero--booking-embed {
+  --hero-image: none;
+  min-height: 40vh;
+}
 
-/* BOOKING 親（/booking/index.html） */
-.hero--booking{ --hero-image: url('../images/thumbs/booking.jpg'); }
+/* =========================
+   追加互換・安全措置
+   - もし HTML 側でセクションに hero--* の付与がない場合の混乱を防ぐため、
+     デフォルトのイメージは指定せず、必ずページ別クラスで割当てる方針。
+   - z-index の順序を明確化（.inner 前面 / .hero__bg 背面）
+   ========================= */
 
-/* 例）BOOKING 埋め込み（/booking/shared/index.html）を使うなら：
-.hero--booking-embed{ --hero-image: none; min-height: 40vh; }
-*/
+/* 明示：.inner は常に前面クリック可能 */
+.hero .inner { position: relative; z-index: 1; }
 
+/* 明示：背景は常に背面 */
+.hero .hero__bg { position: absolute; inset: 0; z-index: 0; }
+
+/* =========================
+   検証用（参考）: 各ページの <section> の例示（HTMLに貼るだけで動作確認可）
+   <section class="hero section section--hero hero--home">…</section>
+   <section class="hero section section--hero hero--about">…</section>
+   <section class="hero section section--hero hero--booking">…</section>
+   <section class="hero section section--hero hero--counselor">…</section>
+   ========================= */
