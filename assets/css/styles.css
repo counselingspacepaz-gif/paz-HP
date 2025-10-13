@@ -1164,7 +1164,7 @@ address.vcard { font-style: normal; } /* <address>の斜体解除 */
 /* =========================
    Footer Privacy（プレート化＋配色）
    背景：薄いセージグリーン / 文字：白
-   リンク全体：グレイッシュラベンダーのプレート
+   リンク全体：濃ラベンダー
    ========================= */
 
 /* 任意：新色を変数で管理（サイトに :root があるなら併用） */
@@ -1185,9 +1185,8 @@ address.vcard { font-style: normal; } /* <address>の斜体解除 */
 /* リンクを“プレート化”してボタン風にする */
 .footer-privacy a {
   display: inline-block;                 /* 背景＆余白を効かせるためにブロック化 */
-  background-color: var(--color-lavender-gray);
-  /* フォールバック */
-  background-color: #8F8CA6;
+ background: var(--lavender-dark);
+  color: #7B6FC2;
   color: #fff;
   padding: 0.28rem 0.7rem;               /* 内側余白でボタン感を演出 */
   border-radius: 0.4rem;                 /* 角丸 */
