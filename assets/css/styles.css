@@ -1018,7 +1018,7 @@ address.vcard { font-style: normal; } /* <address>の斜体解除 */
   padding: clamp(1rem, 1.2vw, 2rem);
   max-width: 800px;
   text-align: center;
-  background: rgba(255,255,255,0.90); /* 既定：白オーバーレイ（テキストBOXのみ） */
+  background: rgba(255,255,255,0.88); /* 既定：白オーバーレイ（テキストBOXのみ） */
   border-radius: 0;
   box-shadow: none;
 }
@@ -1133,7 +1133,7 @@ address.vcard { font-style: normal; } /* <address>の斜体解除 */
 .hero--home      { --hero-image: url('/images/hero/sprout-in-hand.jpg'); }
 .hero--about     { --hero-image: url('/images/sections/kano-river-view.jpg'); }
 .hero--booking   { --hero-image: url('/images/thumbs/booking.jpg'); }
-.hero--counselor { --hero-image: url('/images/sections/me.png'); }
+.hero--counselor { --hero-image: url('/images/hero/lavender-background.jpg'); }
 
 /* booking-embed 用フォールバック（画像なしでも高さ維持） */
 .hero--booking-embed {
