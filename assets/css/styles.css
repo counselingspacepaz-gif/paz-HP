@@ -1169,7 +1169,7 @@ address.vcard { font-style: normal; } /* <address>の斜体解除 */
 
 /* 任意：新色を変数で管理（サイトに :root があるなら併用） */
 :root {
-  --color-sage-soft: #6F8B7C;     /* 薄いセージグリーン（背景用） */
+  --color-sage-soft: #E6ECE9;     /* 薄いセージグリーン（背景用） */
   --color-lavender-gray: #8F8CA6; /* グレイッシュラベンダー（リンクプレート用） */
   --color-sage-dark: #3F4B45;     /* フォーカスリング用の濃セージ */
 }
@@ -1178,7 +1178,7 @@ address.vcard { font-style: normal; } /* <address>の斜体解除 */
 .footer-privacy {
   background-color: var(--color-sage-soft);
   /* 変数がない環境向けのフォールバック */
-  background-color: #6F8B7C;
+  background-color: #E6ECE9;
   color: #fff;
 }
 
