@@ -1161,3 +1161,10 @@ address.vcard { font-style: normal; } /* <address>の斜体解除 */
    <section class="hero section section--hero hero--booking">…</section>
    <section class="hero section section--hero hero--counselor">…</section>
    ========================= */
+.footer-privacy {
+  background-color: #8B88A0; /* 背景ラベンダー */
+}
+
+.footer-privacy a {
+  color: #fff; /* 白文字に変更 */
+}
