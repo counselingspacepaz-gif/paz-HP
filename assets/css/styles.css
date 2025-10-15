@@ -1304,7 +1304,6 @@ section.section.section--story.spotlight .figure img {
   aspect-ratio: 1 / 1;                 /* 正方形領域を作る */
   object-fit: cover;                    /* 中央トリミング */
   height: auto;                         /* 互換性確保（aspect-ratio対応外の保険） */
-  border-radius: 50%;                   /* 円形 */
   box-shadow: var(--tile-shadow);
   margin-inline: auto;                  /* モバイル中央寄せ */
 }
@@ -1443,3 +1442,41 @@ img { display: block; max-width: 100%; height: auto; }
   outline: var(--focus-ring);
   outline-offset: 3px;
 }
+/* === 1) me.png 長方形＋縁取り === */
+section.section.section--story.spotlight .figure img {
+  width: min(320px, 80%);
+  height: auto;
+  object-fit: cover;
+  border-radius: 6px; /* 角丸小さめ */
+  border: 3px solid var(--sage-green); /* セージグリーン縁取り */
+  box-shadow: var(--tile-shadow);
+}
+
+/* === 2) visually-hidden === */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+}
+/* モバイルでメニュー非表示 → activeで表示 */
+.site-nav {
+  display: none;
+}
+.site-nav.active {
+  display: block;
+}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const toggle = document.getElementById('menu-toggle');
+  const nav = document.getElementById('main-menu');
+
+  toggle.addEventListener('click', function() {
+    const expanded = toggle.getAttribute('aria-expanded') === 'true';
+    toggle.setAttribute('aria-expanded', !expanded);
+    nav.classList.toggle('active');
+  });
+});
+</script>
