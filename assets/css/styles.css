@@ -1296,6 +1296,50 @@ section.section.section--story.spotlight .figure  { order: 2; }
   section.section.section--story.spotlight .figure  { order: 1; justify-self: center; }
 }
 
+/* =========================================
+   ストーリーのタイポグラフィ上書き（数値のみ変更）
+   - 見出しと本文のサイズ差を明確化
+   - 長文の可読性向上（行間の拡張）
+   - 他セクションへ影響を出さないため、セレクタはストーリーに限定
+   ========================================= */
+
+/* 見出し（h2）— モバイルは24px、PCは32px */
+section.section.section--story.spotlight h2 {
+  font-size: 24px;
+  line-height: 1.35;        /* 見出しはやや詰め気味が読みやすい */
+  margin-bottom: 0.8em;     /* 下に余白を確保 */
+}
+@media (min-width: 1024px) {
+  section.section.section--story.spotlight h2 {
+    font-size: 32px;
+    line-height: 1.3;
+  }
+}
+
+/* 本文（p）— モバイル17px / PC18px、行間は1.8で統一 */
+section.section.section--story.spotlight p {
+  font-size: 17px;
+  line-height: 1.8;
+  margin: 0 0 0.9em;        /* 段落間の余白を少し広げる */
+}
+@media (min-width: 1024px) {
+  section.section.section--story.spotlight p {
+    font-size: 18px;
+    line-height: 1.8;
+  }
+}
+
+/* 箇条書き（ul/li）— 行間をさらに広げる */
+section.section.section--story.spotlight ul {
+  margin-top: 0.6em;        /* 見出し/本文との間に控えめな余白 */
+  margin-bottom: 0.9em;
+  padding-left: 0;          /* 既存のリスト装飾を使う前提なら変更不要 */
+}
+section.section.section--story.spotlight ul li {
+  line-height: 1.85;
+  margin-bottom: 0.4em;     /* 項目間の詰まりを解消（最後のliはブラウザが無視してくれる） */
+}
+
 /* me.png（円形）— 非表示ルールの巻き込み防止も含む */
 section.section.section--story.spotlight .figure img {
   display: block !important;           /* 他所の display:none を排除 */
