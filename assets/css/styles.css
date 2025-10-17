@@ -1480,3 +1480,86 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 });
 </script>
+/* ============================================================
+   /counselor/ ページ用・最小差分パッチ（CSSのみ）
+   目的：
+   1) ヘッダーが隠れる問題の予防（ヒーロー背景の重なり調整）
+   2) スキップリンクを通常非表示・フォーカス時のみ表示
+   3) visually-hidden ユーティリティの定義
+   4) me.png を「長方形＋セージ縁取り 8px」に上書き
+   ※ 既存レイアウトは維持。JSは一切変更しない。
+   ============================================================ */
+
+/* 1) ヘッダーがヒーロー背景に隠れないよう、ヒーロー層のZ順を正規化 */
+.hero .hero__bg {
+  position: absolute; /* 既定想定 */
+  inset: 0;
+  z-index: 0 !important; /* 背景は最背面へ */
+}
+.hero .wrapper,
+.hero .inner {
+  position: relative;
+  z-index: 1; /* テキスト等は背景より前面 */
+}
+/* ヘッダーは既に z-index:1000（大元CSS）なのでこの並びで確実に前面に出る */
+
+/* 2) スキップリンク：通常は画面外、フォーカスでだけ出す
+   ※ HTMLのclassを触らず、先頭リンクをセレクタで狙い撃ち */
+body > a[href="#main-content"]:first-child {
+  position: absolute;
+  left: -999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+body > a[href="#main-content"]:first-child:focus,
+body > a[href="#main-content"]:first-child:focus-visible {
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  padding: .5rem .75rem;
+  background: #fff;
+  color: var(--color-sage, #2E584D);
+  border: 2px solid var(--color-lavender, #7B6FC2);
+  border-radius: 6px;
+  z-index: 10000;
+}
+
+/* 3) スクリーンリーダー向け非表示（視覚的に隠すが読み上げは残す） */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  clip-path: inset(50%) !important;
+  border: 0 !important;
+  white-space: nowrap !important;
+}
+
+/* 4) me.png：長方形＋縁取り 8px（円形指定の上書き）
+   - 既存の円形・正方形指定を確実に打ち消すため、特異性を高めつつ最小限の !important を併用
+*/
+section.section.section--story.spotlight .figure img {
+  aspect-ratio: auto !important;       /* 正方形固定を解除 */
+  border-radius: 6px !important;        /* 角丸は小さめ */
+  border: 8px solid var(--color-sage, #2E584D) !important; /* セージ縁取り 8px */
+  object-fit: cover;                    /* 画面に気持ちよく収める */
+  /* 横長で扱いやすいサイズ感（環境に合わせて自動縮小） */
+  max-width: min(420px, 90%);
+  height: auto;
+}
+@media (min-width: 1024px) {
+  section.section.section--story.spotlight .figure img {
+    max-width: 420px; /* PCでは見栄えのよい幅に固定 */
+  }
+}
+
+/* 参考：ハンバーガー前提（CSS側）は大元CSSで成立済み
+   .site-nav { display:none } / .site-nav.is-open { display:block }
+   PC幅（>=768px）では常時表示
+*/
