@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO -->
+  <title>{{ page.title }}</title>
+  <meta name="description" content="{{ page.description }}" />
+  <link rel="canonical" href="https://counselingspacepaz.com{{ page.url }}" />
+
+  <!-- OGP -->
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Counseling Space paz" />
+  <meta property="og:title" content="{{ page.title }}" />
+  <meta property="og:description" content="{{ page.description }}" />
+  <meta property="og:url" content="https://counselingspacepaz.com{{ page.url }}" />
+  <meta property="og:image" content="https://counselingspacepaz.com{{ page.og_image }}" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="{{ page.title }}" />
+  <meta name="twitter:description" content="{{ page.description }}" />
+  <meta name="twitter:image" content="https://counselingspacepaz.com{{ page.og_image }}" />
+
+  <!-- Favicon -->
+  <link rel="icon" href="{{ '/images/logo/favicon.ico' | relative_url }}" type="image/x-icon" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet" />
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}" />
+</head>
+
+<body>
+  <!-- ====== SKIP LINK ====== -->
+  <a href="#main" class="skip-link">コンテンツにスキップ</a>
+  <!-- ====== /SKIP LINK ====== -->
+
+  <!-- ====== HEADER ====== -->
+  <header class="site-header" role="banner">
+    <div class="container header-inner">
+      <a class="site-logo" href="{{ '/' | relative_url }}">
+        <img src="{{ '/images/logo/paz-logo.png' | relative_url }}" alt="カウンセリングスペースpazのロゴ" height="56" width="200">
+      </a>
+
+      <nav id="main-menu" class="site-nav" aria-label="主なナビゲーション">
+        <ul class="menu">
+          <li><a href="{{ '/' | relative_url }}">HOME</a></li>
+          <li><a href="{{ '/about/' | relative_url }}">pazについて</a></li>
+          <li><a href="{{ '/counselor/' | relative_url }}">カウンセラー紹介</a></li>
+          <li><a href="{{ '/booking/' | relative_url }}">ご予約はこちら</a></li>
+          <li><a href="{{ '/blog/' | relative_url }}">ブログ</a></li>
+          <li><a href="http://www.sugimen.com/" target="_blank" rel="noopener noreferrer">連携医療機関</a></li>
+        </ul>
+      </nav>
+
+      <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="main-menu" aria-label="メニューを開く">
+        ☰
+      </button>
+    </div>
+  </header>
+  <!-- ====== /HEADER ====== -->
+
+  <!-- ====== HERO SECTION ====== -->
+  <section class="hero section section--hero hero--{{ page.hero_class }}">
+    <div class="hero__bg" aria-hidden="true"></div>
+    <div class="hero__overlay" aria-hidden="true"></div>
+    <div class="wrapper">
+      <div class="inner">
+        <h1>{{ page.hero_title }}</h1>
+        <p>{{ page.hero_subtitle }}</p>
+        {% if page.hero_cta %}
+          <a href="{{ page.hero_cta_url }}" class="btn">{{ page.hero_cta }}</a>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+  <!-- ====== /HERO SECTION ====== -->
+
+  <!-- ====== MAIN CONTENT ====== -->
+  <main id="main">
+    {{ content }}
+  </main>
+  <!-- ====== /MAIN CONTENT ====== -->
+
+  <!-- ====== FOOTER ====== -->
+  <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <section class="footer-contact-address">
+        <h2>Contact</h2>
+        <ul class="contact-list">
+          <li class="contact-item map-link">
+            <a href="https://www.google.com/maps/search/?api=1&query=〒410-0801 静岡県沼津市大手町4-3-28 リバーサイド大手町502" target="_blank" rel="noopener noreferrer">〒410-0801 静岡県沼津市大手町4-3-28 リバーサイド大手町502</a>
+          </li>
+          <li class="contact-item"><span class="icon" aria-hidden="true">📞</span><a href="tel:0559001615">055-900-1615</a></li>
+          <li class="contact-item"><span class="icon" aria-hidden="true">✉️</span><a href="mailto:info@counselingspacepaz.com">info@counselingspacepaz.com</a></li>
+        </ul>
+      </section>
+
+      <nav class="sns-footer" aria-label="SNSリンク">
+        <ul class="sns-list">
+          <li><a href="https://qr-official.line.me/gs/M_132lsicr_GW.png?oat_content=url&ts=09021803" target="_blank" rel="noopener noreferrer"><img src="{{ '/images/icons/icon-line.png' | relative_url }}" alt="LINE公式アカウント"></a></li>
+          <li><a href="https://www.instagram.com/counselingspacepaz/" target="_blank" rel="noopener noreferrer"><img src="{{ '/images/icons/icon-instagram.png' | relative_url }}" alt="Instagram"></a></li>
+          <li><a href="https://www.facebook.com/counselingspacepaz" target="_blank" rel="noopener noreferrer"><img src="{{ '/images/icons/icon-facebook.png' | relative_url }}" alt="Facebook"></a></li>
+          <li><a href="https://x.com/space_paz" target="_blank" rel="noopener noreferrer"><img src="{{ '/images/icons/icon-x.png' | relative_url }}" alt="X (旧Twitter)"></a></li>
+        </ul>
+      </nav>
+
+      <p class="footer-privacy">
+        <a href="{{ '/content/privacy-policy-paz.pdf' | relative_url }}" target="_blank" rel="noopener noreferrer">
+          <i class="fas fa-lock" aria-hidden="true"></i> 🔐プライバシーポリシー
+        </a>
+      </p>
+
+      <p class="copyright">© {{ site.time | date: '%Y' }} Counseling Space paz</p>
+    </div>
+  </footer>
+  <!-- ====== /FOOTER ====== -->
+</body>
+</html>
