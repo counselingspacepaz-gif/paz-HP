@@ -1,11 +1,11 @@
-
 title: Counseling Space paz
 description: 女性と子どものための相談機関です
 url: "https://counselingspacepaz.com"
-baseurl: ""
+baseurl: "/paz-HP"  # ★この行で設定を統一。GitHub Pagesのリポジトリ名に合わせる。
+
 markdown: kramdown
 plugins:
-  - jekyll-sitemap
+  - jekyll-sitemap # エラー解消のため追加
   - jekyll-feed
 exclude:
   - Gemfile
