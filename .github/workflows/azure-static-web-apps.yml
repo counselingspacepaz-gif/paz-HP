@@ -32,13 +32,15 @@ jobs:
         with:
           ruby-version: '3.1'
 
-      - name: Install dependencies
+       - name: Install dependencies
         run: |
           gem install bundler
           bundle install
+        working-directory: ${{ github.workspace }} # ← ここを追記
 
       - name: Build Jekyll site
         run: bundle exec jekyll build
+        working-directory: ${{ github.workspace }} # ← ここを追記
 
       - name: Upload to Azure Static Web Apps
         id: deploy
