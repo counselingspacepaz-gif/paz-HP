@@ -34,7 +34,6 @@ jobs:
 
       - name: Install dependencies
         run: |
-          gem install bundler
           bundle install
         working-directory: ${{ github.workspace }} # ← ここを追記
 
