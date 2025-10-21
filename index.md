@@ -25,30 +25,12 @@ pazは、スペイン語で「平和・安らぎ」を意味します。
 ## pazの特徴
 
 <div class="tiles">
-  {{ 
-    {{ 
-    <h3>静かな個室で安心してお話しいただけます</h3>
-  </a>
-
-  {{ 
-    {{ 
-    <h3>臨床心理士・公認心理師が、経験と根拠に基づき支援</h3>
-  </a>
-
-  {{ 
-    {{ 
+  <a class="tile tile--private-roomo/counseling-room.jpg' | relative_url }}" alt="カウンセリングルームの様"{{ '/counselor/' | relative   {{ 
     <h3>ご自宅からのオンラインカウンセリングに対応</h3>
   </a>
 
-  {{ 
-    {{ 
-    <h3>プライバシーを重視します</h3>
-  </a>
-
-  <a class="tile tile--compliance"
-     href="https://www.mhlw.go.jp/stf/seisakunitsuite/bunya/0000116049.html"
-     target="_blank" rel="noopener noreferrer"
-    .me/gs/M_132lsicr_GW.png?oat_content=url&amp;ts=09021803"
-    だけます</h3>
-  </a>
-</div>
+  <a class="tile tile--privacy"
+     href="{{ '/content/privacy-policy-paz.pdf' | relative_url }}"
+    ww.mhlw.go.jp/stf/seisakunitsuite/bunya/0000116049.html"
+    ://qr-official.line.me/gs/M_132lsicr_GW.png?oat_content=url&amp;ts=09021803"
+    
