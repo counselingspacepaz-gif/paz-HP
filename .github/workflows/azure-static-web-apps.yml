@@ -51,3 +51,25 @@ jobs:
           app_location: "/"
           output_location: "_site"
           skip_app_build: false
+# ... (Build Jekyll site ステップの直後)
+
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
+        working-directory: ${{ github.workspace }}
+
+      # --- ↓↓↓ Pages デプロイ用の追加ステップ ↓↓↓ ---
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site' # Jekyllのビルド成果物ディレクトリ
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
+# --- ↑↑↑ Pages デプロイ用の追加ステップ ↑↑↑ ---
+
+      - name: Upload to Azure Static Web Apps
+        id: deploy
+# ... (以下 Azure SWA の設定が続きます)
