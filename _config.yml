@@ -1,0 +1,16 @@
+
+title: Counseling Space paz
+description: 女性と子どものための相談機関です
+url: "https://counselingspacepaz.com"
+baseurl: ""
+markdown: kramdown
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - README.md
+  - .DS_Store
+  - node_modules
+  - vendor
