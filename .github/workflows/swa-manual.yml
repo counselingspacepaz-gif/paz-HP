@@ -1,33 +1,49 @@
-name: Manual Deploy to Azure Static Web Apps
+name: Build and Deploy Jekyll site to Azure Static Web Apps
 
 on:
-  workflow_dispatch:
-    inputs:
-      note:
-        description: "メモ（任意）"
-        required: false
-        default: ""
+  push:
+    branches: ["main"]
 
 permissions:
   contents: read
 
 jobs:
-  deploy_manual:
-    name: Deploy (Manual, Production)
+  build_and_deploy:
+    name: Build & Deploy (Production)
     runs-on: ubuntu-latest
     environment: production
     concurrency:
       group: ${{ github.workflow }}-${{ github.ref }}
       cancel-in-progress: true
+
     steps:
-      - name: Checkout
+      # 1. リポジトリをチェックアウト
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Upload to Azure Static Web Apps
+      # 2. Ruby環境をセットアップ（Jekyll用）
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      # 3. 依存関係をインストール
+      - name: Install dependencies
+        run: bundle install
+
+      # 4. Jekyllサイトをビルド
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
+        # 出力は _config.yml の destination で指定 (_site)
+
+      # 5. Azure Static Web Apps にデプロイ
+      - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           action: "upload"
           app_location: "/"
-          output_location: ""
+          output_location: "_site"
           skip_app_build: true
+
