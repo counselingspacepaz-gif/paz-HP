@@ -25,3 +25,5 @@ defaults:
     values:
       layout: default
       og_image: /images/ogp/lavender-background.jpg
+include:
+  - assets
