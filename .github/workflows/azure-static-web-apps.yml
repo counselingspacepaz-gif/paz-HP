@@ -1,11 +1,9 @@
-name: Build and Deploy to Azure Static Web Apps
+name: Build and Deploy Jekyll Site
 
 on:
   push:
     branches: ["main"]
-  pull_request:
-    types: [opened, synchronize, reopened]
-    branches: ["main"]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -14,16 +12,14 @@ permissions:
   pull-requests: write
 
 jobs:
-  build_deploy_prod:
-    name: Build & Deploy (Production)
-    if: github.event_name == 'push'
+  # =====================================================
+  # 1. ビルドジョブ
+  # =====================================================
+  build_site:
+    name: Build Jekyll Site
     runs-on: ubuntu-latest
-    environment:
-      name: production
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: true
-
+    outputs:
+      artifact-name: jekyll-site
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -31,14 +27,38 @@ jobs:
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1'
+          ruby-version: '3.3'
           bundler-cache: true
 
       - name: Build Jekyll site
         run: |
+          export JEKYLL_ENV=production
           bundle install
-          bundle exec jekyll build
-          ls -l _site/index.html
+          bundle exec jekyll build --trace
+          echo "---- _site contents ----"
+          ls -l _site
+          test -f _site/index.html
+
+      - name: Upload Jekyll site artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jekyll-site
+          path: _site
+
+  # =====================================================
+  # 2. Azure Static Web Apps デプロイ
+  # =====================================================
+  deploy_swa:
+    name: Deploy to Azure Static Web Apps
+    needs: build_site
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Download Jekyll site artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: jekyll-site
+          path: _site
 
       - name: Upload to Azure Static Web Apps
         id: swa_deploy
@@ -46,6 +66,29 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           action: "upload"
-          app_location: "."           # リポジトリルート
-          output_location: "_site"    # Jekyll生成物
+          app_location: "_site"   # 完成物を直接指定
           skip_app_build: true
+
+  # =====================================================
+  # 3. GitHub Pages デプロイ
+  # =====================================================
+  deploy_pages:
+    name: Deploy to GitHub Pages
+    needs: build_site
+    runs-on: ubuntu-latest
+    environment: github-pages
+    steps:
+      - name: Download Jekyll site artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: jekyll-site
+          path: _site
+
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '_site'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
