@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   # =====================================================
-  # 1. Jekyllビルド
+  # 1. Jekyll ビルド & アーティファクトアップロード
   # =====================================================
   build_site:
     name: Build Jekyll Site
@@ -38,9 +38,13 @@ jobs:
           bundle exec jekyll build --trace
           echo "---- _site contents ----"
           ls -l _site
-          test -f _site/index.html
+          # index.html の存在確認
+          if [ ! -f _site/index.html ]; then
+            echo "ERROR: _site/index.html が存在しません"
+            exit 1
+          fi
 
-      - name: Upload built site artifact for SWA & Pages
+      - name: Upload artifact for SWA & Pages
         uses: actions/upload-artifact@v4
         with:
           name: github-pages
@@ -65,7 +69,10 @@ jobs:
         run: |
           echo "---- SWA artifact contents ----"
           ls -l _site
-          test -f _site/index.html
+          if [ ! -f _site/index.html ]; then
+            echo "ERROR: _site/index.html が存在しません"
+            exit 1
+          fi
 
       - name: Upload to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
