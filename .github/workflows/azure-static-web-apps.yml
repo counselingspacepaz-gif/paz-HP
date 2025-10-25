@@ -81,14 +81,14 @@ jobs:
           skip_app_build: true
 
  # =====================================================
-# 3. GitHub Pages デプロイ
-# =====================================================
-deploy_pages:
-  name: Deploy to GitHub Pages
-  needs: build_site
-  runs-on: ubuntu-latest
-  environment: github-pages
-  steps:
+ # 3. GitHub Pages デプロイ
+ # =====================================================
+  deploy_pages:
+    name: Deploy to GitHub Pages
+    needs: build_site
+    runs-on: ubuntu-latest
+    environment: github-pages
+    steps:
     - name: Checkout repository
       uses: actions/checkout@v4
 
