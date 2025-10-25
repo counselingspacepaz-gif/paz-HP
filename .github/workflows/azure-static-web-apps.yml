@@ -1,24 +1,22 @@
-name: Build and Deploy Jekyll Site
+name: Build & Deploy Jekyll Site
 
 on:
   push:
     branches: ["main"]
-  workflow_dispatch:  # 任意で手動起動可能
+  workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
 jobs:
   # =====================================================
-  # 1. Jekyllビルド
+  # 1. Jekyllビルド & アーティファクト作成
   # =====================================================
   build_site:
     name: Build Jekyll Site
     runs-on: ubuntu-latest
-    outputs:
-      site_path: _site
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -29,22 +27,26 @@ jobs:
           ruby-version: '3.3'
           bundler-cache: true
 
+      - name: Install dependencies
+        run: bundle install
+
       - name: Build site
         run: |
           export JEKYLL_ENV=production
-          bundle install
           bundle exec jekyll build --trace
           echo "---- _site contents ----"
           ls -l _site
           test -f _site/index.html
 
+      # SWA用アーティファクト
       - name: Upload artifact for Azure SWA
         uses: actions/upload-artifact@v4
         with:
           name: jekyll-site
           path: _site
 
-      - name: Upload artifact for GitHub Pages
+      # Pages用アーティファクト
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
@@ -71,12 +73,11 @@ jobs:
           test -f _site/index.html
 
       - name: Upload to Azure Static Web Apps
-        id: swa_deploy
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           action: "upload"
-          app_location: "_site"  # 完成物フォルダを直指定
+          app_location: "_site"   # 完成物を直接指定
           skip_app_build: true
 
   # =====================================================
@@ -87,15 +88,7 @@ jobs:
     needs: build_site
     runs-on: ubuntu-latest
     environment: github-pages
-   steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: _site
- 
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
