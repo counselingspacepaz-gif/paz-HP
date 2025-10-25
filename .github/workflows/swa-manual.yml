@@ -1,4 +1,66 @@
-deploy_pages:
+name: Build & Deploy Jekyll
+
+on:
+  push:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  # 1️⃣ Jekyll ビルド
+  build_site:
+    name: 1. Build Jekyll Site
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
+
+      - name: Upload site artifact for other jobs
+        uses: actions/upload-artifact@v4
+        with:
+          name: jekyll-site
+          path: _site
+
+  # 2️⃣ Azure Static Web Apps デプロイ
+  deploy_swa:
+    name: 2. Deploy to Azure Static Web Apps
+    runs-on: ubuntu-latest
+    needs: build_site
+    environment: production
+    steps:
+      - name: Download built site
+        uses: actions/download-artifact@v4
+        with:
+          name: jekyll-site
+          path: _site
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          action: "upload"
+          app_location: "/"
+          output_location: "_site"
+          skip_app_build: true
+
+  # 3️⃣ GitHub Pages デプロイ
+  deploy_pages:
     name: 3. Deploy to GitHub Pages
     runs-on: ubuntu-latest
     needs: build_site
@@ -18,3 +80,4 @@ deploy_pages:
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
+``
