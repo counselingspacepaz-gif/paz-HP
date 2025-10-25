@@ -80,23 +80,23 @@ jobs:
           app_location: "_site"  # 完成物フォルダを直指定
           skip_app_build: true
 
- # =====================================================
- # 3. GitHub Pages デプロイ
- # =====================================================
+  # =====================================================
+  # 3. GitHub Pages デプロイ
+  # =====================================================
   deploy_pages:
     name: Deploy to GitHub Pages
     needs: build_site
     runs-on: ubuntu-latest
     environment: github-pages
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v4
+   steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Upload Pages artifact
-      uses: actions/upload-pages-artifact@v3
-      with:
-        path: _site
-
-    - name: Deploy to GitHub Pages
-      id: deployment
-      uses: actions/deploy-pages@v4
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+ 
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
