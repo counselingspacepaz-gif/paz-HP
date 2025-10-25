@@ -17,33 +17,28 @@ jobs:
       cancel-in-progress: true
 
     steps:
-      # 1. リポジトリをチェックアウト
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 2. Ruby環境をセットアップ（Jekyll用）
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3'
           bundler-cache: true
 
-      # 3. 依存関係をインストール
       - name: Install dependencies
         run: bundle install
 
-      # 4. Jekyllサイトをビルド
       - name: Build Jekyll site
         run: bundle exec jekyll build
-        # 出力は _config.yml の destination で指定 (_site)
 
-      # 5. Azure Static Web Apps にデプロイ
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           action: "upload"
-          app_location: "/"
-          output_location: "_site"
-          skip_app_build: true
+          app_location: "/"       # ✅ プロジェクトのルート（index.mdなどがある場所）
+          output_location: "_site" # ✅ Jekyllの成果物フォルダ
+          skip_app_build: true     # ✅ Actionsで既にビルド済み
+
 
