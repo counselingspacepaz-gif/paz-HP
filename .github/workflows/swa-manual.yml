@@ -1,26 +1,29 @@
-name: Build and Deploy Jekyll site to Azure Static Web Apps
+name: Build & Deploy (Jekyll → Azure SWA & GitHub Pages)
 
 on:
   push:
-    branches: ["main"]
+    branches:
+      - main
+  workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: read        # ソース取得用
+  pages: write          # Pages用
+  id-token: write       # Pages署名用
 
 jobs:
-  build_and_deploy:
-    name: Build & Deploy (Production)
+  # ==========================
+  # 1️⃣ Jekyll ビルド
+  # ==========================
+  build_site:
+    name: Build Jekyll Site
     runs-on: ubuntu-latest
-    environment: production
-    concurrency:
-      group: ${{ github.workflow }}-${{ github.ref }}
-      cancel-in-progress: true
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Ruby
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3'
@@ -32,13 +35,63 @@ jobs:
       - name: Build Jekyll site
         run: bundle exec jekyll build
 
+      - name: Upload built site as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jekyll-site
+          path: _site
+
+  # ==========================
+  # 2️⃣ Azure Static Web Apps デプロイ
+  # ==========================
+  deploy_swa:
+    name: Deploy to Azure Static Web Apps (Production)
+    runs-on: ubuntu-latest
+    needs: build_site
+    environment: production
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - name: Download built site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: jekyll-site
+          path: _site
+
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           action: "upload"
-          app_location: "/"       # ✅ プロジェクトのルート（index.mdなどがある場所）
-          output_location: "_site" # ✅ Jekyllの成果物フォルダ
-          skip_app_build: true     # ✅ Actionsで既にビルド済み
+          app_location: "/"          # ソースルート
+          output_location: "_site"   # ビルド成果物
+          skip_app_build: true       # 既にビルド済み
 
+  # ==========================
+  # 3️⃣ GitHub Pages デプロイ（任意／プレビュー用）
+  # ==========================
+  deploy_pages:
+    name: Deploy to GitHub Pages (Preview)
+    runs-on: ubuntu-latest
+    needs: build_site
+    environment:
+      name: github-pages
+
+    steps:
+      - name: Download built site artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: jekyll-site
+          path: _site
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
