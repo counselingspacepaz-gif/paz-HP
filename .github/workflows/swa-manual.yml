@@ -1,4 +1,4 @@
-name: Build & Deploy Jekyll
+name: Build & Deploy Jekyll Site
 
 on:
   push:
@@ -11,7 +11,7 @@ permissions:
   id-token: write
 
 jobs:
-  # 1️⃣ Jekyll ビルド
+  # 1️⃣ Jekyll ビルド (共通成果物作成)
   build_site:
     name: 1. Build Jekyll Site
     runs-on: ubuntu-latest
@@ -66,6 +66,7 @@ jobs:
     needs: build_site
     environment:
       name: github-pages
+      # environment URLはPagesデプロイが完了後に自動で設定されるため省略可能
     steps:
       - name: Download built site artifact
         uses: actions/download-artifact@v4
@@ -80,4 +81,3 @@ jobs:
 
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
-``
