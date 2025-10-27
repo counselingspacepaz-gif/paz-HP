@@ -1,3 +1,4 @@
+# .github/workflows/build-and-deploy.yml
 name: Build & Deploy Jekyll Site
 
 on:
@@ -10,6 +11,10 @@ permissions:
   pages: write
   id-token: write
 
+concurrency:
+  group: 'pages'
+  cancel-in-progress: true
+
 jobs:
   # =====================================================
   # 1. Jekyll ビルド & アーティファクトアップロード
@@ -17,8 +22,6 @@ jobs:
   build_site:
     name: Build Jekyll Site
     runs-on: ubuntu-latest
-    outputs:
-      site_path: _site
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -30,9 +33,11 @@ jobs:
           bundler-cache: true
 
       - name: Install dependencies
+        working-directory: paz-HP
         run: bundle install
 
       - name: Build site
+        working-directory: paz-HP
         run: |
           export JEKYLL_ENV=production
           bundle exec jekyll build --trace
@@ -40,17 +45,21 @@ jobs:
           ls -l _site
 
       - name: Sanity check built assets
+        working-directory: paz-HP
         run: |
           echo "---- sanity check ----"
           test -f _site/index.html || (echo "index.html missing"; exit 1)
-          test -f _site/assets/css/styles.css || (echo "styles.css missing in _site"; find _site -maxdepth 3 -type d -print; exit 1)
+          test -f _site/assets/css/styles.css || (echo "styles.css missing"; find _site -maxdepth 3 -type d -print; exit 1)
           test -f _site/images/icons/icon-line.png || (echo "icon-line.png missing"; exit 1)
+          test -f _site/images/ogp/ogp.png || (echo "OGP image missing"; exit 1)
+          test -f _site/favicon.ico || (echo "favicon.ico missing"; exit 1)
 
       - name: Upload artifact for SWA & Pages
         uses: actions/upload-artifact@v4
         with:
           name: github-pages
-          path: _site
+          path: paz-HP/_site
+          retention-days: 7
 
   # =====================================================
   # 2. Azure Static Web Apps デプロイ
@@ -65,9 +74,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github-pages
-          path: _site
+          path: paz-HP/_site
 
       - name: Verify _site
+        working-directory: paz-HP
         run: |
           echo "---- SWA artifact contents ----"
           ls -l _site
@@ -81,7 +91,7 @@ jobs:
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           action: "upload"
-          app_location: "_site"
+          app_location: "paz-HP/_site"
           skip_app_build: true
 
   # =====================================================
@@ -96,7 +106,7 @@ jobs:
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          path: paz-HP/_site
 
       - name: Deploy to GitHub Pages
         id: deployment
