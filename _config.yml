@@ -1,29 +1,25 @@
-title: Counseling Space paz
-description: 女性と子どものための相談機関です
-url: "https://counselingspacepaz.com"
-baseurl: "/paz-HP"
+# --------------------------------------
+# _config.yml（Jekyll設定）
+# --------------------------------------
 
-markdown: kramdown
-destination: _site
+# 相対パス崩れ防止
+baseurl: ""
 
-plugins:
-  - jekyll-sitemap
-  - jekyll-feed
+# デバッグ時：SWA標準URL
+url: "https://icy-rock-024ded110.1.azurestaticapps.net"
+# DNS切替後は本番URLに変更
 
-exclude:
-  - Gemfile
-  - Gemfile.lock
-  - README.md
-  - .DS_Store
-  - node_modules
-  - vendor
-
-defaults:
-  - scope:
-      path: ""
-      type: "pages"
-    values:
-      layout: default
-      og_image: /images/ogp/lavender-background.jpg
+# 静的資産を必ず含める
 include:
   - assets
+  - images
+  - content
+  - favicon.ico
+  - robots.txt
+
+# 出力先指定
+destination: _site
+
+# その他
+markdown: kramdown
+theme: minima
