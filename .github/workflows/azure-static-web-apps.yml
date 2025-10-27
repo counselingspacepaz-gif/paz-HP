@@ -1,98 +1,65 @@
-name: Build & Deploy Jekyll Site
+name: Manual SWA Deploy (Jekyll)
 
 on:
-  push:
-    branches: ["main"]
-  workflow_dispatch:
+  workflow_dispatch:  # 手動トリガー専用
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: read  # デプロイはトークン方式なので id-token は不要
+
+concurrency:
+  group: 'swa-manual'
+  cancel-in-progress: true
 
 jobs:
-  build_site:
-    name: Build Jekyll Site
+  build_and_deploy:
+    name: Build & Deploy Jekyll Site
     runs-on: ubuntu-latest
-    concurrency:
-      group: 'jekyll-build'
-      cancel-in-progress: true
     steps:
+      # 1️⃣ ソース取得
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # 2️⃣ Ruby / Jekyll 環境セットアップ
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.3'
           bundler-cache: true
 
-      - name: Install dependencies
-        working-directory: ./paz-HP
-        run: bundle install
-
-      - name: Build site
-        working-directory: ./paz-HP
+      # 3️⃣ Jekyll ビルド
+      - name: Build Jekyll site
         run: |
-          export JEKYLL_ENV=production
-          bundle exec jekyll build --trace
+          JEKYLL_ENV=production bundle exec jekyll build --trace
           echo "---- _site contents ----"
           ls -lah _site
 
-      - name: Sanity check built assets
-        working-directory: ./paz-HP
+      # 4️⃣ サニティチェック（最低限）
+      - name: Sanity check built site
         run: |
-          test -f _site/index.html || (echo "index.html missing"; exit 1)
-          test -f _site/assets/css/styles.css || (echo "styles.css missing in _site"; exit 1)
-          test -f _site/images/logo/favicon.ico || (echo "favicon.ico missing"; exit 1)
-          test -f _site/images/ogp-counseling-space-paz.png || (echo "OGP image missing"; exit 1)
+          for f in \
+            _site/index.html \
+            _site/assets/css/styles.css \
+            _site/images/logo/favicon.ico \
+            _site/images/hero/sprout-in-hand.jpg
+          do
+            if [ ! -f "$f" ]; then
+              echo "Missing $f"
+              exit 1
+            else
+              echo "$f OK"
+            fi
+          done
+          # 画像ツリー確認用（任意、デバッグ向け）
+          ls -la _site/images || true
+          ls -la _site/images/sections || true
+          ls -la _site/images/hero || true
 
-      - name: Upload artifact for SWA & Pages
-        uses: actions/upload-artifact@v4
-        with:
-          name: github-pages
-          path: ./paz-HP/_site
-          retention-days: 7
-
-  deploy_swa:
-    name: Deploy to Azure Static Web Apps
-    needs: build_site
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      - name: Download built site artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: github-pages
-          path: ./paz-HP/_site
-
-      - name: Verify _site
-        run: |
-          ls -lah ./paz-HP/_site
-          if [ ! -f ./paz-HP/_site/index.html ]; then
-            echo "ERROR: _site/index.html が存在しません"
-            exit 1
-          fi
-
-      - name: Upload to Azure Static Web Apps
+      # 5️⃣ Azure Static Web Apps デプロイ
+      - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           action: "upload"
-          app_location: "./paz-HP/_site"
+          app_location: "/"        # Jekyllはリポジトリルート
+          output_location: "_site"
           skip_app_build: true
-
-  deploy_pages:
-    name: Deploy to GitHub Pages
-    needs: build_site
-    runs-on: ubuntu-latest
-    environment: github-pages
-    steps:
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: ./paz-HP/_site
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
