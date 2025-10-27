@@ -38,11 +38,13 @@ jobs:
           bundle exec jekyll build --trace
           echo "---- _site contents ----"
           ls -l _site
-          # index.html の存在確認
-          if [ ! -f _site/index.html ]; then
-            echo "ERROR: _site/index.html が存在しません"
-            exit 1
-          fi
+
+      - name: Sanity check built assets
+        run: |
+          echo "---- sanity check ----"
+          test -f _site/index.html || (echo "index.html missing"; exit 1)
+          test -f _site/assets/css/styles.css || (echo "styles.css missing in _site"; find _site -maxdepth 3 -type d -print; exit 1)
+          test -f _site/images/icons/icon-line.png || (echo "icon-line.png missing"; exit 1)
 
       - name: Upload artifact for SWA & Pages
         uses: actions/upload-artifact@v4
@@ -91,6 +93,11 @@ jobs:
     runs-on: ubuntu-latest
     environment: github-pages
     steps:
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
