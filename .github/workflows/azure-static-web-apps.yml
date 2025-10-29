@@ -1,59 +1,71 @@
 name: Build and Deploy Jekyll to Azure Static Web Apps
 
 on:
-  workflow_dispatch:
-  # 運用移行時に下記を有効化
-  # push:
-  #   branches: [main]
+  push:
+    branches:
+      - main       # main ブランチに push があった場合に自動実行
+  workflow_dispatch: # 手動実行も可能
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
+      # 1️⃣ リポジトリ取得
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Setup Ruby (stable)
+      # 2️⃣ Ruby / Bundler セットアップ
+      - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.2'
           bundler-cache: true
 
+      # 3️⃣ 依存関係インストール
       - name: Install dependencies
         run: bundle install
 
+      # 4️⃣ Jekyll ビルド
       - name: Build Jekyll site
         run: bundle exec jekyll build
 
+      # 5️⃣ ビルド成果物確認（Sanity Check）
       - name: Sanity check build result
         run: |
           echo "🔍 Checking built site..."
           ls -lah _site | head -20
 
+          # index.html 必須
           if [ ! -f "_site/index.html" ]; then
             echo "❌ index.html missing in _site/"
             exit 1
+          else
+            echo "✅ index.html found."
           fi
 
+          # CSS ファイル存在確認（minima + 独自CSS対応）
           if [ -f "_site/assets/main.css" ] || [ -f "_site/assets/css/styles.css" ]; then
             echo "✅ CSS asset found."
           else
-            echo "⚠️ No CSS found (check theme or custom assets)."
+            echo "⚠️ No CSS found. Check theme or custom assets."
           fi
 
+          # favicon 任意確認
           if [ -f "_site/images/logo/favicon.ico" ]; then
             echo "🖼 favicon found."
           else
             echo "ℹ️ favicon missing (optional)."
           fi
 
+      # 6️⃣ Azure Static Web Apps デプロイ
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "/"
-          output_location: "_site" # ✅ 現行仕様に準拠
-          skip_app_build: true # ✅ Jekyllは既にビルド済
+          app_location: "/"        # Jekyll ソースルート
+          output_location: "_site" # ビルド成果物
+          skip_app_build: true     # Jekyll は事前ビルド済
+
