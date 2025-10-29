@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>カウンセリング予約フォーム | Counseling Space paz</title>
+  <meta name="description" content="Counseling Space pazの予約フォームです。Microsoft Bookingsを利用して、対面・オンラインのカウンセリングをご予約いただけます。">
+  <link rel="canonical" href="https://counselingspacepaz.com/booking/shared/">
+  <!-- プレビュー時のみnoindex -->
+  <!-- <meta name="robots" content="noindex"> -->
+
+  <!-- Favicon -->
+  <link rel="icon" href="/images/logo/favicon.ico" type="image/x-icon">
+
+  <!-- Google Fonts: Zen Maru Gothic wght 400/700 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- OGP -->
+  <meta property="og:title" content="カウンセリング予約フォーム | Counseling Space paz">
+  <meta property="og:description" content="Counseling Space pazの予約フォームです。Microsoft Bookingsを利用して、対面・オンラインのカウンセリングをご予約いただけます。">
+  <meta property="og:url" content="https://counselingspacepaz.com/booking/shared/">
+
+  <!-- 共通CSS -->
+  <link rel="stylesheet" href="/assets/css/styles.css">
+</head>
+<body>
+
+  <!-- スキップリンク -->
+  <a href="#main" class="skip-link">本文へスキップ</a>
+
+ <!-- ====== HEADER ====== -->
+   <header class="site-header" role="banner">
+     <div class="container header-inner">
+      <a class="site-logo" href="/">
+        <img src="/images/logo/paz-logo.png" alt="カウンセリングスペースpazのロゴ">
+      </a>
+      <nav id="main-menu" class="site-nav" aria-label="主なナビゲーション">
+        <ul class="menu">
+          <li><a href="/">HOME</a></li>
+          <li><a href="/about/">pazについて</a></li>
+          <li><a href="/counselor/">カウンセラー紹介</a></li>
+          <li><a href="/booking/">ご予約はこちら</a></li>
+          <li><a href="/blog/">ブログ</a></li>
+          <li><a href="http://www.sugimen.com/" target="_blank" rel="noopener noreferrer">連携医療機関</a></li>
+        </ul>
+      </nav>
+
+      <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="main-menu" aria-label="メニューを開く">
+        ☰
+      </button>
+    </div>
+  </header>
+  <!-- ====== /HEADER ====== -->
+
+
+  <!-- メイン -->
+  <main id="main" tabindex="-1" role="main">
+
+    <!-- 1. ヒーロー -->
+    <section class="section section--hero" aria-labelledby="booking-title">
+      <div class="inner">
+        <h1 id="booking-title" class="section__title">予約フォーム</h1>
+        <p class="section__lead">以下のフォームからご希望の日時を選択してください</p>
+      </div>
+    </section>
+
+    <!-- 2. 埋め込み（Bookings iframe） -->
+    <section class="section section--embed" role="region" aria-label="予約フォーム">
+      <div class="inner booking-embed">
+        <iframe class="booking-embed__frame"
+                src="https://outlook.office.com/book/paz1@counselingspacepaz.com/"
+                title="予約フォーム（Microsoft Bookings）"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"></iframe>
+        <p class="embed__fallback">
+          フォームが表示されない場合は
+          <a href="https://outlook.office.com/book/paz1@counselingspacepaz.com/"
+             target="_blank" rel="noopener noreferrer">こちら</a>をクリック
+        </p>
+      </div>
+    </section>
+
+    <!-- 3. 補足案内（ラベンダー背景） -->
+    <section class="section section--note" aria-label="予約後のご案内">
+      <div class="inner note note--lavender">
+        <ul class="note__list">
+          <li class="note__item">予約後、確認メールが届きます。</li>
+          <li class="note__item"><code>info@counselingspacepaz.com</code> からのメールを受信できるよう設定してください。</li>
+          <li class="note__item">予約料の扱いや支払い方法はメールでご案内します。</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4. トラブル対応 -->
+    <section class="section section--support" aria-label="トラブル対応と連絡先">
+      <div class="inner">
+        <p>うまく表示されない場合は、以下の連絡先までご連絡ください。</p>
+        <ul class="support__list">
+          <li class="support__item">
+            <a href="mailto:info@counselingspacepaz.com" target="_blank" rel="noopener noreferrer">メールでお問い合わせ</a>
+          </li>
+          <li class="support__item">
+            <a href="tel:+81559001615" target="_blank" rel="noopener noreferrer">電話でお問い合わせ（055-900-1615）</a>
+          </li>
+          <li class="support__item">
+            <a href="https://qr-official.line.me/gs/M_132lsicr_GW.png?oat_content=url&amp;ts=09021803"
+               target="_blank" rel="noopener noreferrer">LINEでお問い合わせ</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+  </main>
+
+<!-- ====== FOOTER ====== -->
+    <footer class="site-footer" role="contentinfo">
+    <div class="container footer-inner">
+      <section class="footer-contact-address">
+        <h2>Contact</h2>
+        <ul class="contact-list">
+          <li class="contact-item map-link">
+            <a href="https://www.google.com/maps/search/?api=1&query=〒410-0801 静岡県沼津市大手町4-3-28 リバーサイド大手町502" target="_blank" rel="noopener noreferrer"> 〒410-0801 静岡県沼津市大手町4-3-28 リバーサイド大手町502</a>
+          </li>
+          <li class="contact-item"><i aria-hidden="true">📞</i><a href="tel:0559001615">055-900-1615</a></li>
+          <li class="contact-item"><i aria-hidden="true">✉️</i><a href="mailto:info@counselingspacepaz.com">info@counselingspacepaz.com</a></li>
+        </ul>
+      </section>
+
+      <nav class="sns-footer" aria-label="SNSリンク">
+        <ul class="sns-list">
+          <li><a href="https://qr-official.line.me/gs/M_132lsicr_GW.png?oat_content=url&ts=09021803" target="_blank" rel="noopener noreferrer"><img src="/images/icons/icon-line.png" alt="LINE公式アカウント"></a></li>
+          <li><a href="https://www.instagram.com/counselingspacepaz/" target="_blank" rel="noopener noreferrer"><img src="/images/icons/icon-instagram.png" alt="Instagram"></a></li>
+          <li><a href="https://www.facebook.com/counselingspacepaz" target="_blank" rel="noopener noreferrer"><img src="/images/icons/icon-facebook.png" alt="Facebook"></a></li>
+          <li><a href="https://x.com/space_paz" target="_blank" rel="noopener noreferrer"><img src="/images/icons/icon-x.png" alt="X (旧Twitter)"></a></li>
+        </ul>
+      </nav>
+<p class="footer-privacy">
+  
+<a href="https://counselingspacepaz-gif.github.io/paz-HP/content/privacy-policy-paz.pdf" target="_blank" rel="noopener noreferrer">
+  <i class="fas fa-lock"></i> 🔐プライバシーポリシー
+</a>
+
+
+</p>
+
+      <p class="copyright">© 2025 Counseling Space paz</p>
+    </div>
+  </footer>
+
+      
+  <!-- ====== /FOOTER ====== -->
+  
+</body>
+</html>
