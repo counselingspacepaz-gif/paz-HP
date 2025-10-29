@@ -68,4 +68,7 @@ jobs:
           app_location: "/"        # Jekyll ソースルート
           output_location: "_site" # ビルド成果物
           skip_app_build: true     # Jekyll は事前ビルド済
+      # 4.5️⃣ デバッグ：_site の中身確認
+      - name: Debug _site contents
+        run: ls -R _site
 
