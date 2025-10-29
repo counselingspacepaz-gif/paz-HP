@@ -57,9 +57,6 @@ jobs:
           else
             echo "ℹ️ favicon missing (optional)."
           fi
-      # 4.5️⃣ デバッグ：_site の中身確認
-      - name: Debug _site contents
-        run: ls -R _site
 
       # 6️⃣ Azure Static Web Apps デプロイ
       - name: Deploy to Azure Static Web Apps
@@ -68,7 +65,5 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: "upload"
-          app_location: "/"        # Jekyll ソースルート
-          output_location: "_site" # ビルド成果物
-          skip_app_build: true     # Jekyll は事前ビルド済
-      
+          app_location: "_site"    # 事前ビルド済み成果物を直接公開
+          skip_app_build: true     # Oryxビルドはスキップ
