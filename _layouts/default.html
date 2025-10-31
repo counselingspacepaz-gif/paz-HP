@@ -4,24 +4,27 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- SEO -->
-  <title>{{ page.title }}</title>
-  <meta name="description" content="{{ page.description }}" />
-  <link rel="canonical" href="https://counselingspacepaz.com{{ page.url }}" />
+  {%- assign _title = page.title | default: "Counseling Space paz | 女性と子どものための心理相談室" -%}
+  {%- assign _desc  = page.description | default: "カウンセリングスペースpaz（パス）は、静岡県沼津市の臨床心理士による心理相談室です。女性と15歳以下のお子さんを対象に、安心して話せるカウンセリングを提供しています。" -%}
+
+  <title>{{ _title }}</title>
+  <meta name="description" content="{{ _desc }}" />
+  <link rel="canonical" href="{{ page.url | absolute_url }}" />
 
   <!-- OGP -->
+  {%- assign _og = page.og_image | default: "/images/ogp/lavender-background.jpg" -%}
   <meta property="og:type" content="website" />
   <meta property="og:site_name" content="Counseling Space paz" />
-  <meta property="og:title" content="{{ page.title }}" />
-  <meta property="og:description" content="{{ page.description }}" />
-  <meta property="og:url" content="https://counselingspacepaz.com{{ page.url }}" />
-  <meta property="og:image" content="https://counselingspacepaz.com{{ page.og_image }}" />
+  <meta property="og:title" content="{{ _title }}" />
+  <meta property="og:description" content="{{ _desc }}" />
+  <meta property="og:url" content="{{ page.url | absolute_url }}" />
+  <meta property="og:image" content="{{ _og | absolute_url }}" />
 
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="{{ page.title }}" />
-  <meta name="twitter:description" content="{{ page.description }}" />
-  <meta name="twitter:image" content="https://counselingspacepaz.com{{ page.og_image }}" />
+  <meta name="twitter:title" content="{{ _title }}" />
+  <meta name="twitter:description" content="{{ _desc }}" />
+  <meta name="twitter:image" content="{{ _og | absolute_url }}" />
 
   <!-- Favicon -->
   <link rel="icon" href="{{ '/images/logo/favicon.ico' | relative_url }}" type="image/x-icon" />
@@ -31,16 +34,15 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic:wght@400;700&display=swap" rel="stylesheet" />
 
-  <!-- Styles -->
+  <!-- Styles (only this file) -->
   <link rel="stylesheet" href="{{ '/assets/css/styles.css' | relative_url }}" />
 </head>
 
 <body>
-  <!-- ====== SKIP LINK ====== -->
+  <!-- SKIP LINK -->
   <a href="#main" class="skip-link">コンテンツにスキップ</a>
-  <!-- ====== /SKIP LINK ====== -->
 
-  <!-- ====== HEADER ====== -->
+  <!-- HEADER -->
   <header class="site-header" role="banner">
     <div class="container header-inner">
       <a class="site-logo" href="{{ '/' | relative_url }}">
@@ -58,36 +60,37 @@
         </ul>
       </nav>
 
-      <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="main-menu" aria-label="メニューを開く">
-        ☰
-      </button>
+      <button id="menu-toggle" class="menu-toggle" aria-expanded="false" aria-controls="main-menu" aria-label="メニューを開く">☰</button>
     </div>
   </header>
-  <!-- ====== /HEADER ====== -->
 
-  <!-- ====== HERO SECTION ====== -->
-  <section class="hero section section--hero hero--{{ page.hero_class }}">
-    <div class="hero__bg" aria-hidden="true"></div>
+  <!-- HERO -->
+  <section class="hero section section--hero hero--{{ page.hero_class | default: 'home' }}">
+    {%- if page.image -%}
+      <img class="hero__bg" src="{{ page.image | relative_url }}" alt="" aria-hidden="true" />
+    {%- else -%}
+      <img class="hero__bg" src="{{ '/images/ogp/lavender-background.jpg' | relative_url }}" alt="" aria-hidden="true" />
+    {%- endif -%}
+
     <div class="hero__overlay" aria-hidden="true"></div>
+
     <div class="wrapper">
       <div class="inner">
-        <h1>{{ page.hero_title }}</h1>
-        <p>{{ page.hero_subtitle }}</p>
-        {% if page.hero_cta %}
-          <a href="{{ page.hero_cta_url }}" class="btn">{{ page.hero_cta }}</a>
+        <h1>{{ page.hero_title | default: site.title | default: "Counseling Space paz" }}</h1>
+        <p>{{ page.hero_subtitle | default: site.description | default: "女性と子どものための相談機関です" }}</p>
+        {% if page.hero_cta or site.hero_cta %}
+          <a href="{{ page.hero_cta_url | default: site.hero_cta_url | default: '#' }}" class="btn">{{ page.hero_cta | default: site.hero_cta | default: '詳しくはこちら' }}</a>
         {% endif %}
       </div>
     </div>
   </section>
-  <!-- ====== /HERO SECTION ====== -->
 
-  <!-- ====== MAIN CONTENT ====== -->
-  <main id="main">
+  <!-- MAIN -->
+  <main id="main" role="main">
     {{ content }}
   </main>
-  <!-- ====== /MAIN CONTENT ====== -->
 
-  <!-- ====== FOOTER ====== -->
+  <!-- FOOTER -->
   <footer class="site-footer" role="contentinfo">
     <div class="container footer-inner">
       <section class="footer-contact-address">
@@ -112,13 +115,15 @@
 
       <p class="footer-privacy">
         <a href="{{ '/content/privacy-policy-paz.pdf' | relative_url }}" target="_blank" rel="noopener noreferrer">
-          <i class="fas fa-lock" aria-hidden="true"></i> 🔐プライバシーポリシー
+          🔐プライバシーポリシー
         </a>
       </p>
 
       <p class="copyright">© {{ site.time | date: '%Y' }} Counseling Space paz</p>
     </div>
   </footer>
-  <!-- ====== /FOOTER ====== -->
+
+  <!-- main.js is expected to provide hamburger toggle behavior -->
+  <script src="{{ '/assets/js/main.js' | relative_url }}" defer></script>
 </body>
 </html>
