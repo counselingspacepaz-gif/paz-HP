@@ -23,6 +23,8 @@ include:
   - favicon.ico
   - robots.txt
 
+theme: null
+
 # Markdown処理
 markdown: kramdown
 
