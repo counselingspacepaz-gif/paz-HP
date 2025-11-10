@@ -27,7 +27,7 @@ include:
 markdown: kramdown
 
 # テーマ指定
-theme: minima
+# theme: minima
 
 # プラグイン（Gemfileと合わせる）
 plugins:
