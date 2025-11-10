@@ -26,7 +26,6 @@ include:
 # Markdown処理
 markdown: kramdown
 
-
 # プラグイン（Gemfileと合わせる）
 plugins:
   - jekyll-seo-tag
