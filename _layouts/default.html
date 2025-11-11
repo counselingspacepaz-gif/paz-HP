@@ -41,17 +41,13 @@
     {%- endcomment -%}
     <a class="skip-link" href="#main-content">メインコンテンツへスキップ</a>
 
-    <header>
-      {% include header.html %}
-    </header>
+    {% include header.html %}
 
     <main id="main-content">
       {{ content }}
     </main>
 
-    <footer>
-      {% include footer.html %}
-    </footer>
+    {% include footer.html %}
 
     <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
   </body>
