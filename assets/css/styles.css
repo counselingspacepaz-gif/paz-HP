@@ -291,3 +291,71 @@ a:focus-visible {
     cursor: pointer;
   }
 }
+/* =====================================================
+   Footer layout fixes（#HP 20251111-REV2）
+   ===================================================== */
+
+/* 1) container の定義（全体共通の最大幅・中央寄せ） */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* 2) footer-inner の安定化（上段2カラム／可変） */
+.footer-inner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;                   /* footer内の列間隔 */
+  justify-content: space-between;
+  align-items: flex-start;     /* 上端揃えで段差を抑える */
+}
+
+.footer-contact-address,
+.sns-footer {
+  flex: 1 1 300px;             /* 可変幅（最小値は下で調整） */
+  min-width: 200px;            /* 320px級でも折返し余裕を確保 */
+}
+
+/* 3) SNSリスト（既存補強：歪み防止） */
+.sns-list {
+  list-style: none;
+  display: flex;
+  gap: 0.5rem;
+}
+.sns-list img {
+  width: 32px;
+  height: 32px;
+  object-fit: contain;         /* 万一の歪み防止（既存に追加） */
+}
+
+/* 4) 下段（プライバシー／著作権） */
+.footer-bottom {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;                   /* 下段内の間隔。上段の gap とは独立管理 */
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.footer-privacy {
+  text-align: left;
+}
+.copyright {
+  text-align: right;
+}
+
+/* 5) レスポンシブ調整 */
+@media (max-width: 767.98px) {
+  .footer-bottom {
+    justify-content: center;
+  }
+  .footer-privacy,
+  .copyright {
+    flex: 0 1 100%;
+    text-align: center;        /* モバイルは下段中央揃え */
+  }
+}
