@@ -1,6 +1,6 @@
 <!-- _includes/hero.html -->
 <section class="hero section section--hero hero--{{ page.hero_class }}">
-  <div class="hero__bg" aria-hidden="true" style="background-image: url('{{ site.baseurl }}/images/hero/{{ page.image }}'); height: 50vh; background-size: cover; background-position: center;"></div>
+  <div class="hero__bg" aria-hidden="true" style="background-image: url('{{ '/images/hero/' | append: page.image | relative_url }}'); height: 50vh; background-size: cover; background-position: center;"></div>
   <div class="wrapper">
     <div class="inner">
       <h1>{{ page.title }}</h1>
