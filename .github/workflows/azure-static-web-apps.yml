@@ -6,7 +6,7 @@ on:
     paths:
       # SWAへのデプロイをトリガーするファイルのリスト
       - '_config.yml'
-      - '_config_swa.yml' # 新しく追加したSWA用設定ファイル
+      - '_config_swa.yml' # SWA用設定ファイル
       - 'assets/**'
       - 'images/**'
       - 'content/**'
@@ -17,7 +17,7 @@ on:
   workflow_dispatch:
 
 concurrency:
-  # より短く、ブランチ名のみを示す 'ref_name' を使用
+  # ブランチ単位で同時実行を抑止
   group: jekyll-swa-${{ github.ref_name }}
   cancel-in-progress: true
 
@@ -40,37 +40,37 @@ jobs:
         run: bundle install --jobs 4 --retry 3
 
       - name: Build Jekyll site (SWA Root Deployment)
-        # 👑 最終解決: --configで2つのファイルを読み込み、後から読み込んだ_config_swa.ymlの 
-        # baseurl: "" で _config.yml の baseurl: "/paz-HP" を上書きする。
-        run: bundle exec jekyll build --config _config.yml,_config_swa.yml --trace 
+        # ✅ 統合方針に従い、_config_swa.yml のみ適用
+        run: bundle exec jekyll build --config _config_swa.yml --trace
 
       - name: Sanity check build result & Path Confirmation
+        shell: bash
         run: |
           echo "Checking built site..."
           if [ ! -f "_site/index.html" ]; then
             echo "Error: index.html missing in _site/"
             exit 1
           fi
-          
-          # 【重要】生成されたHTMLをチェックし、baseurl:"" が適用されたか確認
+
+          # baseurl:"" が効いているか最重要の1点を検査（CSSパスがルート相対になっているか）
           if grep -q 'href="/assets/css/styles.css"' _site/index.html; then
             echo "SUCCESS: CSS path uses root-relative path (baseurl=\"\")."
           else
-            echo "FAILURE: CSS path may still contain sub-directory. Check build command."
+            echo "FAILURE: CSS path may still contain sub-directory. Check build command or templates."
             if [ -f "_site/assets/css/styles.css" ]; then
-              echo "CSS asset (styles.css) file found in _site."
+              echo "INFO: _site/assets/css/styles.css は存在。テンプレートのrelative_url適用を再点検。"
             else
-              echo "Warning: No primary CSS file found in _site/assets/css/. Check file path."
+              echo "WARN: _site/assets/css/styles.css が見当たらない。ビルド対象/パスを確認。"
             fi
-            exit 1 # パスの問題が再発しないように、このチェックで失敗させる
+            exit 1
           fi
 
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          # 🔒 リポジトリ側で設定したハッシュ付きシークレット名を参照（例： icy-rock-024ded110）
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ICY_ROCK_024DED110 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: upload
-          app_location: "" # リポジトリのルートを明示的に指定
-          output_location: "_site" # Jekyllのビルド結果ディレクトリ
-          skip_app_build: true
+          app_location: ""         # リポジトリのルート
+          output_location: "_site" # Jekyllビルド出力
