@@ -1,8 +1,50 @@
 # --------------------------------------
-# _config_swa.yml（Azure SWA上書き専用設定）
+# _config_swa.yml（Azure SWA専用・統合版）
 # --------------------------------------
 
-# SWAは通常、カスタムドメインのルート直下で運用されるため、
-# _config.yml の baseurl: "/paz-HP" を上書きするために、baseurlを空に設定する。
+# 公開URL（SWAのデフォルトドメイン）
 url: "https://icy-rock-024ded110.azurestaticapps.net"
-baseurl: ""
+baseurl: ""   # SWAはルート直下運用なので必ず空にする
+
+# 出力先ディレクトリ
+destination: _site
+
+# きれいなURL（/page/ 形式、拡張子なし）
+permalink: pretty
+
+# 静的資産を必ず含める（ディレクトリ単位＋個別ファイルの併用で保険）
+include:
+  - assets
+  - assets/css/styles.css     # ← 保険：個別ファイル指定（Jekyllの除外癖対策）
+  - images
+  - content
+  - favicon.ico
+  - robots.txt
+
+# テーマは使わない（Forty改修の独自CSSを前提）
+theme: null
+
+# Markdown処理
+markdown: kramdown
+
+# 使用プラグイン（Gemfileと一致させること）
+plugins:
+  - jekyll-seo-tag
+  - jekyll-feed
+  - jekyll-sitemap
+
+# --------------------------------------
+# 📝 運用メモ
+# --------------------------------------
+# ■ SWAビルドコマンド（_config.ymlを無視して、このファイルのみ使用）
+#   bundle exec jekyll build --config _config_swa.yml
+#
+# ■ カスタムドメイン切替時
+#   url を本番ドメインに更新（baseurl は空のまま）
+#
+# ■ HTML側のリンク記述（両環境で崩れない推奨形）
+#   {{ '/assets/css/styles.css' | relative_url }}
+#   # relative_url は baseurl が空ならそのまま出力される
+#
+# ■ 注意
+#   - .nojekyll は置かない（Jekyllを使うため）
