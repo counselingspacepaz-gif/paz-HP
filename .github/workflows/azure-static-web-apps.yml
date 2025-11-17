@@ -44,7 +44,6 @@ jobs:
         run: |
           val=$(ruby -ryaml -e 'puts (YAML.load_file("_config_swa.yml")["baseurl"].inspect)')
           echo "SWA baseurl => ${val}"
-          # "" または未定義（nil）を許容。その他はエラーにする
           if [ "$val" != '""' ] && [ "$val" != 'nil' ]; then
             echo "ERROR: _config_swa.yml の baseurl が空ではない（${val}）。\"\" に修正せよ。"
             exit 1
@@ -54,44 +53,33 @@ jobs:
         # ✅ 設計意図どおり _config_swa.yml のみ適用
         run: bundle exec jekyll build --config _config_swa.yml --trace
 
-      - name: Detect INTERNAL '/paz-HP/' references (href/src only)
-        id: detect_subdir_internal
-        shell: bash
-        run: |
-          echo "Scanning built HTML for INTERNAL links with '/paz-HP/'…"
-          if grep -RE '(href|src)="/paz-HP/' _site --include='*.html' --line-number; then
-            echo "FOUND=true" >> "$GITHUB_OUTPUT"
-            echo "Found internal '/paz-HP/' references in built HTML."
-          else
-            echo "FOUND=false" >> "$GITHUB_OUTPUT"
-            echo "No internal '/paz-HP/' references found."
-          fi
-          echo
-          echo "NOTE: 外部絶対URL（https://…/paz-HP/…pdf）はスキップ対象。検出していない。"
-
       - name: 🛠️ Patch INTERNAL '/paz-HP/' prefixes → '/'
-        if: steps.detect_subdir_internal.outputs.FOUND == 'true'
+        # 👑 最も確実な置換: 内部リンクの '/paz-HP/' を強制的に '/' に置換する。
+        # 置換対象を、内部アセットを示す href="/paz-HP/images" や href="/paz-HP/" などに限定する。
         shell: bash
         run: |
-          echo "Applying path patch for INTERNAL links..."
+          echo "Applying final, aggressive path patch for INTERNAL links..."
+          
+          # 置換前の件数計測（内部リンクのみを対象とする）
           BEFORE=$(grep -RE '(href|src)="/paz-HP/' _site --include='*.html' | wc -l || true)
           echo "Before patch occurrences: ${BEFORE}"
 
-          # href/src の '/paz-HP/' 接頭辞を '/' に限定置換（HTMLのみ）
-          find _site -type f -name "*.html" -print0 | xargs -0 sed -i \
-            -e 's|\(href\|src\)="/paz-HP/|\1="/|g'
-
+          # 置換コマンド（再試行）：findとsedの組み合わせを信頼性の高い形に再構築
+          # ※ `\1` は 'href' または 'src' のキャプチャグループを参照する
+          find _site -type f -name "*.html" -exec sed -i \
+            -e 's|\(href\|src\)="/paz-HP/|\1="/|g' {} \;
+            
           AFTER=$(grep -RE '(href|src)="/paz-HP/' _site --include='*.html' | wc -l || true)
           echo "After patch occurrences: ${AFTER}"
-
-          # 代表的なCSSルート相対が得られたか確認（?v=… は許容）
-          if grep -Eq 'href="/assets/css/styles\.css(\?v=[^"]*)?"' _site/index.html; then
-            echo "SUCCESS: styles.css is referenced via root-relative URL."
-          else
-            echo "FAILURE: styles.css root-relative link not found after patch."
-            grep -n '<link' _site/index.html || true
-            exit 1
+          
+          # パッチ後にも内部リンクの '/paz-HP/' が残っていれば、即座にエラーとする。
+          if [ "$AFTER" -ne 0 ]; then
+              echo "FATAL ERROR: INTERNAL '/paz-HP/' references remain after patch."
+              grep -RE '(href|src)="/paz-HP/' _site --include='*.html' --line-number
+              exit 1
           fi
+          echo "OK: All internal '/paz-HP/' references successfully patched."
+
 
       - name: Final sanity (root-relative CSS & no INTERNAL '/paz-HP/' remains)
         shell: bash
@@ -103,18 +91,12 @@ jobs:
           if grep -Eq 'href="/assets/css/styles\.css(\?v=[^"]*)?"' _site/index.html; then
             echo "OK: CSSはルート相対で参照されている。"
           else
-            echo "NG: ルート相対CSSリンクが見つからない。テンプレートの relative_url を再点検。"
-            grep -n '<link' _site/index.html || true
+            echo "NG: ルート相対CSSリンクが見つからない。致命的なエラー。"
             exit 1
           fi
 
-          # INTERNAL のみ再検出（外部絶対URLはスルー）
-          if grep -RE '(href|src)="/paz-HP/' _site --include='*.html' --line-number; then
-            echo "ERROR: INTERNAL '/paz-HP/' references remain in output HTML."
-            exit 1
-          fi
-
-          echo "OK: No INTERNAL '/paz-HP/' references remain."
+          # 既に前のステップでゼロ件チェックしているため、ここでは単純に成功として処理を進める。
+          echo "OK: デプロイ準備完了。"
 
       - name: (Optional) Upload built site as artifact on failure
         if: failure()
@@ -126,7 +108,7 @@ jobs:
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
-          # 🔒 ハッシュ付きシークレット名（実環境のキーに合わせて変更可）
+          # 🔒 ハッシュ付きシークレット名（君の正しいシークレットを使用すること）
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ICY_ROCK_024DED110 }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: upload
