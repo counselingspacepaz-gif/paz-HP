@@ -178,10 +178,11 @@ jobs:
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
-          # 🚨🚨🚨 修正箇所: シークレット名を正しい AZURE_STATIC_WEB_APPS_API_TOKEN に変更 🚨🚨🚨
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: upload
-          app_location: ""         # リポジトリのルート
-          output_location: "_site" # Jekyllビルド出力
+          # 🚨🚨🚨 修正箇所: app_location をビルド出力先 "_site" に変更 🚨🚨🚨
+          app_location: "_site"
+          # 🚨🚨🚨 修正箇所: app_location がビルド済みの場合は output_location を空("")に設定 🚨🚨🚨
+          output_location: ""
           skip_app_build: true
