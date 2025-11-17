@@ -6,6 +6,7 @@ on:
     paths:
       # SWAへのデプロイをトリガーするファイルのリスト
       - '_config.yml'
+      - '_config_swa.yml' # 新しく追加したSWA用設定ファイル
       - 'assets/**'
       - 'images/**'
       - 'content/**'
@@ -39,8 +40,9 @@ jobs:
         run: bundle install --jobs 4 --retry 3
 
       - name: Build Jekyll site (SWA Root Deployment)
-        # SWAのルート直下公開を確実にするため、baseurlを空("")で上書きする
-        run: bundle exec jekyll build --baseurl "" --trace 
+        # 👑 最終解決: --configで2つのファイルを読み込み、後から読み込んだ_config_swa.ymlの 
+        # baseurl: "" で _config.yml の baseurl: "/paz-HP" を上書きする。
+        run: bundle exec jekyll build --config _config.yml,_config_swa.yml --trace 
 
       - name: Sanity check build result & Path Confirmation
         run: |
@@ -50,12 +52,11 @@ jobs:
             exit 1
           fi
           
-          # 【重要】生成されたHTMLをチェックし、baseurlが正しく適用されているか確認
+          # 【重要】生成されたHTMLをチェックし、baseurl:"" が適用されたか確認
           if grep -q 'href="/assets/css/styles.css"' _site/index.html; then
             echo "SUCCESS: CSS path uses root-relative path (baseurl=\"\")."
           else
-            echo "FAILURE: CSS path may still contain sub-directory (e.g., /paz-HP/assets/...). Check build command."
-            # ファイルが見つからない警告は残しておく
+            echo "FAILURE: CSS path may still contain sub-directory. Check build command."
             if [ -f "_site/assets/css/styles.css" ]; then
               echo "CSS asset (styles.css) file found in _site."
             else
@@ -70,6 +71,6 @@ jobs:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: upload
-          app_location: "" # リポジトリのルートを明示的に指定（君の指摘を採用）
+          app_location: "" # リポジトリのルートを明示的に指定
           output_location: "_site" # Jekyllのビルド結果ディレクトリ
           skip_app_build: true
