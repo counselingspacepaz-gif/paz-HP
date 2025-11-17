@@ -54,41 +54,37 @@ jobs:
         # ✅ 設計意図どおり _config_swa.yml のみ適用
         run: bundle exec jekyll build --config _config_swa.yml --trace
 
-      - name: Detect unexpected '/paz-HP/' in built HTML
+      - name: Detect INTERNAL '/paz-HP/' references (href/src only)
+        id: detect_subdir_internal
         shell: bash
-        id: detect_subdir
         run: |
-          echo "Scanning built HTML for '/paz-HP/'…"
-          if grep -R '/paz-HP/' _site --include='*.html' --line-number; then
+          echo "Scanning built HTML for INTERNAL links with '/paz-HP/'…"
+          if grep -RE '(href|src)="/paz-HP/' _site --include='*.html' --line-number; then
             echo "FOUND=true" >> "$GITHUB_OUTPUT"
-            echo "Found unexpected '/paz-HP/' references in built HTML."
+            echo "Found internal '/paz-HP/' references in built HTML."
           else
             echo "FOUND=false" >> "$GITHUB_OUTPUT"
-            echo "No '/paz-HP/' references found. Skipping patch."
+            echo "No internal '/paz-HP/' references found."
           fi
+          echo
+          echo "NOTE: 外部絶対URL（https://…/paz-HP/…pdf）はスキップ対象。検出していない。"
 
-      - name: 🛠️ Path Patching Workaround (remove '/paz-HP/' prefixes)
-        if: steps.detect_subdir.outputs.FOUND == 'true'
+      - name: 🛠️ Patch INTERNAL '/paz-HP/' prefixes → '/'
+        if: steps.detect_subdir_internal.outputs.FOUND == 'true'
         shell: bash
         run: |
-          echo "Applying path patching to built files..."
-          # 置換前の件数計測（代表例）
-          BEFORE=$(grep -R '/paz-HP/' _site --include='*.html' | wc -l || true)
-          echo "Before patch, occurrences: ${BEFORE}"
+          echo "Applying path patch for INTERNAL links..."
+          BEFORE=$(grep -RE '(href|src)="/paz-HP/' _site --include='*.html' | wc -l || true)
+          echo "Before patch occurrences: ${BEFORE}"
 
           # href/src の '/paz-HP/' 接頭辞を '/' に限定置換（HTMLのみ）
           find _site -type f -name "*.html" -print0 | xargs -0 sed -i \
             -e 's|\(href\|src\)="/paz-HP/|\1="/|g'
 
-          # 追加の典型ディレクトリに対しても補正（安全側）
-          find _site -type f -name "*.html" -print0 | xargs -0 sed -i \
-            -e 's|href="/paz-HP/\(assets\|images\|content\|scripts\)/|href="/\1/|g' \
-            -e 's|src="/paz-HP/\(assets\|images\|content\|scripts\)/|src="/\1/|g'
+          AFTER=$(grep -RE '(href|src)="/paz-HP/' _site --include='*.html' | wc -l || true)
+          echo "After patch occurrences: ${AFTER}"
 
-          AFTER=$(grep -R '/paz-HP/' _site --include='*.html' | wc -l || true)
-          echo "After patch, occurrences: ${AFTER}"
-
-          # styles.css のルート相対が得られたか最重要確認（?v=… は許容）
+          # 代表的なCSSルート相対が得られたか確認（?v=… は許容）
           if grep -Eq 'href="/assets/css/styles\.css(\?v=[^"]*)?"' _site/index.html; then
             echo "SUCCESS: styles.css is referenced via root-relative URL."
           else
@@ -97,26 +93,28 @@ jobs:
             exit 1
           fi
 
-      - name: Sanity check build result & Path Confirmation
+      - name: Final sanity (root-relative CSS & no INTERNAL '/paz-HP/' remains)
         shell: bash
         run: |
           echo "Final sanity check…"
           test -f "_site/index.html" || (echo "Error: _site/index.html missing" && exit 1)
 
-          # baseurl:"" が効いているか（クエリ許容）
+          # ルート相対CSS確認（クエリ許容）
           if grep -Eq 'href="/assets/css/styles\.css(\?v=[^"]*)?"' _site/index.html; then
             echo "OK: CSSはルート相対で参照されている。"
           else
-            echo "NG: ルート相対CSSリンクが見つからない。テンプレートの relative_url 適用を再点検。"
+            echo "NG: ルート相対CSSリンクが見つからない。テンプレートの relative_url を再点検。"
             grep -n '<link' _site/index.html || true
             exit 1
           fi
 
-          # '/paz-HP/' が出力に残っていないことを確認
-          if grep -R '/paz-HP/' _site --include='*.html' --line-number; then
-            echo "ERROR: '/paz-HP/' が出力HTMLに残存。恒久対処が未完。"
+          # INTERNAL のみ再検出（外部絶対URLはスルー）
+          if grep -RE '(href|src)="/paz-HP/' _site --include='*.html' --line-number; then
+            echo "ERROR: INTERNAL '/paz-HP/' references remain in output HTML."
             exit 1
           fi
+
+          echo "OK: No INTERNAL '/paz-HP/' references remain."
 
       - name: (Optional) Upload built site as artifact on failure
         if: failure()
