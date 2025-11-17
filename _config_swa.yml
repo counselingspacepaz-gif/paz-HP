@@ -1,0 +1,8 @@
+# --------------------------------------
+# _config_swa.yml（Azure SWA上書き専用設定）
+# --------------------------------------
+
+# SWAは通常、カスタムドメインのルート直下で運用されるため、
+# _config.yml の baseurl: "/paz-HP" を上書きするために、baseurlを空に設定する。
+url: "https://icy-rock-024ded110.azurestaticapps.net"
+baseurl: ""
