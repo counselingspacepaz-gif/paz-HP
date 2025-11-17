@@ -8,34 +8,24 @@
     {% seo %}
 
     {%- comment -%}
-      CSSキャッシュ対策：?v=20251117-2 (強制更新)
-      relative_urlでPages/SWA両対応。このバージョン番号の更新がレイアウト修復の鍵となる。
+      CSSキャッシュ対策：?v=20251117-5 (最終ビルドチェック用のバージョン)
+      運用指針通り、すべてのパスは relative_url で統一。
     {%- endcomment -%}
     <link
       rel="stylesheet"
-      href="{{ '/assets/css/styles.css?v=20251117-2' | relative_url }}"
+      href="{{ '/assets/css/styles.css?v=20251117-5' | relative_url }}"
     >
 
     {%- comment -%}
-      OGP画像のフォールバック処理 (jekyll-seo-tagを補完)
-      og_imageが未定義の場合、デフォルト画像を指定して二重に定義することでjekyll-seo-tagを上書きする。
+      OGP画像のフォールバック処理を削除し、jekyll-seo-tagに任せる。
+      手動タグの重複やLiquidエラーによるビルド失敗を防ぐ。
     {%- endcomment -%}
-    {% assign og_image_path = page.og_image | default: '/images/ogp/default-ogp.jpg' %}
-    {%- if og_image_path -%}
-      <meta property="og:image" content="{{ og_image_path | absolute_url }}">
-      <meta name="twitter:image" content="{{ og_image_path | absolute_url }}">
-    {%- endif -%}
-
+    
     <link
       rel="icon"
       href="{{ '/favicon.ico' | relative_url }}"
       type="image/x-icon"
     >
-    
-    {%- comment -%}
-      フォントリンクはhead.htmlの内容から除外されているため、ここでは省略。
-      もし必要であれば、この<head>タグ内に追記して下さい。
-    {%- endcomment -%}
     
   </head>
 
@@ -56,6 +46,6 @@
     {%- comment -%}
       JSにもキャッシュ破壊用のバージョンを付与し、強制的に最新版を読み込ませる。
     {%- endcomment -%}
-    <script src="{{ '/assets/js/main.js?v=20251117-2' | relative_url }}"></script>
+    <script src="{{ '/assets/js/main.js?v=20251117-5' | relative_url }}"></script>
   </body>
 </html>
