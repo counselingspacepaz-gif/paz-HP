@@ -1,46 +1,92 @@
-- name: Build Jekyll site (SWA Root Deployment)
-        # _config_swa.yml のみ適用
+name: Build and Deploy Jekyll to Azure Static Web Apps
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      # SWAへのデプロイをトリガーするファイルのリスト
+      - '_config.yml'
+      - '_config_swa.yml' # SWA用設定ファイル
+      - 'assets/**'
+      - 'images/**'
+      - 'content/**'
+      - '**/*.html'
+      - '**/*.css'
+      - '**/*.md'
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+concurrency:
+  # ブランチ単位で同時実行を抑止
+  group: jekyll-swa-${{ github.ref_name }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.2'
+          bundler-cache: true
+
+      - name: Install dependencies
+        run: bundle install --jobs 4 --retry 3
+
+      - name: Assert baseurl in _config_swa.yml
+        shell: bash
+        run: |
+          val=$(ruby -ryaml -e 'puts (YAML.load_file("_config_swa.yml")["baseurl"].inspect)')
+          echo "SWA baseurl => ${val}"
+          # "" または未定義（nil）を許容。その他はエラーにする
+          if [ "$val" != '""' ] && [ "$val" != 'nil' ]; then
+            echo "ERROR: _config_swa.yml の baseurl が空ではない（${val}）。\"\" に修正せよ。"
+            exit 1
+          fi
+
+      - name: Build Jekyll site (SWA Root Deployment)
+        # ✅ 設計意図どおり _config_swa.yml のみ適用
         run: bundle exec jekyll build --config _config_swa.yml --trace
 
-      - name: Detect unexpected subdirectory in built HTML
+      - name: Detect unexpected '/paz-HP/' in built HTML
         shell: bash
+        id: detect_subdir
         run: |
           echo "Scanning built HTML for '/paz-HP/'…"
           if grep -R '/paz-HP/' _site --include='*.html' --line-number; then
+            echo "FOUND=true" >> "$GITHUB_OUTPUT"
             echo "Found unexpected '/paz-HP/' references in built HTML."
-            exit 0  # 次のパッチ工程に進む
           else
+            echo "FOUND=false" >> "$GITHUB_OUTPUT"
             echo "No '/paz-HP/' references found. Skipping patch."
-            exit 78  # 意図的なスキップコード（任意）※次のステップに continue-on-error 付けないなら不要
           fi
 
       - name: 🛠️ Path Patching Workaround (remove '/paz-HP/' prefixes)
-        if: success() # 直前ステップで検出があったときのみ実行（exit 0 のとき）
+        if: steps.detect_subdir.outputs.FOUND == 'true'
         shell: bash
         run: |
           echo "Applying path patching to built files..."
-          # 置換前の件数計測（href/src 両対応、クエリ許容）
-          BEFORE=$(grep -R '["'\'']\/paz-HP\/assets\/css\/styles\.css' _site --include='*.html' | wc -l || true)
-          echo "Before patch, occurrences of styles.css with /paz-HP: ${BEFORE}"
+          # 置換前の件数計測（代表例）
+          BEFORE=$(grep -R '/paz-HP/' _site --include='*.html' | wc -l || true)
+          echo "Before patch, occurrences: ${BEFORE}"
 
           # href/src の '/paz-HP/' 接頭辞を '/' に限定置換（HTMLのみ）
           find _site -type f -name "*.html" -print0 | xargs -0 sed -i \
             -e 's|\(href\|src\)="/paz-HP/|\1="/|g'
 
-          # 追加で、一般化：assets, images, scripts 配下の典型パスを一括補正
+          # 追加の典型ディレクトリに対しても補正（安全側）
           find _site -type f -name "*.html" -print0 | xargs -0 sed -i \
-            -e 's|href="/paz-HP/\(assets\|images\|content\|scripts\)/|\href="/\1/|g' \
-            -e 's|src="/paz-HP/\(assets\|images\|content\|scripts\)/|\src="/\1/|g'
+            -e 's|href="/paz-HP/\(assets\|images\|content\|scripts\)/|href="/\1/|g' \
+            -e 's|src="/paz-HP/\(assets\|images\|content\|scripts\)/|src="/\1/|g'
 
-          # 置換後の件数計測
-          AFTER=$(grep -R '["'\'']\/paz-HP\/assets\/css\/styles\.css' _site --include='*.html' | wc -l || true)
+          AFTER=$(grep -R '/paz-HP/' _site --include='*.html' | wc -l || true)
           echo "After patch, occurrences: ${AFTER}"
-
-          # 過剰に'/paz-HP/'が残っていないか最終チェック
-          if grep -R '/paz-HP/' _site --include='*.html' --line-number; then
-            echo "ERROR: '/paz-HP/' references still remain after patch."
-            exit 1
-          fi
 
           # styles.css のルート相対が得られたか最重要確認（?v=… は許容）
           if grep -Eq 'href="/assets/css/styles\.css(\?v=[^"]*)?"' _site/index.html; then
@@ -52,13 +98,40 @@
           fi
 
       - name: Sanity check build result & Path Confirmation
-        if: always()
         shell: bash
         run: |
           echo "Final sanity check…"
           test -f "_site/index.html" || (echo "Error: _site/index.html missing" && exit 1)
-          if grep -R '/paz-HP/' _site --include='*.html' --line-number; then
-            echo "ERROR: '/paz-HP/' still present. Aborting."
+
+          # baseurl:"" が効いているか（クエリ許容）
+          if grep -Eq 'href="/assets/css/styles\.css(\?v=[^"]*)?"' _site/index.html; then
+            echo "OK: CSSはルート相対で参照されている。"
+          else
+            echo "NG: ルート相対CSSリンクが見つからない。テンプレートの relative_url 適用を再点検。"
+            grep -n '<link' _site/index.html || true
             exit 1
           fi
-          echo "OK: No '/paz-HP/' references remain."
+
+          # '/paz-HP/' が出力に残っていないことを確認
+          if grep -R '/paz-HP/' _site --include='*.html' --line-number; then
+            echo "ERROR: '/paz-HP/' が出力HTMLに残存。恒久対処が未完。"
+            exit 1
+          fi
+
+      - name: (Optional) Upload built site as artifact on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: jekyll-site-on-failure
+          path: _site
+
+      - name: Deploy to Azure Static Web Apps
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          # 🔒 ハッシュ付きシークレット名（実環境のキーに合わせて変更可）
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_ICY_ROCK_024DED110 }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: upload
+          app_location: ""         # リポジトリのルート
+          output_location: "_site" # Jekyllビルド出力
+          skip_app_build: true
