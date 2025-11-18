@@ -22,3 +22,6 @@ include:
 # Markdownとパーマリンク設定（必要なら）
 markdown: kramdown
 permalink: /:categories/:title/
+
+# キャッシュバスター用（デプロイごとに更新）
+build_version: 20251118_v1

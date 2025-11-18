@@ -8,12 +8,13 @@
     {% seo %}
 
     <!-- CSSの読み込み (キャッシュ対策付き) -->
+    <!-- ビルドバージョンを使用してキャッシュを強制的に更新 -->
     <link
       rel="stylesheet"
-      href="{{ '/assets/css/styles.css?v=20251118-final' | relative_url }}"
+      href="{{ '/assets/css/styles.css?v=' | append: site.build_version | relative_url }}"
     >
 
-    <!-- ファビコンの読み込み: パスを images/logo/favicon.ico に修正 -->
+    <!-- ファビコンの読み込み: パスは /images/logo/favicon.ico が正しい -->
     <link
       rel="icon"
       href="{{ '/images/logo/favicon.ico' | relative_url }}"
@@ -35,7 +36,8 @@
     {% include footer.html %}
 
     <!-- JavaScriptの読み込み (キャッシュバスター付き) -->
-    <script src="{{ '/assets/js/main.js?v=20251118-final' | relative_url }}"></script>
+    <!-- ビルドバージョンを使用してキャッシュを強制的に更新 -->
+    <script src="{{ '/assets/js/main.js?v=' | append: site.build_version | relative_url }}"></script>
 
   </body>
 </html>
