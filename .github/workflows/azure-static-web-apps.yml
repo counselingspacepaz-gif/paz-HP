@@ -1,4 +1,4 @@
-name: Build & Deploy Jekyll to Azure Static Web Apps
+name: Build & Deploy Jekyll to Azure Static Web Apps (separated build)
 
 on:
   push:
@@ -10,29 +10,53 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # 1) リポジトリ取得
       - name: Checkout
         uses: actions/checkout@v4
 
+      # 2) Ruby環境セットアップ＋Bundlerキャッシュ
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1'         # Gemfileの指定に合わせて必要なら変更
+          ruby-version: '3.1'         # Gemfile/Gemfile.lockに合わせて固定
           bundler-cache: true
 
+      # 3) 依存インストール
       - name: Install dependencies
-        run: bundle install
+        run: |
+          bundle config set path vendor/bundle
+          bundle install --jobs 4 --retry 3
 
-      - name: Build Jekyll
-        run: bundle exec jekyll build --trace --verbose
+      # 4) Jekyllビルド（クリーン＋詳細ログ＋トレース）
+      - name: Build Jekyll (clean + verbose trace)
+        env:
+          JEKYLL_ENV: production
+        run: |
+          rm -rf _site
+          bundle exec jekyll build --destination _site --trace --verbose
 
+      # 5) サニティチェック（fail-fast）
       - name: Final sanity check
         run: |
+          test -d _site || (echo "::error ::_site がありません（Jekyllビルド失敗）" && exit 1)
           test -f _site/index.html || (echo "::error ::_site/index.html がありません（Jekyllビルド失敗）" && exit 1)
+          FILES=$(find _site -type f | wc -l)
+          echo "Built files: ${FILES}"
+          if [ "${FILES}" -lt 5 ]; then
+            echo "::error ::_site のファイル数が不自然 (${FILES})"
+            exit 1
+          fi
+          if grep -R "/paz-HP/" _site 2>/dev/null; then
+            echo "::error ::_site に '/paz-HP/' が残存"
+            exit 1
+          fi
           echo "Final sanity check: OK"
 
+      # 6) Azure Static Web Appsへ配信（内部ビルド無効化）
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          app_location: "/"            # ルート
-          output_location: "_site"     # Jekyllの出力先
+          app_location: "_site"        # ビルド済み静的ファイルのみ
+          skip_app_build: true         # ← これを追加（Oryxの内部ビルドを完全停止）
+          action: upload               # ← 任意（明示しておくと分かりやすい）
