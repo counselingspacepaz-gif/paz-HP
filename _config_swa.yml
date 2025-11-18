@@ -15,7 +15,6 @@ permalink: pretty
 # 静的資産を必ず含める（ディレクトリ単位＋個別ファイルの併用で保険）
 include:
   - assets
-  - assets/css/styles.css     # ← 保険：個別ファイル指定（Jekyllの除外癖対策）
   - images
   - content
   - favicon.ico
