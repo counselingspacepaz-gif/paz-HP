@@ -3,15 +3,28 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
+    
     <!-- Jekyll SEO Tag -->
     {% seo %}
 
-    <!-- CSSの読み込み（キャッシュ対策付き） -->
+    <!-- CSSの読み込み (キャッシュ対策付き) -->
     <link
       rel="stylesheet"
-      href="{{ '/assets/css/styles{{ '/favicon.ico' | relative_url }}"
-     ンツへスキップ</a>
+      href="{{ '/assets/css/styles.css?v=20251118-final' | relative_url }}"
+    >
+
+    <!-- ファビコンの読み込み: パスを images/logo/favicon.ico に修正 -->
+    <link
+      rel="icon"
+      href="{{ '/images/logo/favicon.ico' | relative_url }}"
+      type="image/x-icon"
+    >
+      
+  </head>
+
+  <body>
+    <!-- アクセシビリティ：スキップリンク -->
+    <a class="skip-link" href="#main-content">メインコンテンツへスキップ</a>
 
     {% include header.html %}
 
@@ -21,7 +34,8 @@
 
     {% include footer.html %}
 
-    <!-- JavaScriptの読み込み（キャッシュ対策付き） -->
-    <{ </script>
+    <!-- JavaScriptの読み込み (キャッシュバスター付き) -->
+    <script src="{{ '/assets/js/main.js?v=20251118-final' | relative_url }}"></script>
+
   </body>
 </html>
