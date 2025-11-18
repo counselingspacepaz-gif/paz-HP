@@ -23,7 +23,7 @@ jobs:
         run: bundle install
 
       - name: Build Jekyll
-        run: bundle exec jekyll build
+        run: bundle exec jekyll build--trace --verbose
 
       - name: Final sanity check
         run: |
