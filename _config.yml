@@ -1,55 +1,24 @@
-# --------------------------------------
-# _config.yml（Jekyll設定・両環境対応／保険付き最終版）
-# --------------------------------------
+# ----------------------------------------------------
+# SWA Build 最終安定化設定
+# ----------------------------------------------------
 
-# 🔗 公開URL（GitHub Pages）
-# 例）https://counselingspacepaz-gif.github.io/paz-HP/ がベース
-url: "https://counselingspacepaz-gif.github.io"
-baseurl: "/paz-HP"   # Pagesのサブディレクトリ公開に合わせる。SWA時は空にする
-
-# 出力先ディレクトリ
+title: "Counseling Space paz"
+description: "女性と子どものための対面・オンラインカウンセリング（静岡県沼津市）。臨床心理士・公認心理師が対応。"
+url: "https://icy-rock-024ded110.azurestaticapps.net"
+baseurl: ""
 destination: _site
 
-# きれいなURL（/page/ 形式、拡張子なし）
-permalink: pretty
+# 必須プラグイン
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
 
-# 静的資産を必ず含める（ディレクトリ単位＋個別ファイルの併用で保険）
+# 静的アセットをビルド対象に含める
 include:
   - assets
-  - assets/css/styles.css     # ← 保険：個別ファイル指定（Jekyllの除外癖対策）
   - images
   - content
-  - favicon.ico
-  - robots.txt
 
-# テーマは使わない（Forty改修の独自CSSを前提）
-theme: null
-
-# Markdown処理
+# Markdownとパーマリンク設定（必要なら）
 markdown: kramdown
-
-# 使用プラグイン（Gemfileと一致させること）
-plugins:
-  - jekyll-seo-tag
-  - jekyll-feed
-  - jekyll-sitemap
-
-# --------------------------------------
-# 📝 運用メモ
-# --------------------------------------
-# ■ GitHub Pages（通常運用）
-#   bundle exec jekyll build
-#   # 公開確認： https://counselingspacepaz-gif.github.io/paz-HP/
-#
-# ■ Azure Static Web Apps（ルート直下運用）
-#   bundle exec jekyll build --config _config.yml,_config_azure.yml
-#   # _config_azure.yml側で url/baseurl を上書き
-#
-# ■ HTML側のリンク記述（両環境で崩れない推奨形）
-#   {{ 
-#   # relative_url によって Pagesでは /paz-HP/ が自動付与、SWAでは付与されない
-#
-# ■ 注意
-#   - Pagesの公開設定は Settings → Pages → Source: main / root を想定
-#   - .nojekyll は置かない（Jekyllを使うため）
-#   - カスタムドメインへ切替時は url を本番ドメインに更新（baseurl は必要に応じ調整）
+permalink: /:categories/:title/
