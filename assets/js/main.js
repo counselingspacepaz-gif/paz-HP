@@ -1,61 +1,51 @@
-<!DOCTYPE html>
-<html lang="ja">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+// JekyllテンプレートのHTMLではなく、純粋なJavaScriptコードを記述します。// Uncaught SyntaxErrorを防ぐため、ファイルの先頭は必ずJavaScriptである必要があります。document.addEventListener('DOMContentLoaded', () => {// 1. スキップリンクのアクセシビリティ対応 (キーボード操作)const skipLink = document.querySelector('.skip-link');if (skipLink) {skipLink.addEventListener('click', (e) => {e.preventDefault();const targetId = skipLink.getAttribute('href').substring(1);const targetElement = document.getElementById(targetId);if (targetElement) {targetElement.setAttribute('tabindex', '-1');targetElement.focus();targetElement.removeAttribute('tabindex');}});}// 2. モバイルメニューのトグル機能
+const menuToggle = document.getElementById('menu-toggle');
+const mainMenu = document.getElementById('main-menu');
+const siteHeader = document.querySelector('.site-header');
 
-    {# jekyll-seo-tagがtitle, description, canonical, OGPの一部を自動生成する #}
-    {% seo %}
-
-    {%- comment -%}
-      CSSキャッシュ対策：?v=20251117-2 (強制更新)
-      relative_urlでPages/SWA両対応。このバージョン番号の更新がレイアウト修復の鍵となる。
-    {%- endcomment -%}
-    <link
-      rel="stylesheet"
-      href="{{ '/assets/css/styles.css?v=20251117-2' | relative_url }}"
-    >
-
-    {%- comment -%}
-      OGP画像のフォールバック処理 (jekyll-seo-tagを補完)
-      og_imageが未定義の場合、デフォルト画像を指定して二重に定義することでjekyll-seo-tagを上書きする。
-    {%- endcomment -%}
-    {% assign og_image_path = page.og_image | default: '/images/ogp/default-ogp.jpg' %}
-    {%- if og_image_path -%}
-      <meta property="og:image" content="{{ og_image_path | absolute_url }}">
-      <meta name="twitter:image" content="{{ og_image_path | absolute_url }}">
-    {%- endif -%}
-
-    <link
-      rel="icon"
-      href="{{ '/favicon.ico' | relative_url }}"
-      type="image/x-icon"
-    >
+if (menuToggle && mainMenu) {
     
-    {%- comment -%}
-      フォントリンクはhead.htmlの内容から除外されているため、ここでは省略。
-      もし必要であれば、この<head>タグ内に追記して下さい。
-    {%- endcomment -%}
-    
-  </head>
+    // メニュー開閉関数
+    const closeMenu = (returnFocus = true) => {
+        menuToggle.setAttribute('aria-expanded', 'false');
+        mainMenu.classList.remove('is-open');
+        siteHeader.classList.remove('menu-active');
+        if (returnFocus) {
+            menuToggle.focus(); // フォーカスをトグルボタンに戻す (A11y向上)
+        }
+    };
 
-  <body>
-    {%- comment -%}
-      アクセシビリティ：スキップリンク（キーボード操作対応）
-    {%- endcomment -%}
-    <a class="skip-link" href="#main-content">メインコンテンツへスキップ</a>
+    const openMenu = () => {
+        menuToggle.setAttribute('aria-expanded', 'true');
+        mainMenu.classList.add('is-open');
+        siteHeader.classList.add('menu-active');
+    };
 
-    {% include header.html %}
+    // トグルボタンのクリックイベント
+    menuToggle.addEventListener('click', () => {
+        const isExpanded = menuToggle.getAttribute('aria-expanded') === 'true' || false;
+        if (isExpanded) {
+            closeMenu(false); // クリックでのクローズ時はフォーカス移動なし
+        } else {
+            openMenu();
+        }
+    });
 
-    <main id="main-content">
-      {{ content }}
-    </main>
+    // 3. メニュー外をクリックで閉じる
+    document.addEventListener('click', (e) => {
+        if (mainMenu.classList.contains('is-open') && 
+            !mainMenu.contains(e.target) && 
+            !menuToggle.contains(e.target)) {
+            
+            closeMenu();
+        }
+    });
 
-    {% include footer.html %}
-
-    {%- comment -%}
-      JSにもキャッシュ破壊用のバージョンを付与し、強制的に最新版を読み込ませる。
-    {%- endcomment -%}
-    <script src="{{ '/assets/js/main.js?v=20251117-2' | relative_url }}"></script>
-  </body>
-</html>
+    // 4. Escキーで閉じる処理を追加 (UX/A11y向上)
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && mainMenu.classList.contains('is-open')) {
+            closeMenu();
+        }
+    });
+}
+});
