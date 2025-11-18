@@ -1,188 +1,33 @@
-name: Build and Deploy Jekyll to Azure Static Web Apps
+name: Azure Static Web Apps CI/CD
 
 on:
   push:
-    branches: [ main ]
-    paths:
-      # SWAへのデプロイをトリガーするファイルのリスト
-      - '_config.yml'
-      - '_config_swa.yml' # SWA用設定ファイル
-      - 'assets/**'
-      - 'images/**'
-      - 'content/**'
-      - '**/*.html'
-      - '**/*.css'
-      - '**/*.md'
-      - '.github/workflows/**'
-  workflow_dispatch:
-
-concurrency:
-  # ブランチ単位で同時実行を抑止
-  group: jekyll-swa-${{ github.ref_name }}
-  cancel-in-progress: true
+    branches:
+      - main
 
 jobs:
-  build-and-deploy:
+  build_and_deploy_job:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
-    
-    # 権限を明示的に設定（シークレットアクセスとデプロイアクションのために推奨）
-    permissions:
-      contents: read
-      id-token: write
-
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v3
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.2'
-          bundler-cache: true
+          ruby-version: '3.1'
 
       - name: Install dependencies
-        run: bundle install --jobs 4 --retry 3
-
-      - name: Assert baseurl in _config_swa.yml
-        # _config_swa.yml の baseurl が "" か nil であることを確認
-        shell: bash
         run: |
-          val=$(ruby -ryaml -e 'puts (YAML.load_file("_config_swa.yml")["baseurl"].inspect)')
-          echo "SWA baseurl => ${val}"
-          if [ "$val" != '""' ] && [ "$val" != 'nil' ]; then
-            echo "ERROR: _config_swa.yml の baseurl が空ではない（${val}）。\"\" に修正せよ。"
-            exit 1
-          fi
+          gem install bundler
+          bundle install
 
-      - name: Build Jekyll site (SWA Root Deployment)
-        # _config_swa.yml を適用してビルド
-        run: bundle exec jekyll build --config _config_swa.yml --trace
-
-      - name: 🛠️ Path Patching Workaround (Ruby String Replace & Audit)
-        # 👑 最終解決：Rubyを使用してHTMLファイルの内容を確実に置換し、バックアップと監査ログを提供する。
-        shell: bash
-        run: |
-          echo "Applying final, audited path patch using Ruby..."
-          
-          # Rubyスクリプトを直接実行
-          ruby -e '
-            require "find"
-            require "fileutils"
-            
-            search_dir = "_site"
-            target_ext = ".html"
-            
-            total_before_count = 0
-            file_processed_count = 0
-            backup_paths = [] # バックアップパスを格納する配列
-            
-            # --- フェーズ 1: パッチ適用とバックアップ作成 ---
-            Find.find(search_dir) do |path|
-              next unless path.end_with?(target_ext)
-              
-              # 1. バックアップの作成 (.bak)
-              backup_path = path + ".bak"
-              FileUtils.cp(path, backup_path)
-              backup_paths << backup_path # パスを配列に追加
-              
-              content = File.read(path)
-              file_processed_count += 1
-              
-              # 2. 置換対象のカウント（href="/paz-HP/ または src="/paz-HP/ のみを対象とする）
-              # 正規表現: (href|src)="/paz-HP/
-              before_count = content.scan(/(href|src)="\/(paz-HP)\//).size
-              
-              if before_count > 0
-                # 3. 修正処理
-                content.gsub!(/(href|src)="\/(paz-HP)\//) { |match| match.sub("/paz-HP/", "/") }
-                
-                # 4. ファイルへの書き戻し
-                File.write(path, content)
-                
-                total_before_count += before_count
-                
-                puts "  [PATCHED] #{path} - 置換件数: #{before_count}"
-              else
-                puts "  [SKIPPED] #{path} - 置換なし"
-              end
-            end
-            
-            # --- フェーズ 2: 最終監査（残存チェック）---
-            
-            after_count = 0
-            Find.find(search_dir) do |path|
-              next unless path.end_with?(target_ext)
-              content = File.read(path)
-              after_count += content.scan(/(href|src)="\/(paz-HP)\//).size
-            end
-            
-            # --- フェーズ 3: 監査結果の出力と失敗判定 ---
-            
-            puts "--- 監査結果 ---"
-            puts "処理対象HTMLファイル数: #{file_processed_count}"
-            puts "置換が必要だった総件数 (Before): #{total_before_count}"
-            puts "残存する不適切なパスの総件数 (After): #{after_count}"
-            
-            if after_count != 0
-              STDERR.puts "FATAL ERROR: Ruby patch failed. Internal references remain."
-              STDERR.puts "バックアップファイル (*.html.bak) を残しました。調査に使用してください。"
-              exit 1 # 失敗時はここで終了し、.bakはそのまま残る
-            end
-            
-            if total_before_count == 0
-              puts "注意: 置換件数が0件でした。Jekyllが baseurl を正しく適用した可能性があります。"
-            end
-            
-            # --- フェーズ 4: クリーンアップ（監査合格時のみ実行）---
-            
-            puts "OK: 監査合格。バックアップファイル (#{backup_paths.size} 件) を削除します。"
-            backup_paths.each do |bak_path|
-              FileUtils.rm_f(bak_path) rescue nil
-            end
-          '
-
-      - name: Final sanity check (Site-wide)
-        # 👑 サニティチェックの拡張: 全HTMLファイルに対して不適切なパスの残存がないかを確認する。
-        shell: bash
-        run: |
-          echo "Final sanity check (site-wide)..."
-          test -f "_site/index.html" || (echo "Error: _site/index.html missing" && exit 1)
-
-          # 1. 全HTMLファイルにおけるルート相対CSS/JS参照の確認
-          # index.html のCSSリンクを確認
-          if grep -Eq 'href="/assets/css/styles\.css(\?v=[^"]*)?"' _site/index.html; then
-            echo "OK: index.html のCSSはルート相対で参照されている。"
-          else
-            echo "NG: ルート相対CSSリンクが index.html で見つからない。"
-            exit 1
-          fi
-          
-          # 2. 全HTMLファイルにおける INTERNAL '/paz-HP/' 参照の残存確認
-          if grep -RE '(href|src)="/paz-HP/' _site --include='*.html' --line-number; then
-            echo "ERROR: 残存する不適切なパスが検出されました。"
-            # 詳細ログを出力
-            grep -RE '(href|src)="/paz-HP/' _site --include='*.html' --line-number
-            exit 1
-          fi
-
-          echo "OK: No INTERNAL '/paz-HP/' references remain across all HTML files."
-
-      - name: (Optional) Upload built site as artifact on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: jekyll-site-on-failure
-          path: _site
+      - name: Build Jekyll site
+        run: bundle exec jekyll build
 
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          repo_token: ${{ secrets.GITHUB_TOKEN }}
-          action: upload
-          # 🚨🚨🚨 修正箇所: app_location をビルド出力先 "_site" に変更 🚨🚨🚨
-          app_location: "_site"
-          # 🚨🚨🚨 修正箇所: app_location がビルド済みの場合は output_location を空("")に設定 🚨🚨🚨
-          output_location: ""
-          skip_app_build: true
+          app_location: "/"
+          output_location: "_site"
