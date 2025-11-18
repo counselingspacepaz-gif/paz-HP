@@ -1,51 +1,32 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    {# jekyll-seo-tagがtitle, description, canonical, OGPの一部を自動生成する #}
+    {# jekyll-seo-tag が title/description/canonical/OGP を自動生成 #}
     {% seo %}
 
     {%- comment -%}
-      CSSキャッシュ対策：?v=20251117-5 (最終ビルドチェック用のバージョン)
-      運用指針通り、すべてのパスは relative_url で統一。
+      CSSキャッシュ対策：?v=20251117-5
+      すべてのパスは relative_url で統一
     {%- endcomment -%}
     <link
       rel="stylesheet"
-      href="{{ '/assets/css/styles.css?v=20251117-5' | relative_url }}"
-    >
-
-    {%- comment -%}
-      OGP画像のフォールバック処理を削除し、jekyll-seo-tagに任せる。
-      手動タグの重複やLiquidエラーによるビルド失敗を防ぐ。
+      href="{{ '/assets/css/styles.css?v=20251117-5に対応）
+      B) /images/logo/favicon.ico を明示（将来、サイズ違い追加も容易）
     {%- endcomment -%}
-    
-    <link
-      rel="icon"
-      href="{{ '/favicon.ico' | relative_url }}"
-      type="image/x-icon"
-    >
-    
-  </head>
-
-  <body>
-    {%- comment -%}
-      アクセシビリティ：スキップリンク（キーボード操作対応）
-    {%- endcomment -%}
-    <a class="skip-link" href="#main-content">メインコンテンツへスキップ</a>
+    <link rel="icon" href="{{ '/favicon.ico' | relative_url }}"' | relative_url }}" type="}
+    #main-contentメインコンテンツへスキップ</a>
 
     {% include header.html %}
 
-    <main id="main-content">
+    <main id="main-content" role="main">
       {{ content }}
     </main>
 
     {% include footer.html %}
 
     {%- comment -%}
-      JSにもキャッシュ破壊用のバージョンを付与し、強制的に最新版を読み込ませる。
+      JS：キャッシュバスター付与＋defer（DOM構築後に実行）
     {%- endcomment -%}
-    <script src="{{ '/assets/js/main.js?v=20251117-5' | relative_url }}"></script>
-  </body>
-</html>
