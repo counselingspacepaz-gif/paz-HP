@@ -1,23 +1,30 @@
 <!DOCTYPE html>
 <html lang="ja">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    {# jekyll-seo-tag が title/description/canonical/OGP を自動生成 #}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <!-- Jekyll SEO Tag -->
     {% seo %}
 
-    {%- comment -%}
-      CSSキャッシュ対策：?v=20251117-5
-      すべてのパスは relative_url で統一
-    {%- endcomment -%}
+    <!-- CSSの読み込み (キャッシュ対策付き) -->
     <link
       rel="stylesheet"
-      href="{{ '/assets/css/styles.css?v=20251117-5に対応）
-      B) /images/logo/favicon.ico を明示（将来、サイズ違い追加も容易）
-    {%- endcomment -%}
-    <link rel="icon" href="{{ '/favicon.ico' | relative_url }}"' | relative_url }}" type="}
-    #main-contentメインコンテンツへスキップ</a>
+      href="{{ '/assets/css/styles.css?v=20251118-final' | relative_url }}"
+    >
+
+    <!-- ファビコンの読み込み -->
+    <link
+      rel="icon"
+      href="{{ '/favicon.ico' | relative_url }}"
+      type="image/x-icon"
+    >
+      
+  </head>
+
+  <body>
+    <!-- アクセシビリティ：スキップリンク -->
+    <a class="skip-link" href="#main-content">メインコンテンツへスキップ</a>
 
     {% include header.html %}
 
@@ -27,6 +34,8 @@
 
     {% include footer.html %}
 
-    {%- comment -%}
-      JS：キャッシュバスター付与＋defer（DOM構築後に実行）
-    {%- endcomment -%}
+    <!-- JavaScriptの読み込み (問題解決のためシンプルな絶対パスを使用) -->
+    <script src="/assets/js/main.js"></script>
+
+  </body>
+</html>
