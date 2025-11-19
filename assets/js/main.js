@@ -1,9 +1,8 @@
-// main.js
-// 純粋なJavaScript。HTMLやLiquidは混ぜないこと。
-// UTF-8（BOMなし）で保存しておこう。
+// main.js (Safe UTF-8, ASCII-only comments)
+// Purpose: accessibility skip-link, hamburger menu toggle, escape/outer-click close
 
 document.addEventListener('DOMContentLoaded', () => {
-  // 1. スキップリンクのアクセシビリティ対応（キーボード操作）
+  // 1) Skip-link: move focus to target content
   const skipLink = document.querySelector('.skip-link');
   if (skipLink) {
     skipLink.addEventListener('click', (e) => {
@@ -11,20 +10,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const targetId = (skipLink.getAttribute('href') || '').replace('#', '');
       const targetElement = document.getElementById(targetId);
       if (targetElement) {
-        targetElement.setAttribute('tabindex', '-1'); // 一時的にフォーカス可能にする
-        targetElement.focus();                         // フォーカス移動
-        targetElement.removeAttribute('tabindex');     // 後始末
+        targetElement.setAttribute('tabindex', '-1'); // make focusable
+        targetElement.focus();
+        targetElement.removeAttribute('tabindex');    // clean up
       }
     });
   }
 
-  // 2. モバイルメニューのトグル機能
+  // 2) Hamburger menu toggle (ARIA & classes)
   const menuToggle = document.getElementById('menu-toggle');
   const mainMenu   = document.getElementById('main-menu');
   const siteHeader = document.querySelector('.site-header');
 
   if (menuToggle && mainMenu && siteHeader) {
-    // 初期値の安全化（HTML側で aria-expanded="false" を推奨）
+    // ensure ARIA default state exists
     if (!menuToggle.getAttribute('aria-expanded')) {
       menuToggle.setAttribute('aria-expanded', 'false');
     }
@@ -39,20 +38,21 @@ document.addEventListener('DOMContentLoaded', () => {
       menuToggle.setAttribute('aria-expanded', 'false');
       mainMenu.classList.remove('is-open');
       siteHeader.classList.remove('menu-active');
-      if (returnFocus) menuToggle.focus(); // フォーカスをトグルに戻す
+      if (returnFocus) menuToggle.focus();
     };
 
-    // トグルボタン：クリックで開閉
+    // toggle by button
     menuToggle.addEventListener('click', () => {
       const isExpanded = (menuToggle.getAttribute('aria-expanded') || 'false') === 'true';
       if (isExpanded) {
-        closeMenu(false); // クリックで閉じる場合はフォーカス移動なし
+        // closing without forcing focus back (matches common UX)
+        closeMenu(false);
       } else {
         openMenu();
       }
     });
 
-    // 3. メニュー外クリックで閉じる
+    // 3) close when clicking outside
     document.addEventListener('click', (e) => {
       if (
         mainMenu.classList.contains('is-open') &&
@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
 
-    // 4. Escキーで閉じる（UX/A11y向上）
+    // 4) close with Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && mainMenu.classList.contains('is-open')) {
         closeMenu();
