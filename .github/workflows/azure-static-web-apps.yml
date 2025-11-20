@@ -38,3 +38,4 @@ jobs:
           app_location: "/"            # ソースコードの場所
           output_location: "_site"     # ビルド成果物の場所
           skip_app_build: true         # Oryxビルドを完全停止
+          action: "upload"             # ✅ 復活
