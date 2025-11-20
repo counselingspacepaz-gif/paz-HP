@@ -19,13 +19,13 @@ jobs:
   # JOB 1: ビルド (Artifactのルートを平坦化)
   # ----------------------------------------------------
   build:
-    runs-on: ubuntu-22.04 # 💥 修正: 安定した古いバージョンのランナーを指定
+    runs-on: ubuntu-22.04
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4
 
       - name: Setup Ruby Environment
-        uses: ruby/setup-ruby@v1.171.0
+        uses: ruby/setup-ruby@v1
         with:
           ruby-version: '3.1'
           bundler-cache: true
@@ -41,7 +41,7 @@ jobs:
           bundle exec jekyll build --config _config.yml --baseurl "" --destination _site
 
       - name: Upload Jekyll Artifact
-        uses: actions/upload-artifact@v4.3.1
+        uses: actions/upload-artifact@v4 # メジャーバージョン
         with:
           name: jekyll-site-artifact
           path: _site/**
@@ -51,16 +51,16 @@ jobs:
   # JOB 2: デプロイ (Artifactをそのままアプリとして参照)
   # ----------------------------------------------------
   deploy:
-    runs-on: ubuntu-22.04 # 💥 修正: 安定した古いバージョンのランナーを指定
+    runs-on: ubuntu-22.04
     # 必須: buildジョブの完了を待つ
     needs: build
     
     steps:
       - name: Checkout Repository for Deploy
-        uses: actions/checkout@v4.1.6
+        uses: actions/checkout@v4
 
       - name: Download Artifact
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4 # メジャーバージョン
         with:
           name: jekyll-site-artifact
           path: jekyll-site-artifact 
@@ -73,7 +73,7 @@ jobs:
 
       # SWAにデプロイ
       - name: Deploy to Azure Static Web Apps
-        uses: Azure/static-web-apps-deploy@v1.0.28
+        uses: Azure/static-web-apps-deploy@v1 # メジャーバージョン
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           app_location: "jekyll-site-artifact" 
