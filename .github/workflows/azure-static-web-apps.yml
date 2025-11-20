@@ -1,13 +1,23 @@
 name: Build & Deploy Jekyll to Azure Static Web Apps
 
 on:
+  # 💡 堅牢化: 同一ワークフローの実行を制御し、キューイングを許可
+  # 一度に1つのデプロイだけが走るようにする (古いデプロイが新しいデプロイを上書きすることを防ぐ)
+  concurrency:
+    group: ${{ github.workflow }}-${{ github.ref }}
+    cancel-in-progress: true
   push:
     branches: [ "main" ]
   workflow_dispatch:
 
+# 💡 堅牢化: 最小限の権限設定
+permissions:
+  contents: read
+  id-token: write # Azure SWA デプロイに必要な権限
+
 jobs:
   # ----------------------------------------------------
-  # JOB 1: ビルド (変更なし)
+  # JOB 1: ビルド (Artifactのルートを平坦化)
   # ----------------------------------------------------
   build:
     runs-on: ubuntu-latest
@@ -16,7 +26,8 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Setup Ruby Environment
-        uses: ruby/setup-ruby@v1
+        # 💡 堅牢化: アクションのバージョンをピン留め
+        uses: ruby/setup-ruby@v1.171.0
         with:
           ruby-version: '3.1'
           bundler-cache: true
@@ -30,38 +41,43 @@ jobs:
         run: |
           bundle exec jekyll build --config _config.yml --baseurl "" --destination _site
 
+      - name: Check Build Output Directory
+        # 💡 堅牢化: ログでの検証を容易にするための ls コマンド
+        run: ls -la _site
+
       - name: Upload Jekyll Artifact
-        uses: actions/upload-artifact@v4
+        # 💡 堅牢化: アクションのバージョンをピン留め
+        uses: actions/upload-artifact@v4.3.1
         with:
           name: jekyll-site-artifact
-          path: _site
-
+          path: _site/**
+          # 💡 堅牢化: ビルド成果物がゼロだった場合に失敗させる
+          if-no-files-found: error
+          
   # ----------------------------------------------------
-  # JOB 2: デプロイ (修正点あり)
+  # JOB 2: デプロイ (Artifactをそのままアプリとして参照)
   # ----------------------------------------------------
   deploy:
     runs-on: ubuntu-latest
     needs: build
     
     steps:
-      # 💥 修正1: デプロイジョブでもワークスペースを初期化する
       - name: Checkout Repository for Deploy
         uses: actions/checkout@v4
 
-      # 💥 修正2: Artifactをダウンロードする
       - name: Download Artifact
-        uses: actions/download-artifact@v4
+        # 💡 堅牢化: アクションのバージョンをピン留め
+        uses: actions/download-artifact@v4.1.7
         with:
           name: jekyll-site-artifact
-          # 💡 ダウンロード先を明示的に指定
           path: jekyll-site-artifact 
 
-      # 3. Azure SWAにデプロイ
+      # SWAにデプロイ
       - name: Deploy to Azure Static Web Apps
-        uses: Azure/static-web-apps-deploy@v1
+        # 💡 堅牢化: アクションのバージョンをピン留め
+        uses: Azure/static-web-apps-deploy@v1.0.28
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          # 成果物は 'jekyll-site-artifact' フォルダの中にある
           app_location: "jekyll-site-artifact" 
           output_location: "" 
           api_location: ""
