@@ -36,11 +36,12 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          # 修正ポイント:
-          # app_locationはソースコードのルート
+          # 1. ソースコードの場所をルートに設定
           app_location: "/"
-          # app_artifact_locationはビルド成果物 (index.html, CSS, JSなど) の場所
-          app_artifact_location: "_site"
-          # 既に手動でJekyllをビルドしているため、SWAのビルドをスキップする
+          # 2. デプロイ成果物の場所を 'output_location' で明示
+          output_location: "_site"
+          # APIのデプロイをしない場合は空文字に
+          api_location: ""
+          # ビルドは手動で行ったためスキップ (これは正しい)
           skip_app_build: true
           action: "upload"
