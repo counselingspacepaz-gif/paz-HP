@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   # ----------------------------------------------------
-  # JOB 1: ビルド (Artifactはディレクトリごとアップロード)
+  # JOB 1: ビルド (Artifactのルートを_siteごと含める)
   # ----------------------------------------------------
   build:
     runs-on: ubuntu-22.04
@@ -30,41 +30,41 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
 
-      - name: Clean Environment & Install dependencies
+      - name: Install dependencies and Clean up
         run: |
-          # 過去のゴミを削除し、依存関係を再インストール
+          # 💥 NEW: 壊れたキャッシュを削除し、依存関係を再インストール
           bundle clean --force
           bundle install
 
-      - name: Build Jekyll Site
+      - name: Build Jekyll Site with Trace
         env:
           JEKYLL_ENV: production
         run: |
           # 💥 NEW: --traceオプションを追加し、詳細な失敗ログを出力させる
           bundle exec jekyll build --config _config.yml --baseurl "" --destination _site --trace
-      
-      # 💥 NEW: ビルド成果物の存在を検証（index.htmlがない場合はここでエラーにする）
+
       - name: Verify Build Output
         run: |
           if [ ! -f _site/index.html ]; then
-            echo "Error: _site/index.html not found after Jekyll build."
+            echo "::error:: _site/index.html not found after Jekyll build."
             echo "Jekyll build failed to process index.md. Check the log above for --trace output for clues (e.g., missing layout, Gem issue)."
             exit 1
           fi
+          echo "✅ _site/index.html found. Build successful."
 
       - name: Upload Jekyll Artifact
         uses: actions/upload-artifact@v4
         with:
           name: jekyll-site-artifact
-          # ディレクトリ全体をアップロード
-          path: _site
+          path: _site # 💥 修正: _site ディレクトリごとアップロード
           if-no-files-found: error
           
   # ----------------------------------------------------
-  # JOB 2: デプロイ (Artifactのサブフォルダ _site を直接参照)
+  # JOB 2: デプロイ (Artifactの _site フォルダを直接参照)
   # ----------------------------------------------------
   deploy:
     runs-on: ubuntu-22.04
+    # 必須: buildジョブの完了を待つ
     needs: build
     
     steps:
@@ -80,8 +80,8 @@ jobs:
       - name: Verify Artifact Content (for Debugging)
         run: |
           echo "--- Content of Downloaded Artifact Folder ---"
-          # -Rで再帰的に中身を表示し、_siteフォルダの存在を確認
-          ls -laR jekyll-site-artifact
+          # ダウンロード後は jekyll-site-artifact/_site に成果物が格納されるはず
+          ls -la jekyll-site-artifact/_site
           echo "---------------------------------------------"
 
       # SWAにデプロイ
@@ -89,8 +89,8 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          # ダウンロード後の確定パスを指定 (jekyll-site-artifact の下の _site)
-          app_location: "jekyll-site-artifact/_site" 
+          # 💥 修正: ダウンロード後のパス jekyll-site-artifact/_site を直接指定
+          app_location: "jekyll-site-artifact/_site"
           output_location: "" 
           api_location: ""
           skip_app_build: true
