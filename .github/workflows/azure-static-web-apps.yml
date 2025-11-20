@@ -28,20 +28,31 @@ jobs:
         env:
           JEKYLL_ENV: production
         run: |
-          # 以前のビルド成果物を削除し、Jekyllをビルドして_siteに出力
+          # ビルド成果物を_siteに出力
           rm -rf _site
           bundle exec jekyll build --config _config.yml --baseurl "" --destination _site
 
+      # ----------------------------------------------------
+      # 💥 必須: ビルド成果物 (/_site) をArtifactとして保存する
+      # ----------------------------------------------------
+      - name: Upload Jekyll Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jekyll-site-artifact
+          path: _site
+
+      # ----------------------------------------------------
+      # 💥 必須: SWAデプロイステップでArtifactを利用する
+      # ----------------------------------------------------
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          # 1. ソースコードの場所をルートに設定
+          # Artifactを使う場合、これらはダミーとして残すか、削除する
           app_location: "/"
-          # 2. デプロイ成果物の場所を 'output_location' で明示
-          output_location: "_site"
-          # APIのデプロイをしない場合は空文字に
+          output_location: "" 
           api_location: ""
-          # ビルドは手動で行ったためスキップ (これは正しい)
           skip_app_build: true
           action: "upload"
+          # 💡 これが鍵: Artifactとしてアップロードした成果物フォルダを指定
+          app_artifact_location: "jekyll-site-artifact"
