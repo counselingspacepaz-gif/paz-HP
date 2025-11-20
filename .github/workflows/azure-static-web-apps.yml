@@ -30,22 +30,25 @@ jobs:
           ruby-version: '3.1'
           bundler-cache: true
 
-      - name: Install dependencies
-        run: bundle install
+      - name: Clean Environment & Install dependencies
+        run: |
+          # 過去のゴミを削除し、依存関係を再インストール
+          bundle clean --force
+          bundle install
 
       - name: Build Jekyll Site
         env:
           JEKYLL_ENV: production
         run: |
-          # Jekyllをビルドし、_siteに出力
-          bundle exec jekyll build --config _config.yml --baseurl "" --destination _site
+          # 💥 NEW: --traceオプションを追加し、詳細な失敗ログを出力させる
+          bundle exec jekyll build --config _config.yml --baseurl "" --destination _site --trace
       
       # 💥 NEW: ビルド成果物の存在を検証（index.htmlがない場合はここでエラーにする）
       - name: Verify Build Output
         run: |
           if [ ! -f _site/index.html ]; then
             echo "Error: _site/index.html not found after Jekyll build."
-            echo "Please check your Jekyll configuration (_config.yml) or source files (index.md)."
+            echo "Jekyll build failed to process index.md. Check the log above for --trace output for clues (e.g., missing layout, Gem issue)."
             exit 1
           fi
 
@@ -53,7 +56,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: jekyll-site-artifact
-          # 💥 修正: ディレクトリ全体をアップロードし、ダウンロード後に_site/index.htmlの構造を維持
+          # ディレクトリ全体をアップロード
           path: _site
           if-no-files-found: error
           
@@ -62,7 +65,6 @@ jobs:
   # ----------------------------------------------------
   deploy:
     runs-on: ubuntu-22.04
-    # 必須: buildジョブの完了を待つ
     needs: build
     
     steps:
@@ -87,8 +89,7 @@ jobs:
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          # 💥 修正: ダウンロード後の確定パスを指定
-          # jekyll-site-artifact の下に _site フォルダが存在することを想定
+          # ダウンロード後の確定パスを指定 (jekyll-site-artifact の下の _site)
           app_location: "jekyll-site-artifact/_site" 
           output_location: "" 
           api_location: ""
