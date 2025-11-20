@@ -7,7 +7,7 @@ on:
 
 jobs:
   # ----------------------------------------------------
-  # JOB 1: ビルド (HTMLファイルを生成し、Artifactとしてアップロード)
+  # JOB 1: ビルド (変更なし)
   # ----------------------------------------------------
   build:
     runs-on: ubuntu-latest
@@ -28,7 +28,6 @@ jobs:
         env:
           JEKYLL_ENV: production
         run: |
-          # ビルド成果物を_siteに出力
           bundle exec jekyll build --config _config.yml --baseurl "" --destination _site
 
       - name: Upload Jekyll Artifact
@@ -36,31 +35,34 @@ jobs:
         with:
           name: jekyll-site-artifact
           path: _site
-          # アップロード後、このジョブは終了
 
   # ----------------------------------------------------
-  # JOB 2: デプロイ (Artifactをダウンロードし、SWAに強制的に渡す)
+  # JOB 2: デプロイ (修正点あり)
   # ----------------------------------------------------
   deploy:
     runs-on: ubuntu-latest
-    needs: build # 'build'ジョブの完了を待つ
+    needs: build
     
     steps:
-      # 1. Artifactをダウンロードする
-      # ダウンロードされたファイルは './jekyll-site-artifact' フォルダに格納される
+      # 💥 修正1: デプロイジョブでもワークスペースを初期化する
+      - name: Checkout Repository for Deploy
+        uses: actions/checkout@v4
+
+      # 💥 修正2: Artifactをダウンロードする
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
           name: jekyll-site-artifact
+          # 💡 ダウンロード先を明示的に指定
+          path: jekyll-site-artifact 
 
-      # 2. Azure SWAにデプロイ
+      # 3. Azure SWAにデプロイ
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          # 💥 鍵: app_locationをダウンロードしたArtifactのフォルダ名に強制設定する
-          # これにより、SWAアクションがリポジトリのルート('/')ではなく、Artifactフォルダの中を見に行く
-          app_location: "jekyll-site-artifact"
+          # 成果物は 'jekyll-site-artifact' フォルダの中にある
+          app_location: "jekyll-site-artifact" 
           output_location: "" 
           api_location: ""
           skip_app_build: true
