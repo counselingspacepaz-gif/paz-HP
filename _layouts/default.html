@@ -8,13 +8,13 @@
     {% seo %}
 
     <!-- CSSの読み込み (キャッシュ対策付き) -->
-    <!-- ビルドバージョンを使用してキャッシュを強制的に更新 -->
+    <!-- Liquidフィルタ順序修正: relative_urlを先に実行し、クエリパラメータをHTMLとして後続させる -->
     <link
       rel="stylesheet"
-      href="{{ '/assets/css/styles.css?v=' | append: site.build_version | relative_url }}"
+      href="{{ '/assets/css/styles.css' | relative_url }}?v={{ site.build_version }}"
     >
 
-    <!-- ファビコンの読み込み: パスは /images/logo/favicon.ico が正しい -->
+    <!-- ファビコンの読み込み -->
     <link
       rel="icon"
       href="{{ '/images/logo/favicon.ico' | relative_url }}"
@@ -35,9 +35,12 @@
 
     {% include footer.html %}
 
-    <!-- JavaScriptの読み込み (キャッシュバスター付き) -->
-    <!-- ビルドバージョンを使用してキャッシュを強制的に更新 -->
-    <script src="{{ '/assets/js/main.js?v=' | append: site.build_version | relative_url }}"></script>
+    <!-- **最終修正ポイント**: Liquidフィルタ順序を修正し、defer属性を追加。 -->
+    <!-- relative_urlを先に適用し、クエリパラメータはHTMLとして後続させる。 -->
+    <script 
+      src="{{ '/assets/js/main.js' | relative_url }}?v={{ site.build_version }}"
+      defer
+    ></script>
 
   </body>
 </html>
