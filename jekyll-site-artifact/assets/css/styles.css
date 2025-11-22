@@ -1,0 +1,99 @@
+/* =====================================================
+   Base / 共通スタイル（全ページ適用）
+   ===================================================== */
+
+/* -------------------
+   変数
+------------------- */
+:root {
+  --color-sage: #A3B18A;             /* 背景・ナチュラル基調 */
+  --color-lavender: #9B7AA5;         /* アクセント・CTA */
+  --color-lavender-dark: #7F5C88;    /* CTA hover/focus */
+  --color-lavender-strong: #8A6596;  /* ボタン色統一 */
+  --font-base: 'Zen Maru Gothic', sans-serif;
+}
+
+/* -------------------
+   リセット / 基本設定
+------------------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  font-family: var(--font-base);
+  line-height: 1.6;
+  color: #333;
+  background-color: var(--color-sage);
+}
+
+/* -------------------
+   リンク・画像
+------------------- */
+a {
+  color: var(--color-lavender);
+  text-decoration: none;
+}
+a:hover,
+a:focus {
+  text-decoration: underline;
+  outline: none;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* -------------------
+   スキップリンク
+------------------- */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  z-index: 1000;
+}
+.skip-link:focus {
+  left: 10px;
+  top: 10px;
+  width: auto;
+  height: auto;
+  padding: 0.5rem 1rem;
+  background: var(--color-lavender);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 4px;
+}
+
+/* -------------------
+   ヘッダー
+------------------- */
+.site-header {
+  background: #fff;
+  position: relative;
+  z-index: 10;
+}
+.site-header .wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 56px;
+}
+.site-logo img {
+  height: 56px;
+}
+
+/* -------------------
+   ナビ / ハンバーガー
+------------------- */
+.menu {
+  list-style: none;
